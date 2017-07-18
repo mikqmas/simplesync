@@ -7,7 +7,7 @@ const userReducer = (state = {}, action) => {
 
   switch(action.type) {
     case RECEIVE_USER:
-      const newUser = {[action.user.id]: action.user};
+      const newUser = {"current_user": action.user};
       return merge({}, state, newUser);
     case REMOVE_CURRENT_USER:
       const nextState = {};

@@ -13,6 +13,7 @@ class Login extends React.Component {
 
     this.handleLogin = this.handleLogin.bind(this);
     this.handleSignup = this.handleSignup.bind(this);
+    this.handleLogout = this.handleLogout.bind(this);
   }
 
   update(property) {
@@ -33,12 +34,28 @@ class Login extends React.Component {
   handleLogin(e) {
     e.preventDefault();
     const user = Object.assign({}, this.state);
-    this.props.login({user});
+    this.props.login({user}).then(
+      this.setState({
+        username: "",
+        password: ""
+      })
+    );
+  }
+
+  handleLogout(e) {
+    e.preventDefault();
+    this.props.logout().then(
+      this.setState({
+        username: "",
+        password: ""
+      })
+    );
   }
 
   render() {
     return (
       <div>
+        <div>{this.props.user.current_user ? this.props.user.current_user.username : ""}</div>
         <ErrorList errors={this.props.errors}/>
           <form className="log-form">
             <label>Username:
@@ -59,8 +76,9 @@ class Login extends React.Component {
                 onChange={this.update('password')}
                 required/>
             </label>
-            <button className="create-button" id='login' onClick={this.handleLogin}>LogIn</button>
+            <button className="login-button" id='login' onClick={this.handleLogin}>LogIn</button>
             <button className="create-button" id='signup' onClick={this.handleSignup}>SignUp</button>
+            <button className="logout-button" id='logout' onClick={this.handleLogout}>LogOut</button>
           </form>
         </div>
     );
@@ -74,7 +92,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = dispatch => ({
   createUser: user => dispatch(createUser(user)),
-  login: user => dispatch(login(user))
+  login: user => dispatch(login(user)),
+  logout: () => dispatch(logout())
 });
 
 export default connect(

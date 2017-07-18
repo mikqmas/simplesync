@@ -5,13 +5,27 @@ class Api::SessionsController < ApplicationController
     if @user.nil?
       render(
         json: {
-          base: ["Invalid username / password"]
+          messages: ["Invalid username / password"]
         },
         status: 401
       )
     else
       login_user!(@user)
       render json: @user
+    end
+  end
+
+  def destroy
+    if current_user.nil?
+      render(
+        json: {
+          base: ["No User Logged In"]
+        },
+        status: 400
+      )
+    else
+      logout_user!()
+      redirect_to api_todos_url
     end
   end
 

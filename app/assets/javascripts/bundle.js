@@ -35515,8 +35515,6 @@ var _merge2 = _interopRequireDefault(_merge);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 var userReducer = function userReducer() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
   var action = arguments[1];
@@ -35526,7 +35524,7 @@ var userReducer = function userReducer() {
 
   switch (action.type) {
     case _user_actions.RECEIVE_USER:
-      var newUser = _defineProperty({}, action.user.id, action.user);
+      var newUser = { "current_user": action.user };
       return (0, _merge2.default)({}, state, newUser);
     case _user_actions.REMOVE_CURRENT_USER:
       var _nextState = {};
@@ -47805,6 +47803,7 @@ var Login = function (_React$Component) {
 
     _this.handleLogin = _this.handleLogin.bind(_this);
     _this.handleSignup = _this.handleSignup.bind(_this);
+    _this.handleLogout = _this.handleLogout.bind(_this);
     return _this;
   }
 
@@ -47833,7 +47832,19 @@ var Login = function (_React$Component) {
     value: function handleLogin(e) {
       e.preventDefault();
       var user = Object.assign({}, this.state);
-      this.props.login({ user: user });
+      this.props.login({ user: user }).then(this.setState({
+        username: "",
+        password: ""
+      }));
+    }
+  }, {
+    key: 'handleLogout',
+    value: function handleLogout(e) {
+      e.preventDefault();
+      this.props.logout().then(this.setState({
+        username: "",
+        password: ""
+      }));
     }
   }, {
     key: 'render',
@@ -47841,6 +47852,11 @@ var Login = function (_React$Component) {
       return _react2.default.createElement(
         'div',
         null,
+        _react2.default.createElement(
+          'div',
+          null,
+          this.props.user.current_user ? this.props.user.current_user.username : ""
+        ),
         _react2.default.createElement(_error.ErrorList, { errors: this.props.errors }),
         _react2.default.createElement(
           'form',
@@ -47871,13 +47887,18 @@ var Login = function (_React$Component) {
           ),
           _react2.default.createElement(
             'button',
-            { className: 'create-button', id: 'login', onClick: this.handleLogin },
+            { className: 'login-button', id: 'login', onClick: this.handleLogin },
             'LogIn'
           ),
           _react2.default.createElement(
             'button',
             { className: 'create-button', id: 'signup', onClick: this.handleSignup },
             'SignUp'
+          ),
+          _react2.default.createElement(
+            'button',
+            { className: 'logout-button', id: 'logout', onClick: this.handleLogout },
+            'LogOut'
           )
         )
       );
@@ -47901,6 +47922,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     },
     login: function login(user) {
       return dispatch((0, _user_actions.login)(user));
+    },
+    logout: function logout() {
+      return dispatch((0, _user_actions.logout)());
     }
   };
 };
@@ -50127,17 +50151,17 @@ var ErrorList = exports.ErrorList = function ErrorList(_ref) {
   var errors = _ref.errors;
 
   if (errors.length === 0) return null;
-  var errorItems = errors['base'].map(function (error) {
+  var errorItems = Object.values(errors).map(function (error) {
     return _react2.default.createElement(
-      'li',
+      "li",
       { key: error },
       error
     );
   });
 
   return _react2.default.createElement(
-    'ul',
-    { className: 'error-list' },
+    "ul",
+    { className: "error-list" },
     errorItems
   );
 };
