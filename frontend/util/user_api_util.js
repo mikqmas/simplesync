@@ -1,4 +1,4 @@
-const createUser = user => (
+export const createUser = user => (
   $.ajax({
     method: 'POST',
     url: '/api/user',
@@ -8,7 +8,7 @@ const createUser = user => (
   })
 );
 
-const updateUser = user => (
+export const updateUser = user => (
   $.ajax({
     method: 'PUT',
     url: '/api/user',
@@ -16,23 +16,17 @@ const updateUser = user => (
   })
 );
 
-const login = user => (
+export const login = user => (
   $.ajax({
     method: 'POST',
     url: '/api/session',
-    data: {user},
-    error(xhr){
-      error("login", xhr.responseJSON);
-    }
+    data: user
   })
 );
 
-const logout = () => (
+export const logout = () => (
   $.ajax({
     method: 'DELETE',
-    url: '/api/session',
-    error(xhr){
-      error("logout", xhr.responseJSON);
-    }
+    url: '/api/session'
   })
 );

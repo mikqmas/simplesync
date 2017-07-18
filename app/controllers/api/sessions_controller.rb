@@ -1,6 +1,6 @@
 class Api::SessionsController < ApplicationController
   def create
-    @user = User.find_by_credentials(params[:user][:username], params[:user][:password])
+    @user = User.find_by_credentials(session_params[:username], session_params[:password])
 
     if @user.nil?
       render(
@@ -11,7 +11,12 @@ class Api::SessionsController < ApplicationController
       )
     else
       login_user!(@user)
-      render "api/users/show"
+      render json: @user
     end
+  end
+
+  private
+  def session_params
+    params.require(:user).permit(:username, :password)
   end
 end

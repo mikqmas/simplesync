@@ -35545,7 +35545,10 @@ exports.default = userReducer;
 "use strict";
 
 
-var createUser = function createUser(user) {
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var createUser = exports.createUser = function createUser(user) {
   return $.ajax({
     method: 'POST',
     url: '/api/user',
@@ -35555,7 +35558,7 @@ var createUser = function createUser(user) {
   });
 };
 
-var updateUser = function updateUser(user) {
+var updateUser = exports.updateUser = function updateUser(user) {
   return $.ajax({
     method: 'PUT',
     url: '/api/user',
@@ -35563,44 +35566,18 @@ var updateUser = function updateUser(user) {
   });
 };
 
-var login = function login(user) {
+var login = exports.login = function login(user) {
   return $.ajax({
     method: 'POST',
     url: '/api/session',
-    data: { user: user },
-    error: function (_error) {
-      function error(_x) {
-        return _error.apply(this, arguments);
-      }
-
-      error.toString = function () {
-        return _error.toString();
-      };
-
-      return error;
-    }(function (xhr) {
-      error("login", xhr.responseJSON);
-    })
+    data: user
   });
 };
 
-var logout = function logout() {
+var logout = exports.logout = function logout() {
   return $.ajax({
     method: 'DELETE',
-    url: '/api/session',
-    error: function (_error2) {
-      function error(_x2) {
-        return _error2.apply(this, arguments);
-      }
-
-      error.toString = function () {
-        return _error2.toString();
-      };
-
-      return error;
-    }(function (xhr) {
-      error("logout", xhr.responseJSON);
-    })
+    url: '/api/session'
   });
 };
 
@@ -47801,6 +47778,8 @@ var _react2 = _interopRequireDefault(_react);
 
 var _user_actions = __webpack_require__(204);
 
+var _error = __webpack_require__(627);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -47825,6 +47804,7 @@ var Login = function (_React$Component) {
     };
 
     _this.handleLogin = _this.handleLogin.bind(_this);
+    _this.handleSignup = _this.handleSignup.bind(_this);
     return _this;
   }
 
@@ -47838,10 +47818,9 @@ var Login = function (_React$Component) {
       };
     }
   }, {
-    key: 'handleLogin',
-    value: function handleLogin(e) {
+    key: 'handleSignup',
+    value: function handleSignup(e) {
       e.preventDefault();
-      debugger;
       var user = Object.assign({}, this.state);
       this.props.createUser({ user: user }).then(this.setState({
         username: "",
@@ -47850,19 +47829,22 @@ var Login = function (_React$Component) {
       );
     }
   }, {
+    key: 'handleLogin',
+    value: function handleLogin(e) {
+      e.preventDefault();
+      var user = Object.assign({}, this.state);
+      this.props.login({ user: user });
+    }
+  }, {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
         'div',
         null,
-        _react2.default.createElement(
-          'div',
-          null,
-          this.props.errors
-        ),
+        _react2.default.createElement(_error.ErrorList, { errors: this.props.errors }),
         _react2.default.createElement(
           'form',
-          { className: 'log-form', onSubmit: this.handleLogin },
+          { className: 'log-form' },
           _react2.default.createElement(
             'label',
             null,
@@ -47887,8 +47869,16 @@ var Login = function (_React$Component) {
               onChange: this.update('password'),
               required: true })
           ),
-          _react2.default.createElement('input', { type: 'submit', name: 'action', value: 'Signup' }),
-          _react2.default.createElement('input', { type: 'submit', name: 'action', value: 'Login' })
+          _react2.default.createElement(
+            'button',
+            { className: 'create-button', id: 'login', onClick: this.handleLogin },
+            'LogIn'
+          ),
+          _react2.default.createElement(
+            'button',
+            { className: 'create-button', id: 'signup', onClick: this.handleSignup },
+            'SignUp'
+          )
         )
       );
     }
@@ -47908,6 +47898,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     createUser: function createUser(user) {
       return dispatch((0, _user_actions.createUser)(user));
+    },
+    login: function login(user) {
+      return dispatch((0, _user_actions.login)(user));
     }
   };
 };
@@ -50111,6 +50104,43 @@ NavLink.defaultProps = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react_router__ = __webpack_require__(25);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_0_react_router__["i"]; });
 
+
+/***/ }),
+/* 627 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.ErrorList = undefined;
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var ErrorList = exports.ErrorList = function ErrorList(_ref) {
+  var errors = _ref.errors;
+
+  if (errors.length === 0) return null;
+  var errorItems = errors['base'].map(function (error) {
+    return _react2.default.createElement(
+      'li',
+      { key: error },
+      error
+    );
+  });
+
+  return _react2.default.createElement(
+    'ul',
+    { className: 'error-list' },
+    errorItems
+  );
+};
 
 /***/ })
 /******/ ]);
