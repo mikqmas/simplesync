@@ -11,7 +11,7 @@ class Api::SessionsController < ApplicationController
       )
     else
       login_user!(@user)
-      render json: @user
+      redirect_to '/'
     end
   end
 
@@ -24,8 +24,8 @@ class Api::SessionsController < ApplicationController
         status: 400
       )
     else
-      logout_user!()
-      redirect_to api_todos_url
+      logout_user!
+      redirect_to '/'
     end
   end
 

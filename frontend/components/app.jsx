@@ -4,6 +4,8 @@ import Login from './landing/login';
 import Signup from './landing/signup';
 import Contact from './landing/contact'
 import {Link, Switch, Route} from 'react-router-dom';
+import {connect} from 'react-redux';
+import {logout} from '../actions/user_actions';
 
 const Header = () => (
   <header className="site-header">
@@ -44,11 +46,37 @@ const Home = () => (
   </div>
 )
 
-const App = () => (
-  <div>
-    <Header/>
-    <Main/>
-  </div>
-)
 
-export default App;
+
+class App extends React.Component {
+  render() {
+    if(this.props.user.current_user) {
+      return(<div>Tasks!!!<button onClick={this.props.logout}>Logout</button></div>)
+    }else {
+      return(
+        <div>
+          <Header/>
+          <Main/>
+        </div>
+      )
+    }
+  }
+}
+
+const mapStateToProps = (state) => ({
+  user: state.user,
+  errors: state.errors
+})
+
+const mapDispatchToProps = dispatch =>  ({
+  logout: () => dispatch(logout())
+})
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App);
+
+
+
+// export default App;

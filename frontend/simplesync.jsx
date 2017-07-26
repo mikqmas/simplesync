@@ -10,7 +10,7 @@ import {BrowserRouter} from 'react-router-dom';
 document.addEventListener('DOMContentLoaded', () => {
   let store;
   if (window.currentUser) {
-    const preloadedState = {user: {currentUser: window.currentUser}};
+    const preloadedState = {user: {current_user: window.currentUser}};
     store = configureStore(preloadedState);
     delete window.currentUser;
   } else {
