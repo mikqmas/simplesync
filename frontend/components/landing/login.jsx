@@ -1,7 +1,7 @@
 import {connect} from 'react-redux';
 import React from 'react';
-import {createUser, updateUser, login, logout} from '../actions/user_actions';
-import {ErrorList} from './error';
+import {createUser, updateUser, login, logout} from '../../actions/user_actions';
+import {ErrorList} from '../error';
 
 class Login extends React.Component {
   constructor(props) {

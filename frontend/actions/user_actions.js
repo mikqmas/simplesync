@@ -13,6 +13,8 @@ export const removeCurrentUser = () => ({
   type: REMOVE_CURRENT_USER
 })
 
+
+//Async
 export const createUser = user => dispatch => (
   UserAPIUtil.createUser(user)
   .then(user => {dispatch(receiveUser(user)); dispatch(clearErrors())},

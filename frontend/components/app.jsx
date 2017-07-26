@@ -1,7 +1,8 @@
 import React from 'react';
 import TodoListContainer from './todo_list/todo_list_container';
-import Login from './login';
-import Signup from './signup';
+import Login from './landing/login';
+import Signup from './landing/signup';
+import Contact from './landing/contact'
 import {Link, Switch, Route} from 'react-router-dom';
 
 const Header = () => (
@@ -42,8 +43,6 @@ const Home = () => (
     </div>
   </div>
 )
-
-const Contact = () => (<div>Contact</div>)
 
 const App = () => (
   <div>
