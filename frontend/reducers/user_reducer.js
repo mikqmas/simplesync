@@ -1,4 +1,4 @@
-import { RECEIVE_USER, REMOVE_CURRENT_USER } from '../actions/user_actions';
+import { RECEIVE_USER, REMOVE_CURRENT_USER, USER_ERROR } from '../actions/user_actions';
 import merge from 'lodash/merge';
 
 const userReducer = (state = {}, action) => {
@@ -12,6 +12,8 @@ const userReducer = (state = {}, action) => {
     case REMOVE_CURRENT_USER:
       const nextState = {};
       return nextState;
+    case USER_ERROR:
+      alert(action.error);
     default:
       return state;
   }

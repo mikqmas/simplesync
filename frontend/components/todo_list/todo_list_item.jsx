@@ -1,5 +1,4 @@
 import React from 'react';
-import { Button } from 'react-bootstrap'
 
 class TodoListItem extends React.Component {
   constructor(props) {
@@ -24,7 +23,7 @@ class TodoListItem extends React.Component {
     const {title, done} = todo;
     return (
         <li>
-          <Button onClick={this.handleCompleted}>{done ? "done" : "undone"}</Button>{this.props.todo.title}
+          <input type="button" onClick={this.handleCompleted}>{done ? "done" : "undone"}</input>{this.props.todo.title}
           <input type="submit" onClick={this.handleDelete}></input>
         </li>
     )

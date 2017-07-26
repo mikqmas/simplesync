@@ -1,13 +1,19 @@
 import React from 'react';
 import TodoListContainer from './todo_list/todo_list_container';
 import Login from './login';
+import Signup from './signup';
 import {Link, Switch, Route} from 'react-router-dom';
 
 const Header = () => (
-  <header>
+  <header className="site-header">
+    <h1 className="logo">
+      <Link to='/'>SimpleSync</Link>
+    </h1>
     <nav>
-      <ul>
-        <li><Link to='/'>Home</Link></li>
+      <ul className="nav">
+        <li><Link to='/contact'>Contact Us</Link></li>
+        <li><Link to='/login'>Log In</Link></li>
+        <li><Link to='/signup'>Create an Account</Link></li>
       </ul>
     </nav>
   </header>
@@ -17,15 +23,27 @@ const Main = () => (
   <main>
     <Switch>
       <Route exact path='/' component={Home}/>
+      <Route path='/contact' component={Contact}/>
+      <Route path='/login' component={Login}/>
+      <Route path='/signup' component={Signup}/>
     </Switch>
   </main>
 )
 
 const Home = () => (
   <div>
-    <Login/>
+    <div id="homepage-banner">
+      <div className="welcome-text">
+        <div className="row1">
+          <h1>The Simplest way to keep tasks synced.</h1>
+          <p>Light, clean, and free. Simplenote is now available for iOS, Android, Mac, Windows, Linux, and the web.</p>
+        </div>
+      </div>
+    </div>
   </div>
 )
+
+const Contact = () => (<div>Contact</div>)
 
 const App = () => (
   <div>
@@ -34,4 +52,4 @@ const App = () => (
   </div>
 )
 
-module.exports = App;
+export default App;

@@ -14,6 +14,7 @@ class Login extends React.Component {
     this.handleLogin = this.handleLogin.bind(this);
     this.handleSignup = this.handleSignup.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
+    this.greeting = this.greeting.bind(this);
   }
 
   update(property) {
@@ -52,9 +53,12 @@ class Login extends React.Component {
     );
   }
 
-  render() {
-    return (
-      <div>
+  greeting() {
+    if(this.props.user.current_user) {
+      return(<div>Hello, {this.props.user.current_user.username}</div>);
+    }else {
+      return(
+        <div>
         <div>{this.props.user.current_user ? this.props.user.current_user.username : ""}</div>
         <ErrorList errors={this.props.errors}/>
           <form className="log-form">
@@ -80,7 +84,14 @@ class Login extends React.Component {
             <button className="create-button" id='signup' onClick={this.handleSignup}>SignUp</button>
             <button className="logout-button" id='logout' onClick={this.handleLogout}>LogOut</button>
           </form>
-        </div>
+          </div>
+        )
+    }
+  }
+
+  render() {
+    return (
+      <div>{this.greeting()}</div>
     );
   }
 }

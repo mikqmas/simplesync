@@ -3,6 +3,7 @@ class Api::SessionsController < ApplicationController
     @user = User.find_by_credentials(session_params[:username], session_params[:password])
 
     if @user.nil?
+
       render(
         json: {
           messages: ["Invalid username / password"]
