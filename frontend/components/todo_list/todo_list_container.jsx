@@ -6,6 +6,7 @@ import {allTodos} from '../../reducers/selectors';
 import {fetchTodos, createTodo, updateTodo, deleteTodo} from '../../actions/todo_actions';
 
 const mapStateToProps = (state) => ({
+  user: state.user,
   todos: allTodos(state),
   errors: state.errors
 });

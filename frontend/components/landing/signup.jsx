@@ -10,11 +10,10 @@ class Signup extends React.Component {
       username:"",
       password:""
     }
-
-    this.handleLogin = this.handleLogin.bind(this);
+    //
+    // this.handleLogin = this.handleLogin.bind(this);
     this.handleSignup = this.handleSignup.bind(this);
-    this.handleLogout = this.handleLogout.bind(this);
-    this.greeting = this.greeting.bind(this);
+    // this.handleLogout = this.handleLogout.bind(this);
   }
 
   update(property) {
@@ -24,33 +23,25 @@ class Signup extends React.Component {
   handleSignup(e) {
     e.preventDefault();
     const user = Object.assign({}, this.state);
-    this.props.createUser({user}).then(
+    this.props.createUser({user}).then(() => {
       this.setState({
         username: "",
         password: ""
-      }) // reset form
-    );
+      }); // reset form
+      this.handleLogin(this.props.user.current_user);
+    });
   }
 
-  handleLogin(e) {
-    e.preventDefault();
-    const user = Object.assign({}, this.state);
-    this.props.login({user}).then(
+  handleLogin(user) {
+    this.props.login({user}).then(() => {
+      if(this.props.user.current_user) {
+        window.location.replace("/");
+      };
       this.setState({
         username: "",
         password: ""
       })
-    );
-  }
-
-  handleLogout(e) {
-    e.preventDefault();
-    this.props.logout().then(
-      this.setState({
-        username: "",
-        password: ""
-      })
-    );
+    });
   }
 
   greeting() {

@@ -8,7 +8,7 @@ class TodoList extends React.Component {
   }
 
   render() {
-    const {todos, createTodo, deleteTodo, updateTodo, errors} = this.props;
+    const {user, todos, createTodo, deleteTodo, updateTodo, errors} = this.props;
     const todoItems = todos.map(todo => (
       <TodoListItem key={todo.id}
         deleteTodo={deleteTodo}
@@ -17,7 +17,7 @@ class TodoList extends React.Component {
     ));
 
     const todoForm = (
-      <TodoListForm createTodo={createTodo} errors={errors} />
+      <TodoListForm createTodo={createTodo} errors={errors} user={user} />
     )
 
     var style = {

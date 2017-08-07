@@ -35,11 +35,15 @@ class Login extends React.Component {
   handleLogin(e) {
     e.preventDefault();
     const user = Object.assign({}, this.state);
-    this.props.login({user}).then(
+    this.props.login({user}).then(() => {
+      if(this.props.user.current_user) {
+        window.location.replace("/");
+      }
       this.setState({
         username: "",
         password: ""
-      })
+      });
+    }
     );
   }
 

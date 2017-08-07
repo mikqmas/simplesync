@@ -17,7 +17,7 @@ export const updateTodo = todo => (
   $.ajax({
     method: 'PUT',
     url: `/api/todos/${todo.id}`,
-    data: todo
+    data: {todo}
   })
 )
 

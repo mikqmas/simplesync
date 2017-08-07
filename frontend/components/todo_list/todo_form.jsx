@@ -1,4 +1,3 @@
-
 import React from 'react';
 
 class TodoForm extends React.Component {
@@ -19,7 +18,7 @@ class TodoForm extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    const todo = Object.assign({}, this.state);
+    const todo = Object.assign({"user_id": this.props.user.current_user.id}, this.state);
     this.props.createTodo({todo}).then(
       this.setState({
         title: "",

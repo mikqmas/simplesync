@@ -21,6 +21,8 @@ export const login = user => (
     method: 'POST',
     url: '/api/session',
     data: user
+  }).done((response) => {
+    console.log(response);
   })
 );
 

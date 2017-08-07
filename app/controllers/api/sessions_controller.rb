@@ -25,7 +25,6 @@ class Api::SessionsController < ApplicationController
       )
     else
       logout_user!
-      redirect_to '/'
     end
   end
 

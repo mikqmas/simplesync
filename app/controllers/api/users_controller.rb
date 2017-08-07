@@ -7,6 +7,7 @@ class Api::UsersController < ApplicationController
     if @user.save
       login_user!(@user)
       render json: @user
+      # redirect_to '/'
     else
       render json: @user.errors, status: 422
     end

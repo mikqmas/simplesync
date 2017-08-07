@@ -3,7 +3,8 @@ import ReactDOM from 'react-dom';
 
 // import getTodos from './util/todo_api_util'
 import configureStore from './store/store';
-import App from './components/app';
+import PreLanded from './components/app';
+import Landed from './components/landed';
 import {Provider} from 'react-redux';
 import {BrowserRouter} from 'react-router-dom';
 
@@ -16,14 +17,30 @@ document.addEventListener('DOMContentLoaded', () => {
   } else {
     store = configureStore();
   }
-  const appRouter = (
+
+
+
+  const preLanded = (
     <BrowserRouter>
       <Provider store={store}>
-          <App/>
+          <PreLanded/>
+      </Provider>
+    </BrowserRouter>
+  )
+
+  const landed = (
+    <BrowserRouter>
+      <Provider store={store}>
+          <Landed/>
       </Provider>
     </BrowserRouter>
   );
+
   window.store = store;
   const rootElement = document.getElementById('content');
-  ReactDOM.render(appRouter, rootElement);
+  if(store.getState().user.current_user) {
+    ReactDOM.render(landed, rootElement);
+  }else {
+    ReactDOM.render(preLanded, rootElement);
+  }
 })

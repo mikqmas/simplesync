@@ -1,4 +1,5 @@
 import React from 'react';
+import merge from 'lodash/merge';
 
 class TodoListItem extends React.Component {
   constructor(props) {
@@ -11,20 +12,18 @@ class TodoListItem extends React.Component {
   }
   handleCompleted(e) {
     e.preventDefault;
-    if(this.props.todo.done == false) {
-      this.props.todo.done = true;
-    }else {
-      this.props.todo.done = false;
-    }
-    this.props.updateTodo(this.props.todo);
+    const toggledTodo = merge({}, this.props.todo, {
+      done: !this.props.todo.done
+    });
+    this.props.updateTodo(toggledTodo);
   }
+
   render() {
-    const {todo} = this.props;
-    const {title, done} = todo;
+    const {title, done} = this.props.todo;
     return (
-        <li>
-          <input type="button" onClick={this.handleCompleted}>{done ? "done" : "undone"}</input>{this.props.todo.title}
-          <input type="submit" onClick={this.handleDelete}></input>
+        <li class="task_items">
+            <input type="button" onClick={this.handleCompleted} value={done ? "done" : "undo"}/>{title}
+            <input type="button" value="delete" onClick={this.handleDelete} />
         </li>
     )
   }

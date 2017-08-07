@@ -1,11 +1,11 @@
 class Api::TodosController < ApplicationController
   def index
-    @todos = Todo.all
+    @todos = current_user.todos
     render json: @todos
   end
 
   def create
-    @todo = Todo.new(todo_params)
+    @todo = current_user.todos.new(todo_params)
     if @todo.save
       render json: @todo
     else
