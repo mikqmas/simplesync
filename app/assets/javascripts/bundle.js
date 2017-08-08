@@ -29490,6 +29490,8 @@ var _merge2 = _interopRequireDefault(_merge);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -29504,12 +29506,37 @@ var TodoListItem = function (_React$Component) {
 
     var _this = _possibleConstructorReturn(this, (TodoListItem.__proto__ || Object.getPrototypeOf(TodoListItem)).call(this, props));
 
+    var _this$props$todo = _this.props.todo,
+        title = _this$props$todo.title,
+        body = _this$props$todo.body,
+        done = _this$props$todo.done;
+
+    _this.state = {
+      "title": title,
+      "body": body,
+      "done": done
+    };
+    _this.timeout = null;
+    _this.update = _this.update.bind(_this);
     _this.handleDelete = _this.handleDelete.bind(_this);
     _this.handleCompleted = _this.handleCompleted.bind(_this);
+    _this.updateText = _this.updateText.bind(_this);
     return _this;
   }
 
   _createClass(TodoListItem, [{
+    key: 'update',
+    value: function update(e) {
+      var _this2 = this;
+
+      this.setState(_defineProperty({}, e.target.name, e.target.value), function () {
+        clearTimeout(_this2.timeout);
+        _this2.timeout = setTimeout(function () {
+          _this2.updateText();
+        }, 300);
+      });
+    }
+  }, {
     key: 'handleDelete',
     value: function handleDelete(e) {
       this.props.deleteTodo(this.props.todo);
@@ -29524,18 +29551,22 @@ var TodoListItem = function (_React$Component) {
       this.props.updateTodo(toggledTodo);
     }
   }, {
+    key: 'updateText',
+    value: function updateText() {
+      console.log("UPDATED");
+      var changedTodo = (0, _merge2.default)({}, this.props.todo, this.state);
+      this.props.updateTodo(changedTodo);
+    }
+  }, {
     key: 'render',
     value: function render() {
-      var _props$todo = this.props.todo,
-          title = _props$todo.title,
-          done = _props$todo.done;
-
       return _react2.default.createElement(
         'li',
-        { 'class': 'task_items' },
-        _react2.default.createElement('input', { type: 'button', onClick: this.handleCompleted, value: done ? "done" : "undo" }),
-        title,
-        _react2.default.createElement('input', { type: 'button', value: 'delete', onClick: this.handleDelete })
+        { className: 'task_items' },
+        _react2.default.createElement('input', { type: 'button', onClick: this.handleCompleted, value: this.state.done ? "done" : "undo" }),
+        _react2.default.createElement('input', { type: 'button', value: 'delete', onClick: this.handleDelete }),
+        _react2.default.createElement('input', { type: 'text', onChange: this.update, name: 'title', value: this.state.title }),
+        _react2.default.createElement('input', { type: 'text', onChange: this.update, name: 'body', value: this.state.body })
       );
     }
   }]);
@@ -29733,7 +29764,6 @@ var Login = function (_React$Component) {
     _this.handleLogin = _this.handleLogin.bind(_this);
     _this.handleSignup = _this.handleSignup.bind(_this);
     _this.handleLogout = _this.handleLogout.bind(_this);
-    _this.greeting = _this.greeting.bind(_this);
     return _this;
   }
 
@@ -29784,78 +29814,46 @@ var Login = function (_React$Component) {
       }));
     }
   }, {
-    key: 'greeting',
-    value: function greeting() {
-      if (this.props.user.current_user) {
-        return _react2.default.createElement(
-          'div',
-          null,
-          'Hello, ',
-          this.props.user.current_user.username
-        );
-      } else {
-        return _react2.default.createElement(
-          'div',
-          null,
-          _react2.default.createElement(
-            'div',
-            null,
-            this.props.user.current_user ? this.props.user.current_user.username : ""
-          ),
-          _react2.default.createElement(_error.ErrorList, { errors: this.props.errors }),
-          _react2.default.createElement(
-            'form',
-            { className: 'log-form' },
-            _react2.default.createElement(
-              'label',
-              null,
-              'Username:',
-              _react2.default.createElement('input', {
-                className: 'input',
-                ref: 'username',
-                value: this.state.username,
-                placeholder: 'username',
-                onChange: this.update('username'),
-                required: true })
-            ),
-            _react2.default.createElement(
-              'label',
-              null,
-              'Password:',
-              _react2.default.createElement('input', {
-                className: 'input',
-                ref: 'password',
-                value: this.state.password,
-                placeholder: 'password',
-                onChange: this.update('password'),
-                required: true })
-            ),
-            _react2.default.createElement(
-              'button',
-              { className: 'login-button', id: 'login', onClick: this.handleLogin },
-              'LogIn'
-            ),
-            _react2.default.createElement(
-              'button',
-              { className: 'create-button', id: 'signup', onClick: this.handleSignup },
-              'SignUp'
-            ),
-            _react2.default.createElement(
-              'button',
-              { className: 'logout-button', id: 'logout', onClick: this.handleLogout },
-              'LogOut'
-            )
-          )
-        );
-      }
-    }
-  }, {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
         'div',
-        null,
-        this.greeting()
+        { className: 'login_page' },
+        _react2.default.createElement(_error.ErrorList, { errors: this.props.errors }),
+        _react2.default.createElement(
+          'form',
+          { className: 'log-form' },
+          _react2.default.createElement('input', {
+            className: 'login_input',
+            ref: 'username',
+            value: this.state.username,
+            placeholder: 'email',
+            onChange: this.update('username'),
+            required: true }),
+          _react2.default.createElement('input', {
+            type: 'password',
+            className: 'login_input',
+            ref: 'password',
+            value: this.state.password,
+            placeholder: 'password',
+            onChange: this.update('password'),
+            required: true }),
+          _react2.default.createElement(
+            'button',
+            { className: 'login-button', id: 'login', onClick: this.handleLogin },
+            'LogIn'
+          ),
+          _react2.default.createElement(
+            'button',
+            { className: 'create-button', id: 'signup', onClick: this.handleSignup },
+            'SignUp'
+          ),
+          _react2.default.createElement(
+            'button',
+            { className: 'logout-button', id: 'logout', onClick: this.handleLogout },
+            'LogOut'
+          )
+        )
       );
     }
   }]);
@@ -32367,13 +32365,12 @@ var Landed = function (_React$Component) {
       return _react2.default.createElement(
         'div',
         null,
-        'landed',
-        _react2.default.createElement(_todo_list_container2.default, null),
         _react2.default.createElement(
-          'button',
+          'a',
           { onClick: this.handleLogout },
-          'Logout'
-        )
+          this.props.user.current_user ? this.props.user.current_user.username : "Logging Out"
+        ),
+        _react2.default.createElement(_todo_list_container2.default, null)
       );
     }
   }]);

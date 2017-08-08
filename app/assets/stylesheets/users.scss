@@ -1,3 +1,54 @@
 // Place all the styles related to the users controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+$font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif;
+$color: #448AC9;
+$error-color: #2e689b;
+
+.login_page {
+  font-family: $font-family;
+  position: relative;
+  padding: 0 10px;
+  margin-left: auto;
+  margin-right: auto;
+  overflow: hidden;
+}
+
+.log-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .login_input {
+    font-size: 1.2em;
+    font-weight: 200;
+    width: 338px;
+    padding: 20px 10px;
+    background: #eee;
+    border: none;
+    margin: 10px;
+  }
+
+  button {
+    border: none;
+    font-size: 1.2em;
+    font-weight: 200;
+    color: #fff;
+    background-color: $color;
+    width: 358px;
+    padding: 15px 0;
+    margin: 10px;
+  }
+}
+
+
+.error-list {
+  background-color: $error-color;
+  color: white;
+  display: flex;
+  justify-content: center;
+  padding: .6em;
+  margin: 10px -10px;
+  // transition: opacity .25s ease-in-out;
+}

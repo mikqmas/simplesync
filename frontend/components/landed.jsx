@@ -6,7 +6,6 @@ import TodoList from './todo_list/todo_list_container';
 class Landed extends React.Component {
   constructor(props) {
     super(props);
-
     this.handleLogout = this.handleLogout.bind(this);
   }
 
@@ -21,9 +20,10 @@ class Landed extends React.Component {
 
   render() {
     return (
-      <div>landed
+      <div>
+        <a onClick={this.handleLogout}>{this.props.user.current_user ?
+            this.props.user.current_user.username : "Logging Out"}</a>
         <TodoList />
-        <button onClick={this.handleLogout}>Logout</button>
       </div>
     )
   }
