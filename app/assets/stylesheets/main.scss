@@ -90,3 +90,18 @@
     }
   }
 }
+
+.main_content {
+  display: flex;
+  flex-direction: row;
+}
+
+.list_todos {
+  width: 40%;
+  min-width: 400px;
+}
+
+.list_content {
+  width: 60%;
+  min-width: 600px;
+}

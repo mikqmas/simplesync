@@ -2,6 +2,7 @@ import React from 'react'
 import {logout} from '../actions/user_actions';
 import {connect} from 'react-redux';
 import TodoList from './todo_list/todo_list_container';
+import TodoContent from './todo_list/todo_content';
 
 class Landed extends React.Component {
   constructor(props) {
@@ -24,6 +25,7 @@ class Landed extends React.Component {
         <a onClick={this.handleLogout}>{this.props.user.current_user ?
             this.props.user.current_user.username : "Logging Out"}</a>
         <TodoList />
+        <TodoContent />
       </div>
     )
   }

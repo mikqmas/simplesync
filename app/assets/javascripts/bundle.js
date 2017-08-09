@@ -29403,6 +29403,10 @@ var _todo_form = __webpack_require__(347);
 
 var _todo_form2 = _interopRequireDefault(_todo_form);
 
+var _todo_content = __webpack_require__(378);
+
+var _todo_content2 = _interopRequireDefault(_todo_content);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -29414,50 +29418,87 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var TodoList = function (_React$Component) {
   _inherits(TodoList, _React$Component);
 
-  function TodoList() {
+  function TodoList(props) {
     _classCallCheck(this, TodoList);
 
-    return _possibleConstructorReturn(this, (TodoList.__proto__ || Object.getPrototypeOf(TodoList)).apply(this, arguments));
+    // this.state = {
+    //   "selectedTodo": 0
+    // }
+    // this.selectedItem = this.selectedItem.bind(this);
+    var _this = _possibleConstructorReturn(this, (TodoList.__proto__ || Object.getPrototypeOf(TodoList)).call(this, props));
+
+    _this.todoContent = _this.todoContent.bind(_this);
+    return _this;
   }
 
   _createClass(TodoList, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
+    key: 'componentWillMount',
+    value: function componentWillMount() {
       this.props.fetchTodos();
+    }
+
+    // selectedItem(id) {
+    //   this.setState({"selectedTodo": id});
+    //   console.log(id);
+    // };
+
+  }, {
+    key: 'todoContent',
+    value: function todoContent() {
+      var _this2 = this;
+
+      var _props = this.props,
+          todos = _props.todos,
+          deleteTodo = _props.deleteTodo,
+          updateTodo = _props.updateTodo;
+
+      if (this.state.selectedTodo) {
+        return _react2.default.createElement(_todo_content2.default, {
+          deleteTodo: deleteTodo,
+          updateTodo: updateTodo,
+          todo: todos.find(function (todo) {
+            return todo.id === _this2.state.selectedTodo;
+          }) });
+      } else {
+        return "";
+      }
     }
   }, {
     key: 'render',
     value: function render() {
-      var _props = this.props,
-          user = _props.user,
-          todos = _props.todos,
-          createTodo = _props.createTodo,
-          deleteTodo = _props.deleteTodo,
-          updateTodo = _props.updateTodo,
-          errors = _props.errors;
+      var _this3 = this;
+
+      var _props2 = this.props,
+          user = _props2.user,
+          todos = _props2.todos,
+          createTodo = _props2.createTodo,
+          errors = _props2.errors;
 
       var todoItems = todos.map(function (todo) {
         return _react2.default.createElement(_todo_list_item2.default, { key: todo.id,
-          deleteTodo: deleteTodo,
-          updateTodo: updateTodo,
+          selectedItem: _this3.selectedItem,
           todo: todo });
       });
 
       var todoForm = _react2.default.createElement(_todo_form2.default, { createTodo: createTodo, errors: errors, user: user });
 
-      var style = {
-        listStyleType: "none"
-      };
-
       return _react2.default.createElement(
         'div',
-        null,
+        { className: 'main_content' },
         _react2.default.createElement(
-          'ul',
-          { style: style },
-          todoItems
+          'div',
+          { className: 'list_todos' },
+          _react2.default.createElement(
+            'ul',
+            null,
+            todoItems
+          )
         ),
-        todoForm
+        _react2.default.createElement(
+          'div',
+          { className: 'list_content' },
+          this.todoContent()
+        )
       );
     }
   }]);
@@ -29490,8 +29531,6 @@ var _merge2 = _interopRequireDefault(_merge);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -29516,57 +29555,27 @@ var TodoListItem = function (_React$Component) {
       "body": body,
       "done": done
     };
-    _this.timeout = null;
-    _this.update = _this.update.bind(_this);
-    _this.handleDelete = _this.handleDelete.bind(_this);
-    _this.handleCompleted = _this.handleCompleted.bind(_this);
-    _this.updateText = _this.updateText.bind(_this);
+    _this.handleClick = _this.handleClick.bind(_this);
     return _this;
   }
 
   _createClass(TodoListItem, [{
-    key: 'update',
-    value: function update(e) {
-      var _this2 = this;
-
-      this.setState(_defineProperty({}, e.target.name, e.target.value), function () {
-        clearTimeout(_this2.timeout);
-        _this2.timeout = setTimeout(function () {
-          _this2.updateText();
-        }, 300);
-      });
-    }
-  }, {
-    key: 'handleDelete',
-    value: function handleDelete(e) {
-      this.props.deleteTodo(this.props.todo);
-    }
-  }, {
-    key: 'handleCompleted',
-    value: function handleCompleted(e) {
-      e.preventDefault;
-      var toggledTodo = (0, _merge2.default)({}, this.props.todo, {
-        done: !this.props.todo.done
-      });
-      this.props.updateTodo(toggledTodo);
-    }
-  }, {
-    key: 'updateText',
-    value: function updateText() {
-      console.log("UPDATED");
-      var changedTodo = (0, _merge2.default)({}, this.props.todo, this.state);
-      this.props.updateTodo(changedTodo);
+    key: 'handleClick',
+    value: function handleClick(e) {
+      e.preventDefault();
+      this.props.selectedItem(this.props.todo.id);
     }
   }, {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
         'li',
-        { className: 'task_items' },
-        _react2.default.createElement('input', { type: 'button', onClick: this.handleCompleted, value: this.state.done ? "done" : "undo" }),
-        _react2.default.createElement('input', { type: 'button', value: 'delete', onClick: this.handleDelete }),
-        _react2.default.createElement('input', { type: 'text', onChange: this.update, name: 'title', value: this.state.title }),
-        _react2.default.createElement('input', { type: 'text', onChange: this.update, name: 'body', value: this.state.body })
+        { className: 'task_items', value: this.props.todo.id, onClick: this.handleClick },
+        _react2.default.createElement(
+          'div',
+          null,
+          this.state.title
+        )
       );
     }
   }]);
@@ -32327,6 +32336,10 @@ var _todo_list_container = __webpack_require__(334);
 
 var _todo_list_container2 = _interopRequireDefault(_todo_list_container);
 
+var _todo_content = __webpack_require__(378);
+
+var _todo_content2 = _interopRequireDefault(_todo_content);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -32370,7 +32383,8 @@ var Landed = function (_React$Component) {
           { onClick: this.handleLogout },
           this.props.user.current_user ? this.props.user.current_user.username : "Logging Out"
         ),
-        _react2.default.createElement(_todo_list_container2.default, null)
+        _react2.default.createElement(_todo_list_container2.default, null),
+        _react2.default.createElement(_todo_content2.default, null)
       );
     }
   }]);
@@ -32393,6 +32407,118 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 };
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Landed);
+
+/***/ }),
+/* 378 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(4);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var TodoContent = function (_React$Component) {
+  _inherits(TodoContent, _React$Component);
+
+  function TodoContent(props) {
+    _classCallCheck(this, TodoContent);
+
+    var _this = _possibleConstructorReturn(this, (TodoContent.__proto__ || Object.getPrototypeOf(TodoContent)).call(this, props));
+
+    var _this$props$todo = _this.props.todo,
+        title = _this$props$todo.title,
+        body = _this$props$todo.body,
+        done = _this$props$todo.done;
+
+    _this.state = {
+      "title": title,
+      "body": body,
+      "done": done
+    };
+    _this.timeout = null;
+    _this.update = _this.update.bind(_this);
+    _this.handleDelete = _this.handleDelete.bind(_this);
+    _this.handleCompleted = _this.handleCompleted.bind(_this);
+    _this.updateText = _this.updateText.bind(_this);
+    _this.handleClick = _this.handleClick.bind(_this);
+    return _this;
+  }
+
+  _createClass(TodoContent, [{
+    key: "update",
+    value: function update(e) {
+      var _this2 = this;
+
+      this.setState(_defineProperty({}, e.target.name, e.target.value), function () {
+        clearTimeout(_this2.timeout);
+        _this2.timeout = setTimeout(function () {
+          _this2.updateText();
+        }, 300);
+      });
+    }
+  }, {
+    key: "handleDelete",
+    value: function handleDelete(e) {
+      this.props.deleteTodo(this.props.todo);
+    }
+  }, {
+    key: "handleCompleted",
+    value: function handleCompleted(e) {
+      e.preventDefault();
+      var toggledTodo = merge({}, this.props.todo, {
+        done: !this.props.todo.done
+      });
+      this.props.updateTodo(toggledTodo);
+    }
+  }, {
+    key: "updateText",
+    value: function updateText() {
+      console.log("UPDATED");
+      var changedTodo = merge({}, this.props.todo, this.state);
+      this.props.updateTodo(changedTodo);
+    }
+  }, {
+    key: "handleClick",
+    value: function handleClick(e) {
+      e.preventDefault();
+      this.props.selectedItem(this.props.todo.id);
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      return _react2.default.createElement(
+        "li",
+        { className: "task_items", value: this.props.todo.id, onClick: this.handleClick },
+        _react2.default.createElement("input", { type: "button", onClick: this.handleCompleted, value: this.state.done ? "done" : "undo" }),
+        _react2.default.createElement("input", { type: "button", value: "delete", onClick: this.handleDelete }),
+        _react2.default.createElement("input", { type: "text", onChange: this.update, name: "title", value: this.state.title }),
+        _react2.default.createElement("input", { type: "text", onChange: this.update, name: "body", value: this.state.body })
+      );
+    }
+  }]);
+
+  return TodoContent;
+}(_react2.default.Component);
+
+exports.default = TodoContent;
 
 /***/ })
 /******/ ]);
