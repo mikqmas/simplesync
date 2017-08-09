@@ -1,48 +1,41 @@
 import React from 'react';
-import TodoListItem from './todo_list_item';
 import TodoListForm from './todo_form';
 import TodoContent from './todo_content';
+import { Link } from 'react-router-dom';
 
 class TodoList extends React.Component {
-  constructor(props) {
-    super(props);
-    // this.state = {
-    //   "selectedTodo": 0
-    // }
-    // this.selectedItem = this.selectedItem.bind(this);
-    this.todoContent = this.todoContent.bind(this);
-  }
-
   componentWillMount() {
     this.props.fetchTodos();
-  }
 
-  // selectedItem(id) {
-  //   this.setState({"selectedTodo": id});
-  //   console.log(id);
-  // };
 
-  todoContent() {
-    const {todos, deleteTodo, updateTodo} = this.props;
-    if(this.state.selectedTodo) {
-      return (
-        <TodoContent
-          deleteTodo={deleteTodo}
-          updateTodo={updateTodo}
-          todo={todos.find(todo => (todo.id === this.state.selectedTodo))}/>
-      )
-    } else {
-      return "";
+    //export TODOAPI to use in todo_detail page.
+    const TodoAPI = {
+      all: () => { return this.props.todos },
+      get: (id) => {
+        const isTodo = t => t.id === id
+        return this.todos.find(isTodo)
+      }
     }
   }
 
+
   render() {
     const {user, todos, createTodo, errors} = this.props;
-    const todoItems = todos.map(todo => (
-      <TodoListItem key={todo.id}
-        selectedItem={this.selectedItem}
-        todo={todo}/>
-    ));
+    const todoItems = () => (
+      <div className="list_todos">
+        <ul>
+          {
+            todos.map(todo => (
+              <li key={todo.id} className="task_items">
+                <Link to={`/${todo.id}`}>
+                  {todo.title}
+                </Link>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    )
 
     const todoForm = (
       <TodoListForm createTodo={createTodo} errors={errors} user={user} />
@@ -50,15 +43,7 @@ class TodoList extends React.Component {
 
     return (
       <div className="main_content">
-        <div className="list_todos">
-          <ul>
-            {todoItems}
-          </ul>
-        </div>
-
-        <div className="list_content">
-          {this.todoContent()}
-        </div>
+        {todoItems()}
       </div>
     )
   }
