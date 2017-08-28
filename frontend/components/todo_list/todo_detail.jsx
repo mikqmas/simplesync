@@ -1,22 +1,32 @@
-import React from 'react'
-import {TodoAPI} from './todo_list'
+import React from 'react';
+import {connect} from 'react-redux';
+import {withRouter} from 'react-router';
+import {merge} from 'lodash';
+import {updateTodo, deleteTodo} from '../../actions/todo_actions';
 
 class TodoDetail extends React.Component {
   constructor(props) {
     super(props);
-    debugger;
-    const {title, body, done} = TodoAPI.get(props.match.params.id);
+    this.todo = Object.keys(this.props.todos).length ? this.props.todos[props.match.params.id] : {};
     this.state = {
-      "title": title,
-      "body": body,
-      "done": done
+      "title": this.todo.title,
+      "body": this.todo.body,
+      "done": this.todo.done
     };
     this.timeout = null;
     this.update = this.update.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
     this.handleCompleted = this.handleCompleted.bind(this);
     this.updateText = this.updateText.bind(this);
-    this.handleClick = this.handleClick.bind(this);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.todo = Object.keys(nextProps.todos).length ? nextProps.todos[nextProps.match.params.id] : {};
+    this.setState({
+      "title": this.todo.title,
+      "body": this.todo.body,
+      "done": this.todo.done
+    });
   }
 
   update(e) {
@@ -28,39 +38,45 @@ class TodoDetail extends React.Component {
     });
   }
   handleDelete(e) {
-    this.props.deleteTodo(this.props.todo);
+    this.props.deleteTodo(this.todo);
   }
   handleCompleted(e) {
     e.preventDefault();
-    const toggledTodo = merge({}, this.props.todo, {
-      done: !this.props.todo.done
-    });
+    const toggledTodo = {
+      id: this.todo.id,
+      done: !this.state.done
+    };
     this.props.updateTodo(toggledTodo);
   }
   updateText() {
     console.log("UPDATED");
-    const changedTodo = merge({}, this.props.todo, this.state);
+    const changedTodo = merge({}, this.todo, this.state);
     this.props.updateTodo(changedTodo);
-  }
-  handleClick(e) {
-    e.preventDefault();
-    this.props.selectedItem(this.props.todo.id);
   }
 
   render() {
-    debugger;
     return (
-      // const todo = TodoAPI.get(
-      //   parseInt()
-      // )
-        <li className="task_items" value={this.props.todo.id} onClick={this.handleClick}>
-            <input type="button" onClick={this.handleCompleted} value={this.state.done ? "done" : "undo"}/>
-            <input type="button" value="delete" onClick={this.handleDelete} />
-            <input type="text" onChange={this.update} name="title" value={this.state.title}/>
-            <input type="text" onChange={this.update} name="body" value={this.state.body}/>
+        <li className="task_items">
+          <input type="button" onClick={this.handleCompleted} value={this.state.done ? "done" : "undo"}/>
+          <input type="button" value="delete" onClick={this.handleDelete} />
         </li>
     )
   }
 }
 
-export default TodoDetail;
+
+// <input type="text" onChange={this.update} name="title" value={this.state.title}/>
+// <input type="text" onChange={this.update} name="body" value={this.state.body}/>
+const mapDispatchToProps = dispatch => ({
+  updateTodo: todo => dispatch(updateTodo(todo)),
+  deleteTodo: todo => dispatch(deleteTodo(todo))
+});
+
+const mapStateToProps = (state) => ({
+  todos: state.todos
+});
+
+export default withRouter(connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(TodoDetail));

@@ -6,35 +6,21 @@ import { Link } from 'react-router-dom';
 class TodoList extends React.Component {
   componentWillMount() {
     this.props.fetchTodos();
-
-
-    //export TODOAPI to use in todo_detail page.
-    const TodoAPI = {
-      all: () => { return this.props.todos },
-      get: (id) => {
-        const isTodo = t => t.id === id
-        return this.todos.find(isTodo)
-      }
-    }
   }
-
-
   render() {
     const {user, todos, createTodo, errors} = this.props;
     const todoItems = () => (
-      <div className="list_todos">
-        <ul>
-          {
-            todos.map(todo => (
-              <li key={todo.id} className="task_items">
-                <Link to={`/${todo.id}`}>
-                  {todo.title}
-                </Link>
+      <ul>
+        {
+          todos.map(todo => (
+            <Link key={todo.id} to={`/${todo.id}`}>
+              <li className="task_items">
+                {todo.title}
               </li>
-            ))
-          }
-        </ul>
-      </div>
+            </Link>
+          ))
+        }
+      </ul>
     )
 
     const todoForm = (
@@ -42,12 +28,12 @@ class TodoList extends React.Component {
     )
 
     return (
-      <div className="main_content">
+      <div className="list_todos">
         {todoItems()}
       </div>
     )
   }
 }
-
+// <TodoListForm createTodo={createTodo} errors={errors} user={user} />
 
 export default TodoList;

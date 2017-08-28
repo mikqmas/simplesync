@@ -1,12 +1,6 @@
 class Todo < ApplicationRecord
-  belongs_to :user
+  has_many :user_todos
+  has_many :users, through: :user_todos
 
-  validates(
-    :title,
-    :body,
-    :user_id,
-    presence: true
-  )
-
-  validates :done, inclusion: { in: [true, false] }
+  has_many :sub_tasks
 end

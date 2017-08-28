@@ -10,21 +10,42 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170718080256) do
+ActiveRecord::Schema.define(version: 20170822005940) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "sub_tasks", force: :cascade do |t|
+    t.integer  "todo_id",       null: false
+    t.string   "body",          null: false
+    t.boolean  "done",          null: false
+    t.integer  "list_order",    null: false
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.datetime "archived_time"
+    t.datetime "deleted_time"
+  end
+
   create_table "todos", force: :cascade do |t|
-    t.string   "title",      null: false
-    t.string   "body",       null: false
-    t.boolean  "done",       null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer  "user_id", null:false
+    t.string   "title",         default: ""
+    t.string   "body",          default: ""
+    t.boolean  "done",          default: false, null: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
+    t.integer  "list_order",    default: 0,     null: false
+    t.datetime "archived_time"
+    t.datetime "deleted_time"
     t.index ["body"], name: "index_todos_on_body", using: :btree
     t.index ["title"], name: "index_todos_on_title", using: :btree
-    t.index ["user_id"], name: "index_todos_on_user_id", using: :btree
+  end
+
+  create_table "user_todos", force: :cascade do |t|
+    t.integer  "user_id",                    null: false
+    t.integer  "todo_id",                    null: false
+    t.integer  "permission", default: 0,     null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.boolean  "is_owner",   default: false
   end
 
   create_table "users", force: :cascade do |t|
@@ -37,5 +58,4 @@ ActiveRecord::Schema.define(version: 20170718080256) do
     t.index ["username"], name: "index_users_on_username", unique: true, using: :btree
   end
 
-  add_foreign_key "todos", "users"
 end

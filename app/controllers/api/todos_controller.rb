@@ -7,6 +7,8 @@ class Api::TodosController < ApplicationController
   def create
     @todo = current_user.todos.new(todo_params)
     if @todo.save
+      debugger
+      @todo.user_todos.first.update_attribute(:is_owner, true)
       render json: @todo
     else
       render json: @todo.errors.full_messages, status: 422
@@ -34,6 +36,6 @@ class Api::TodosController < ApplicationController
 
   private
   def todo_params
-    params.require(:todo).permit(:title, :body, :done)
+    params.require(:todo).permit(:id, :title, :body, :done)
   end
 end

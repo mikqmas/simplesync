@@ -18,7 +18,7 @@ class TodoForm extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    const todo = Object.assign({"user_id": this.props.user.current_user.id}, this.state);
+    const todo = {"owner_id": this.props.user.current_user.id};
     this.props.createTodo({todo}).then(
       this.setState({
         title: "",
@@ -30,30 +30,30 @@ class TodoForm extends React.Component {
   render() {
     return (
       <div>
-      <div>{this.props.errors}</div>
-      <form className="todo-form" onSubmit={this.handleSubmit}>
-        <label>Title:
-          <input
-            className="input"
-            ref="title"
-            value={this.state.title}
-            placeholder="buy milk"
-            onChange={this.update('title')}
-            required/>
-        </label>
-        <label>Body:
-          <textarea
-            className="input"
-            ref="body"
-            cols='20'
-            value={this.state.body}
-            rows='5'
-            placeholder="2% or whatever is on sale!"
-            onChange={this.update('body')}
-            required></textarea>
-        </label>
-        <button className="create-button">Create Todo!</button>
-      </form>
+        <div>{this.props.errors}</div>
+        <form className="todo-form" onSubmit={this.handleSubmit}>
+          <label>Title:
+            <input
+              className="input"
+              ref="title"
+              value={this.state.title}
+              placeholder="buy milk"
+              onChange={this.update('title')}
+              required/>
+          </label>
+          <label>Body:
+            <textarea
+              className="input"
+              ref="body"
+              cols='20'
+              value={this.state.body}
+              rows='5'
+              placeholder="2% or whatever is on sale!"
+              onChange={this.update('body')}
+              required></textarea>
+          </label>
+          <button className="create-button">Create Todo!</button>
+        </form>
       </div>
     );
   }

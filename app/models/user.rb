@@ -1,7 +1,8 @@
 class User < ApplicationRecord
   attr_reader :password
 
-  has_many :todos
+  has_many :user_todos
+  has_many :todos, through: :user_todos
 
   after_initialize :ensure_session_token
   validates :password_digest, presence: true
