@@ -31,6 +31,10 @@ class User < ApplicationRecord
     user.try(:is_password?, password) ? user : nil
   end
 
+  def owned_todos
+    self.user_todos.to_a.select do |el| el.is_owner end
+  end
+
   private
   def ensure_session_token
     self.session_token ||= SecureRandom.urlsafe_base64(16)

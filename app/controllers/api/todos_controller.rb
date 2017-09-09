@@ -5,9 +5,9 @@ class Api::TodosController < ApplicationController
   end
 
   def create
-    @todo = current_user.todos.new(todo_params)
+    # //need to build create/new so that it has relation to update.
+    @todo = current_user.todos.create(todo_params)
     if @todo.save
-      debugger
       @todo.user_todos.first.update_attribute(:is_owner, true)
       render json: @todo
     else

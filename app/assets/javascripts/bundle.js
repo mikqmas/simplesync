@@ -13091,7 +13091,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var TodoContent = function TodoContent() {
   return _react2.default.createElement(
     'content',
-    { className: 'list_content' },
+    { className: 'content_detail' },
     _react2.default.createElement(
       _reactRouterDom.Switch,
       null,
@@ -29461,10 +29461,15 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var TodoList = function (_React$Component) {
   _inherits(TodoList, _React$Component);
 
-  function TodoList() {
+  function TodoList(props) {
     _classCallCheck(this, TodoList);
 
-    return _possibleConstructorReturn(this, (TodoList.__proto__ || Object.getPrototypeOf(TodoList)).apply(this, arguments));
+    var _this = _possibleConstructorReturn(this, (TodoList.__proto__ || Object.getPrototypeOf(TodoList)).call(this, props));
+
+    _this.handleDelete = _this.handleDelete.bind(_this);
+    _this.handleCompleted = _this.handleCompleted.bind(_this);
+
+    return _this;
   }
 
   _createClass(TodoList, [{
@@ -29473,8 +29478,24 @@ var TodoList = function (_React$Component) {
       this.props.fetchTodos();
     }
   }, {
+    key: 'handleDelete',
+    value: function handleDelete(todo) {
+      this.props.deleteTodo(todo);
+    }
+  }, {
+    key: 'handleCompleted',
+    value: function handleCompleted(todo) {
+      var toggledTodo = {
+        id: todo.id,
+        done: !todo.done
+      };
+      this.props.updateTodo(toggledTodo);
+    }
+  }, {
     key: 'render',
     value: function render() {
+      var _this2 = this;
+
       var _props = this.props,
           user = _props.user,
           todos = _props.todos,
@@ -29492,6 +29513,12 @@ var TodoList = function (_React$Component) {
               _react2.default.createElement(
                 'li',
                 { className: 'task_items' },
+                _react2.default.createElement('input', { type: 'button', onClick: function onClick() {
+                    return _this2.handleCompleted(todo);
+                  }, value: todo.done ? "done" : "undo" }),
+                _react2.default.createElement('input', { type: 'button', value: 'delete', onClick: function onClick() {
+                    _this2.handleDelete(todo);
+                  } }),
                 todo.title
               )
             );
@@ -31860,6 +31887,10 @@ var _lodash = __webpack_require__(374);
 
 var _todo_actions = __webpack_require__(46);
 
+var _subtask = __webpack_require__(380);
+
+var _subtask2 = _interopRequireDefault(_subtask);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -31879,28 +31910,28 @@ var TodoDetail = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (TodoDetail.__proto__ || Object.getPrototypeOf(TodoDetail)).call(this, props));
 
     _this.todo = Object.keys(_this.props.todos).length ? _this.props.todos[props.match.params.id] : {};
-    _this.state = {
-      "title": _this.todo.title,
-      "body": _this.todo.body,
-      "done": _this.todo.done
-    };
+    // this.state = {
+    //   "title": this.todo.title,
+    //   "body": this.todo.body,
+    //   "done": this.todo.done
+    // };
     _this.timeout = null;
     _this.update = _this.update.bind(_this);
-    _this.handleDelete = _this.handleDelete.bind(_this);
-    _this.handleCompleted = _this.handleCompleted.bind(_this);
     _this.updateText = _this.updateText.bind(_this);
+    _this.handleClick = _this.handleClick.bind(_this);
     return _this;
   }
 
   _createClass(TodoDetail, [{
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(nextProps) {
-      this.todo = Object.keys(nextProps.todos).length ? nextProps.todos[nextProps.match.params.id] : {};
-      this.setState({
-        "title": this.todo.title,
-        "body": this.todo.body,
-        "done": this.todo.done
-      });
+      // this.todo = Object.keys(nextProps.todos).length ? nextProps.todos[nextProps.match.params.id] : {};
+
+      // this.setState({
+      //   "title": this.todo.title,
+      //   "body": this.todo.body,
+      //   "done": this.todo.done
+      // });
     }
   }, {
     key: 'update',
@@ -31915,21 +31946,6 @@ var TodoDetail = function (_React$Component) {
       });
     }
   }, {
-    key: 'handleDelete',
-    value: function handleDelete(e) {
-      this.props.deleteTodo(this.todo);
-    }
-  }, {
-    key: 'handleCompleted',
-    value: function handleCompleted(e) {
-      e.preventDefault();
-      var toggledTodo = {
-        id: this.todo.id,
-        done: !this.state.done
-      };
-      this.props.updateTodo(toggledTodo);
-    }
-  }, {
     key: 'updateText',
     value: function updateText() {
       console.log("UPDATED");
@@ -31937,13 +31953,18 @@ var TodoDetail = function (_React$Component) {
       this.props.updateTodo(changedTodo);
     }
   }, {
+    key: 'handleClick',
+    value: function handleClick(e) {
+      e.preventDefault();
+      this.props.createSubTask();
+    }
+  }, {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
-        'li',
-        { className: 'task_items' },
-        _react2.default.createElement('input', { type: 'button', onClick: this.handleCompleted, value: this.state.done ? "done" : "undo" }),
-        _react2.default.createElement('input', { type: 'button', value: 'delete', onClick: this.handleDelete })
+        'div',
+        { className: 'sub-tasks' },
+        _react2.default.createElement(_subtask2.default, null)
       );
     }
   }]);
@@ -49080,7 +49101,7 @@ var allTodos = exports.allTodos = function allTodos(_ref) {
   var todos = _ref.todos;
   return Object.keys(todos).map(function (id) {
     return todos[id];
-  });
+  }).reverse();
 };
 
 /***/ }),
@@ -49641,6 +49662,158 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 };
 
 exports.default = (0, _reactRouter.withRouter)((0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Landed));
+
+/***/ }),
+/* 380 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(4);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRedux = __webpack_require__(20);
+
+var _reactRouter = __webpack_require__(9);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+// import {updateSubTask, deleteSubTask} from '../../actions/subtask_actions';
+
+var SubTask = function (_React$Component) {
+  _inherits(SubTask, _React$Component);
+
+  function SubTask(props) {
+    _classCallCheck(this, SubTask);
+
+    var _this = _possibleConstructorReturn(this, (SubTask.__proto__ || Object.getPrototypeOf(SubTask)).call(this, props));
+
+    _this.state = { body: "" };
+    _this.handleClick = _this.handleClick.bind(_this);
+    _this.handleInput = _this.handleInput.bind(_this);
+    return _this;
+  }
+
+  _createClass(SubTask, [{
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps(nextProps) {
+      // this.todo = Object.keys(nextProps.todos).length ? nextProps.todos[nextProps.match.params.id] : {};
+      debugger;
+      // this.subTasks = Object.keys(nextProps.subTasks).length ? nextProps.subTasks[nextProps.match.params.id] : {};
+
+      // this.setState({
+      //   "title": this.todo.title,
+      //   "body": this.todo.body,
+      //   "done": this.todo.done
+      // });
+    }
+  }, {
+    key: 'handleInput',
+    value: function handleInput(e) {
+      e.preventDefault();
+      this.setState({
+        body: e.target.value
+      });
+    }
+  }, {
+    key: 'handleClick',
+    value: function handleClick(e) {
+      e.preventDefault();
+      var subtask = Object.assign({}, this.state);
+      this.props.createSubTask({ subtask: subtask });
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'div',
+        null,
+        _react2.default.createElement('input', { type: 'text', placeholder: 'subtask..', value: this.state.body, onChange: this.handleInput }),
+        _react2.default.createElement('input', { type: 'button', onClick: this.handleClick, value: 'add' }),
+        _react2.default.createElement(
+          'ul',
+          null,
+          _react2.default.createElement(
+            'div',
+            null,
+            'test'
+          )
+        )
+      );
+    }
+  }]);
+
+  return SubTask;
+}(_react2.default.Component);
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    createSubTask: function (_createSubTask) {
+      function createSubTask(_x) {
+        return _createSubTask.apply(this, arguments);
+      }
+
+      createSubTask.toString = function () {
+        return _createSubTask.toString();
+      };
+
+      return createSubTask;
+    }(function (subTask) {
+      return dispatch(createSubTask(subTask));
+    }),
+    updateSubTask: function (_updateSubTask) {
+      function updateSubTask(_x2) {
+        return _updateSubTask.apply(this, arguments);
+      }
+
+      updateSubTask.toString = function () {
+        return _updateSubTask.toString();
+      };
+
+      return updateSubTask;
+    }(function (subTask) {
+      return dispatch(updateSubTask(subTask));
+    }),
+    fetchSubTasks: function (_fetchSubTasks) {
+      function fetchSubTasks() {
+        return _fetchSubTasks.apply(this, arguments);
+      }
+
+      fetchSubTasks.toString = function () {
+        return _fetchSubTasks.toString();
+      };
+
+      return fetchSubTasks;
+    }(function () {
+      return dispatch(fetchSubTasks());
+    }),
+    deleteSubTask: function deleteSubTask(subTask) {
+      return dispatch(deleteTodo(subTask));
+    }
+  };
+};
+
+var mapStateToProps = function mapStateToProps(state) {
+  return {
+    subTasks: state.subTasks
+  };
+};
+
+exports.default = (0, _reactRouter.withRouter)((0, _reactRedux.connect)(mapDispatchToProps, mapStateToProps)(SubTask));
 
 /***/ })
 /******/ ]);
