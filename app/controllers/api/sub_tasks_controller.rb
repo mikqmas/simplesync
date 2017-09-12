@@ -23,10 +23,10 @@ class Api::SubTasksController < ApplicationController
 
   def destroy
     @subtask = SubTask.find_by(id: params[:id])
-    if @subtask
+    if @subtask.destroy
       render json: @subtask
     else
-      render json: nil, status: 422
+      render json: @subtask.errors.full_messages, status: 422
     end
   end
 

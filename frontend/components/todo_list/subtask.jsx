@@ -10,6 +10,7 @@ class SubTask extends React.Component {
     super(props);
     this.handleClick = this.handleClick.bind(this);
     this.handleInput = this.handleInput.bind(this);
+    this.handleCompleted = this.handleCompleted.bind(this);
     this.state = {body: "", done: false, list_order: 0, todo_id: this.props.match.params.id}
   }
   componentWillMount() {
@@ -37,6 +38,18 @@ class SubTask extends React.Component {
     e.preventDefault();
     const subTask = Object.assign({}, this.state);
     this.props.createSubTask(subTask);
+    this.setState({body: ""})
+  }
+
+  handleCompleted(subTask, e) {
+    e.preventDefault();
+    subTask.done = !subTask.done;
+    this.props.updateSubTask(subTask);
+  }
+
+  handleDelete(subTask, e) {
+    e.preventDefault();
+    this.props.deleteSubTask(subTask);
   }
 
   render() {
@@ -46,8 +59,8 @@ class SubTask extends React.Component {
           this.props.subTasks.map(subTask => (
             <Link key={subTask.id} to={`${subTask.todo_id}/sub_tasks/${subTask.id}`}>
               <li className="task_items">
-                // <input type="button" onClick={()=>this.handleCompleted(subTask)} value={subTask.done ? "done" : "undo"}/>
-                // <input type="button" value="delete" onClick={()=>{this.handleDelete(subTask)}} />
+                <input type="button" onClick={(e)=>this.handleCompleted(subTask, e)} value={subTask.done ? "done" : "undo"}/>
+                <input type="button" value="delete" onClick={(e)=>{this.handleDelete(subTask,e)}} />
                 {subTask.body}
               </li>
             </Link>
@@ -72,7 +85,7 @@ const mapDispatchToProps = dispatch => ({
   fetchSubTasks: todoId => dispatch(fetchSubTasks(todoId)),
   createSubTask: subTask => dispatch(createSubTask(subTask)),
   updateSubTask: subTask => dispatch(updateSubTask(subTask)),
-  deleteSubTask: subTask => dispatch(deleteTodo(subTask))
+  deleteSubTask: subTask => dispatch(deleteSubTask(subTask))
 });
 
 const mapStateToProps = (state) => ({
