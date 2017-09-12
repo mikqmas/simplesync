@@ -4,8 +4,10 @@ class SubTask < ApplicationRecord
   validates(
     :body,
     :todo_id,
-    :done,
     :list_order,
     presence: true
   )
+
+  validates :done, inclusion: { in: [ true, false ] }
+
 end

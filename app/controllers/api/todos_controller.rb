@@ -16,12 +16,16 @@ class Api::TodosController < ApplicationController
   end
 
   def show
-    @todo = Todo.find(params[:id])
-    render json: @todo
+    @todo = Todo.find_by(id: params[:id])
+    if @todo
+      render json: @todo
+    else
+      render json: nil, status: 422
+    end
   end
 
   def update
-    @todo = Todo.find(params[:id])
+    @todo = Todo.find_by(id: params[:id])
     if @todo.update_attributes(todo_params)
       render json: @todo
     else
@@ -30,8 +34,12 @@ class Api::TodosController < ApplicationController
   end
 
   def destroy
-    @todo = Todo.find(params[:id]).destroy
-    render json: @todo
+    @todo = Todo.find_by(id: params[:id])
+    if @todo && @todo.destroy
+      render json: @todo
+    else
+      render json: nil, status: 422
+    end
   end
 
   private

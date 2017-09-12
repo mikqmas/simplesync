@@ -30,7 +30,7 @@ class TodoList extends React.Component {
       <ul>
         {
           todos.map(todo => (
-            <Link key={todo.id} to={`/${todo.id}`}>
+            <Link key={todo.id} to={`/${todo.id}`} onClick={()=>{this.props.fetchSubTasks(todo.id)}}>
               <li className="task_items">
                 <input type="button" onClick={()=>this.handleCompleted(todo)} value={todo.done ? "done" : "undo"}/>
                 <input type="button" value="delete" onClick={()=>{this.handleDelete(todo)}} />
