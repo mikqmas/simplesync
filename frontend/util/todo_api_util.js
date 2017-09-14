@@ -5,6 +5,13 @@ export const fetchTodos = () => (
   })
 );
 
+export const getTodo = todoId => (
+  $.ajax({
+    method: 'GET',
+    url: `/api/todo/${todoId}`
+  })
+);
+
 export const createTodo = todo => (
  $.ajax({
     method: 'POST',
@@ -25,5 +32,13 @@ export const deleteTodo = todo => (
   $.ajax({
     method: 'DELETE',
     url: `/api/todos/${todo.id}`
+  })
+)
+
+export const shareTodo = newUser => (
+  $.ajax({
+    method: 'PUT',
+    url: `/api/todos/${newUser.todo_id}`,
+    data: {newUser}
   })
 )

@@ -19,10 +19,11 @@ class Todo extends React.Component {
     this.handleDelete = this.handleDelete.bind(this);
     this.handleCompleted = this.handleCompleted.bind(this);
     this.handleUpdate = this.handleUpdate.bind(this);
+
   }
   handleDelete(e) {
     e.preventDefault();
-    this.props.deleteTodo(this.state.todo);
+    this.props.deleteTodo(this.state);
   }
   handleCompleted(e) {
     e.preventDefault();
@@ -35,8 +36,13 @@ class Todo extends React.Component {
     e.preventDefault();
     this.setState({
       title: e.target.value
+    }, () => {
+      clearTimeout(this.timeout);
+      this.timeout = setTimeout(()=> {
+        this.props.updateTodo(this.state);
+      }, 500);
     });
-    this.props.updateTodo(this.state);
+
   }
   render() {
     return(

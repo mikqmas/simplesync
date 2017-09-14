@@ -1,23 +1,19 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
-import { Link } from 'react-router-dom';
-import {fetchSubTasks, createSubTask, updateSubTask, deleteSubTask} from '../../actions/sub_task_actions';
-import {allSubTasks} from '../../reducers/selectors';
+import {updateSubTask, deleteSubTask} from '../../actions/sub_task_actions';
 
 class SubTask extends React.Component {
   constructor(props) {
     super(props);
-    this.handleClick = this.handleClick.bind(this);
-    this.handleInput = this.handleInput.bind(this);
     this.handleCompleted = this.handleCompleted.bind(this);
-    this.state = {body: "", done: false, list_order: 0, todo_id: this.props.match.params.id}
-  }
-  componentWillMount() {
-
+    this.handleDelete = this.handleDelete.bind(this);
+    this.handleUpdate = this.handleUpdate.bind(this);
+    const {id, body, done, list_order, todo_id} = this.props.subTask;
+    this.state = {id: id, body: body, done: done, list_order: list_order, todo_id: todo_id}
   }
   componentWillReceiveProps(nextProps) {
-    this.setState({todo_id: nextProps.match.params.id})
+    // this.setState({todo_id: nextProps.match.params.id})
     // this.todo = Object.keys(nextProps.todos).length ? nextProps.todos[nextProps.match.params.id] : {};
     // this.subTasks = Object.keys(nextProps.subTasks).length ? nextProps.subTasks[nextProps.match.params.id] : {};
     // this.setState({
@@ -27,72 +23,45 @@ class SubTask extends React.Component {
     // });
   }
 
-  handleInput(e) {
+  handleCompleted(e) {
     e.preventDefault();
-    this.setState({
-      body: e.target.value
+    this.setState({done: !this.state.done}, ()=>{this.props.updateSubTask(this.state)});
+  }
+
+  handleDelete(e) {
+    e.preventDefault();
+    this.props.deleteSubTask(this.state);
+  }
+
+  handleUpdate(e) {
+    e.preventDefault();
+    this.setState({[e.target.name]: e.target.value}, () => {
+      clearTimeout(this.timeout);
+      this.timeout = setTimeout((() => {
+        this.props.updateSubTask(this.state);
+      }), 500);
     });
   }
 
-  handleClick(e) {
-    e.preventDefault();
-    const subTask = Object.assign({}, this.state);
-    this.props.createSubTask(subTask);
-    this.setState({body: ""})
-  }
-
-  handleCompleted(subTask, e) {
-    e.preventDefault();
-    subTask.done = !subTask.done;
-    this.props.updateSubTask(subTask);
-  }
-
-  handleDelete(subTask, e) {
-    e.preventDefault();
-    this.props.deleteSubTask(subTask);
-  }
-
   render() {
-    const subTaskItems = () => (
-      <ul>
-        {
-          this.props.subTasks.map(subTask => (
-            <Link key={subTask.id} to={`${subTask.todo_id}/sub_tasks/${subTask.id}`}>
-              <li className="task_items">
-                <input type="button" onClick={(e)=>this.handleCompleted(subTask, e)} value={subTask.done ? "done" : "undo"}/>
-                <input type="button" value="delete" onClick={(e)=>{this.handleDelete(subTask,e)}} />
-                {subTask.body}
-              </li>
-            </Link>
-          ))
-        }
-      </ul>
-    )
-
     return(
-      <div>
-        <input type="text" placeholder="subtask.." value={this.state.body} onChange={this.handleInput}/>
-        <input type="button" onClick={this.handleClick} value="add"/>
-        <ul>
-          <div>{subTaskItems()}</div>
-        </ul>
-      </div>
+      <li className="task_items">
+        <input type="button" onClick={this.handleCompleted} value={this.state.done ? "done" : "undo"}/>
+        <input type="button" value="delete" onClick={this.handleDelete} />
+        <input type="text" value={this.state.body} name="body" onChange={this.handleUpdate}/>
+      </li>
     )
   }
 }
 
 const mapDispatchToProps = dispatch => ({
-  fetchSubTasks: todoId => dispatch(fetchSubTasks(todoId)),
-  createSubTask: subTask => dispatch(createSubTask(subTask)),
   updateSubTask: subTask => dispatch(updateSubTask(subTask)),
   deleteSubTask: subTask => dispatch(deleteSubTask(subTask))
 });
 
-const mapStateToProps = (state) => ({
-  subTasks: allSubTasks(state)
-});
+const mapStateToProps = null;
 
-export default withRouter(connect(
-  mapStateToProps,
+export default connect(
+  null,
   mapDispatchToProps
-)(SubTask));
+)(SubTask);

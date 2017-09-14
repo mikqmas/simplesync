@@ -2,73 +2,81 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
 import {merge} from 'lodash';
-import {updateTodo, deleteTodo} from '../../actions/todo_actions';
+import {fetchSubTasks, createSubTask} from '../../actions/sub_task_actions';
+import {shareTodo, getTodo} from '../../actions/todo_actions';
+import {allSubTasks} from '../../reducers/selectors';
 import SubTask from './subtask';
 
 class TodoDetail extends React.Component {
   constructor(props) {
     super(props);
-    this.todo = Object.keys(this.props.todos).length ? this.props.todos[props.match.params.id] : {};
-    // this.state = {
-    //   "title": this.todo.title,
-    //   "body": this.todo.body,
-    //   "done": this.todo.done
-    // };
-    this.timeout = null;
-    this.update = this.update.bind(this);
-    this.updateText = this.updateText.bind(this);
-    this.handleClick = this.handleClick.bind(this);
+    this.state = {newSubTask: "", newUser: "", };
+    this.handleNewSubTask = this.handleNewSubTask.bind(this);
+    this.handleNewUser = this.handleNewUser.bind(this);
+    this.handleInput = this.handleInput.bind(this);
   }
 
-  componentWillReceiveProps(nextProps) {
-    // this.todo = Object.keys(nextProps.todos).length ? nextProps.todos[nextProps.match.params.id] : {};
-
-    // this.setState({
-    //   "title": this.todo.title,
-    //   "body": this.todo.body,
-    //   "done": this.todo.done
-    // });
-  }
-
-  update(e) {
-    this.setState({[e.target.name]: e.target.value}, () => {
-      clearTimeout(this.timeout);
-      this.timeout = setTimeout(() => {
-        this.updateText();
-      }, 300);
-    });
-  }
-
-  updateText() {
-    console.log("UPDATED");
-    const changedTodo = merge({}, this.todo, this.state);
-    this.props.updateTodo(changedTodo);
-  }
-
-  handleClick(e) {
+  handleNewSubTask(e) {
     e.preventDefault();
-    this.props.createSubTask()
+    this.props.createSubTask({todo_id: this.props.match.params.id, body: this.state.newSubTask, done: false, list_order: 0});
+    this.setState({newSubTask: ""});
+  }
+
+  handleNewUser(e) {
+    e.preventDefault();
+    this.props.shareTodo({user_email: this.state.newUser, todo_id:this.props.match.params.id, permission: 0});
+    this.setState({newUser: ""});
+  }
+
+  handleInput(e) {
+    e.preventDefault();
+    this.setState({[e.target.name]: e.target.value});
   }
 
   render() {
+    const subTaskItems = () => (
+      <ul>
+        {
+          this.props.subTasks.map(subTask => (
+            <SubTask key={subTask.id} subTask={subTask}/>
+          ))
+        }
+      </ul>
+    )
+
+    const users = () => (
+      <ul>
+        {
+          this.props.todos[this.props.match.params.id].users.map(user => (
+            <li key={user.id}>{user.username}</li>
+          ))
+        }
+      </ul>
+    )
+
     return (
       <div className="sub-tasks">
-        <SubTask/>
+        <div>{users()}</div>
+        <input onChange={this.handleInput} name="newSubTask" type="text" placeholder="subtask..." value={this.state.newSubTask}/>
+        <input type="button" onClick={this.handleNewSubTask} value="add" />
+
+        <input onChange={this.handleInput} name="newUser" type="text" placeholder="user email..." value={this.state.newUser}/>
+        <input type="button" onClick={this.handleNewUser} value="add" />
+        <div>{subTaskItems()}</div>
       </div>
     )
   }
 }
 
-
-// <input type="text" onChange={this.update} name="title" value={this.state.title}/>
-// <input type="text" onChange={this.update} name="body" value={this.state.body}/>
 const mapDispatchToProps = dispatch => ({
-  updateTodo: todo => dispatch(updateTodo(todo)),
-  deleteTodo: todo => dispatch(deleteTodo(todo))
+  createSubTask: subTask => dispatch(createSubTask(subTask)),
+  shareTodo: shareUser => dispatch(shareTodo(shareUser)),
+  getTodo: todoId => dispatch(getTodo(todoId))
 });
 
 const mapStateToProps = (state) => ({
-  todos: state.todos
+  todos: state.todos,
+  subTasks: allSubTasks(state)
 });
 
 export default withRouter(connect(

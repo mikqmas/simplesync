@@ -26,6 +26,12 @@ export const fetchTodos = () => dispatch => (
   TodoAPIUtil.fetchTodos().then(todos => dispatch(receiveTodos(todos)))
 );
 
+export const getTodo = todoId => dispatch => (
+  TodoAPIUtil.getTodo(todoId)
+  .then(todo => { dispatch(receiveTodo(todo)); dispatch(clearErrors())},
+  err => dispatch(receiveErrors(err.responseJSON)))
+);
+
 export const createTodo = todo => dispatch => (
   TodoAPIUtil.createTodo(todo)
   .then(todo => { dispatch(receiveTodo(todo)); dispatch(clearErrors())},
@@ -39,5 +45,11 @@ export const updateTodo = todo => dispatch => (
 
 export const deleteTodo = todo => dispatch => (
   TodoAPIUtil.deleteTodo(todo).then(todo => {dispatch(removeTodo(todo)); dispatch(clearErrors())},
+  err => dispatch(receiveErrors(err)))
+);
+
+export const shareTodo = newUser => dispatch => (
+  TodoAPIUtil.shareTodo(newUser)
+  .then(todo => { dispatch(receiveTodo(todo)); dispatch(clearErrors())},
   err => dispatch(receiveErrors(err)))
 );
