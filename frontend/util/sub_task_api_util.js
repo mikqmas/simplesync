@@ -1,9 +1,13 @@
-export const fetchSubTasks = todoId => (
+export const fetchSubTasks = todoId => {
+  console.log(todoId);
+  return (
   $.ajax({
     method: 'GET',
     url: `/api/todos/${todoId}/sub_tasks`
+  }).done((data)=>{
+    console.log("DATA: ", data);
   })
-);
+)};
 
 export const createSubTask = subTask => (
  $.ajax({

@@ -15,6 +15,10 @@ class Landed extends React.Component {
     this.handleAdd = this.handleAdd.bind(this);
   }
 
+  componentWillMount() {
+    this.props.fetchTodos();
+  }
+
   handleLogout(e) {
     e.preventDefault();
     this.props.logout().then(() => {

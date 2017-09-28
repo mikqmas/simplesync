@@ -7844,7 +7844,7 @@ var removeSubTask = exports.removeSubTask = function removeSubTask(subTask) {
 var fetchSubTasks = exports.fetchSubTasks = function fetchSubTasks(todoId) {
   return function (dispatch) {
     return SubTaskAPIUtil.fetchSubTasks(todoId).then(function (subTasks) {
-      return dispatch(receiveSubTasks(subTasks));
+      console.log(subTasks);dispatch(receiveSubTasks(subTasks));
     });
   };
 };
@@ -28818,9 +28818,12 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 var fetchSubTasks = exports.fetchSubTasks = function fetchSubTasks(todoId) {
+  console.log(todoId);
   return $.ajax({
     method: 'GET',
     url: '/api/todos/' + todoId + '/sub_tasks'
+  }).done(function (data) {
+    console.log("DATA: ", data);
   });
 };
 
@@ -29748,7 +29751,7 @@ var TodoList = function (_React$Component) {
   _createClass(TodoList, [{
     key: 'componentWillMount',
     value: function componentWillMount() {
-      this.props.fetchTodos();
+      // this.props.fetchTodos();
     }
   }, {
     key: 'render',
@@ -32167,15 +32170,13 @@ var TodoDetail = function (_React$Component) {
   _createClass(TodoDetail, [{
     key: 'componentWillMount',
     value: function componentWillMount() {
-      this.props.getTodo(this.props.match.params.id);
-      // this.props.fetchSubTasks(this.props.match.params.id);
+      this.props.fetchSubTasks(this.props.match.params.id);
+      // this.props.getTodo(this.props.match.params.id);
       // console.log(this.props.match.params.id)
     }
   }, {
     key: 'componentWillReceiveProps',
-    value: function componentWillReceiveProps(nextProps) {
-      // figure out how to fetch subtask each time the route changes.
-    }
+    value: function componentWillReceiveProps(nextProps) {}
   }, {
     key: 'handleNewSubTask',
     value: function handleNewSubTask(e) {
@@ -32207,6 +32208,7 @@ var TodoDetail = function (_React$Component) {
     value: function render() {
       var _this2 = this;
 
+      console.log(this.props.subTasks);
       var subTaskItems = function subTaskItems() {
         return _react2.default.createElement(
           'ul',
@@ -32244,24 +32246,37 @@ var TodoDetail = function (_React$Component) {
         }
       };
 
-      return _react2.default.createElement(
-        'div',
-        { className: 'sub-tasks' },
-        _react2.default.createElement(
+      if (Object.keys(this.props.todos).length > 0) {
+        return _react2.default.createElement(
+          'div',
+          { className: 'sub-tasks' },
+          _react2.default.createElement(
+            'div',
+            null,
+            this.props.todos[this.props.match.params.id].title
+          ),
+          _react2.default.createElement(
+            'div',
+            null,
+            users()
+          ),
+          _react2.default.createElement('input', { onChange: this.handleInput, name: 'newSubTask', type: 'text', placeholder: 'subtask...', value: this.state.newSubTask }),
+          _react2.default.createElement('input', { type: 'button', onClick: this.handleNewSubTask, value: 'add' }),
+          _react2.default.createElement('input', { onChange: this.handleInput, name: 'newUser', type: 'text', placeholder: 'user email...', value: this.state.newUser }),
+          _react2.default.createElement('input', { type: 'button', onClick: this.handleCreateUser, value: 'add' }),
+          _react2.default.createElement(
+            'div',
+            null,
+            subTaskItems()
+          )
+        );
+      } else {
+        return _react2.default.createElement(
           'div',
           null,
-          users()
-        ),
-        _react2.default.createElement('input', { onChange: this.handleInput, name: 'newSubTask', type: 'text', placeholder: 'subtask...', value: this.state.newSubTask }),
-        _react2.default.createElement('input', { type: 'button', onClick: this.handleNewSubTask, value: 'add' }),
-        _react2.default.createElement('input', { onChange: this.handleInput, name: 'newUser', type: 'text', placeholder: 'user email...', value: this.state.newUser }),
-        _react2.default.createElement('input', { type: 'button', onClick: this.handleCreateUser, value: 'add' }),
-        _react2.default.createElement(
-          'div',
-          null,
-          subTaskItems()
-        )
-      );
+          'rendering....'
+        );
+      }
     }
   }]);
 
@@ -32272,6 +32287,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     createSubTask: function createSubTask(subTask) {
       return dispatch((0, _sub_task_actions.createSubTask)(subTask));
+    },
+    fetchSubTasks: function fetchSubTasks(todoId) {
+      return dispatch((0, _sub_task_actions.fetchSubTasks)(todoId));
     },
     createUserTodo: function createUserTodo(userTodo) {
       return dispatch((0, _todo_actions.createUserTodo)(userTodo));
@@ -49538,6 +49556,8 @@ var _reactRouterDom = __webpack_require__(27);
 
 var _todo_actions = __webpack_require__(33);
 
+var _sub_task_actions = __webpack_require__(80);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -49571,6 +49591,7 @@ var Todo = function (_React$Component) {
     _this.handleDelete = _this.handleDelete.bind(_this);
     _this.handleCompleted = _this.handleCompleted.bind(_this);
     _this.handleUpdate = _this.handleUpdate.bind(_this);
+    _this.handleClick = _this.handleClick.bind(_this);
     return _this;
   }
 
@@ -49606,11 +49627,16 @@ var Todo = function (_React$Component) {
       });
     }
   }, {
+    key: 'handleClick',
+    value: function handleClick(e) {
+      this.props.fetchSubTasks(this.state.id);
+    }
+  }, {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
         _reactRouterDom.Link,
-        { to: '/' + this.state.id },
+        { to: '/' + this.state.id, onClick: this.handleClick },
         _react2.default.createElement(
           'li',
           { className: 'task_items' },
@@ -49640,6 +49666,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     },
     deleteTodo: function deleteTodo(todo) {
       return dispatch((0, _todo_actions.deleteTodo)(todo));
+    },
+    fetchSubTasks: function fetchSubTasks(todoId) {
+      return dispatch((0, _sub_task_actions.fetchSubTasks)(todoId));
     }
   };
 };
@@ -50092,6 +50121,11 @@ var Landed = function (_React$Component) {
   }
 
   _createClass(Landed, [{
+    key: 'componentWillMount',
+    value: function componentWillMount() {
+      this.props.fetchTodos();
+    }
+  }, {
     key: 'handleLogout',
     value: function handleLogout(e) {
       var _this2 = this;

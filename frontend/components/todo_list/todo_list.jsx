@@ -6,7 +6,7 @@ import Todo from './todo';
 
 class TodoList extends React.Component {
   componentWillMount() {
-    this.props.fetchTodos();
+    // this.props.fetchTodos();
   }
   render() {
     const {user, todos, createTodo, errors} = this.props;

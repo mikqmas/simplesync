@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
 import {merge} from 'lodash';
-import {createSubTask} from '../../actions/sub_task_actions';
+import {createSubTask, fetchSubTasks} from '../../actions/sub_task_actions';
 import {createUserTodo, getTodo, deleteUserTodo} from '../../actions/todo_actions';
 import {allSubTasks} from '../../reducers/selectors';
 import SubTask from './subtask';
@@ -18,13 +18,13 @@ class TodoDetail extends React.Component {
   }
 
   componentWillMount(){
-    this.props.getTodo(this.props.match.params.id);
-    // this.props.fetchSubTasks(this.props.match.params.id);
+    this.props.fetchSubTasks(this.props.match.params.id);
+    // this.props.getTodo(this.props.match.params.id);
     // console.log(this.props.match.params.id)
   }
 
   componentWillReceiveProps(nextProps){
-    // figure out how to fetch subtask each time the route changes.
+
   }
 
   handleNewSubTask(e) {
@@ -50,6 +50,7 @@ class TodoDetail extends React.Component {
   }
 
   render() {
+    console.log(this.props.subTasks);
     const subTaskItems = () => (
       <ul>
         {
@@ -78,22 +79,30 @@ class TodoDetail extends React.Component {
       }
     }
 
-    return (
-      <div className="sub-tasks">
-        <div>{users()}</div>
-        <input onChange={this.handleInput} name="newSubTask" type="text" placeholder="subtask..." value={this.state.newSubTask}/>
-        <input type="button" onClick={this.handleNewSubTask} value="add" />
+    if(Object.keys(this.props.todos).length > 0) {
+      return (
+        <div className="sub-tasks">
+          <div>{this.props.todos[this.props.match.params.id].title}</div>
+          <div>{users()}</div>
+          <input onChange={this.handleInput} name="newSubTask" type="text" placeholder="subtask..." value={this.state.newSubTask}/>
+          <input type="button" onClick={this.handleNewSubTask} value="add" />
 
-        <input onChange={this.handleInput} name="newUser" type="text" placeholder="user email..." value={this.state.newUser}/>
-        <input type="button" onClick={this.handleCreateUser} value="add" />
-        <div>{subTaskItems()}</div>
-      </div>
-    )
+          <input onChange={this.handleInput} name="newUser" type="text" placeholder="user email..." value={this.state.newUser}/>
+          <input type="button" onClick={this.handleCreateUser} value="add" />
+          <div>{subTaskItems()}</div>
+        </div>
+      )
+    }else {
+      return(
+        <div>rendering....</div>
+      )
+    }
   }
 }
 
 const mapDispatchToProps = dispatch => ({
   createSubTask: subTask => dispatch(createSubTask(subTask)),
+  fetchSubTasks: todoId => dispatch(fetchSubTasks(todoId)),
   createUserTodo: userTodo => dispatch(createUserTodo(userTodo)),
   deleteUserTodo: userTodo => dispatch(deleteUserTodo(userTodo)),
   getTodo: todoId => dispatch(getTodo(todoId)),
