@@ -11,6 +11,11 @@ class User < ApplicationRecord
   validates :username, presence: true, uniqueness: true
 
 
+  def self.join_user_todo
+    joins(:user_todos)
+  end
+  scope :user_join, -> { joins(:user_todos) }
+
   def reset_session_token!
     self.session_token = SecureRandom.urlsafe_base64(16)
     self.save!

@@ -8,7 +8,7 @@ export const fetchTodos = () => (
 export const getTodo = todoId => (
   $.ajax({
     method: 'GET',
-    url: `/api/todo/${todoId}`
+    url: `/api/todos/${todoId}`
   })
 );
 
@@ -40,5 +40,13 @@ export const shareTodo = newUser => (
     method: 'PUT',
     url: `/api/todos/${newUser.todo_id}`,
     data: {newUser}
+  })
+)
+
+export const removeUserFromTodo = user => (
+  $.ajax({
+    method: 'PUT',
+    url: `/api/todos/${user.todo_id}`,
+    data: {user}
   })
 )

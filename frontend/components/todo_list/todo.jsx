@@ -1,9 +1,8 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {withRouter} from 'react-router';
+import {withRouter, history} from 'react-router';
 import { Link } from 'react-router-dom';
 import {updateTodo, deleteTodo} from '../../actions/todo_actions';
-import {fetchSubTasks} from '../../actions/sub_task_actions';
 
 class Todo extends React.Component {
   constructor(props){
@@ -19,11 +18,11 @@ class Todo extends React.Component {
     this.handleDelete = this.handleDelete.bind(this);
     this.handleCompleted = this.handleCompleted.bind(this);
     this.handleUpdate = this.handleUpdate.bind(this);
-
   }
   handleDelete(e) {
     e.preventDefault();
     this.props.deleteTodo(this.state);
+    this.props.history.push(`/${(Object.values(this.props.todos)[0]).id}`);
   }
   handleCompleted(e) {
     e.preventDefault();
@@ -46,7 +45,7 @@ class Todo extends React.Component {
   }
   render() {
     return(
-      <Link to={`/${this.state.id}`} onClick={()=>{this.props.fetchSubTasks(this.state.id)}}>
+      <Link to={`/${this.state.id}`} >
         <li className="task_items">
           <input type="button" onClick={this.handleCompleted} value={this.state.done ? "done" : "undo"}/>
           <input type="button" value="delete" onClick={this.handleDelete} />
@@ -59,13 +58,13 @@ class Todo extends React.Component {
 
 const mapStateToProps = (state) => ({
   user: state.user,
+  todos: state.todos,
   errors: state.errors
 });
 
 const mapDispatchToProps = dispatch => ({
   updateTodo: todo => dispatch(updateTodo(todo)),
-  deleteTodo: todo => dispatch(deleteTodo(todo)),
-  fetchSubTasks: todoId => dispatch(fetchSubTasks(todoId))
+  deleteTodo: todo => dispatch(deleteTodo(todo))
 });
 
 export default withRouter(connect(

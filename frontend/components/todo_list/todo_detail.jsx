@@ -2,18 +2,29 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
 import {merge} from 'lodash';
-import {fetchSubTasks, createSubTask} from '../../actions/sub_task_actions';
-import {shareTodo, getTodo} from '../../actions/todo_actions';
+import {createSubTask} from '../../actions/sub_task_actions';
+import {createUserTodo, getTodo, deleteUserTodo} from '../../actions/todo_actions';
 import {allSubTasks} from '../../reducers/selectors';
 import SubTask from './subtask';
 
 class TodoDetail extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {newSubTask: "", newUser: "", };
+    this.state = {newSubTask: "", newUser: ""};
     this.handleNewSubTask = this.handleNewSubTask.bind(this);
-    this.handleNewUser = this.handleNewUser.bind(this);
+    this.handleCreateUser = this.handleCreateUser.bind(this);
     this.handleInput = this.handleInput.bind(this);
+    this.handleRemoveUser = this.handleRemoveUser.bind(this);
+  }
+
+  componentWillMount(){
+    this.props.getTodo(this.props.match.params.id);
+    // this.props.fetchSubTasks(this.props.match.params.id);
+    // console.log(this.props.match.params.id)
+  }
+
+  componentWillReceiveProps(nextProps){
+    // figure out how to fetch subtask each time the route changes.
   }
 
   handleNewSubTask(e) {
@@ -22,10 +33,15 @@ class TodoDetail extends React.Component {
     this.setState({newSubTask: ""});
   }
 
-  handleNewUser(e) {
+  handleCreateUser(e) {
     e.preventDefault();
-    this.props.shareTodo({user_email: this.state.newUser, todo_id:this.props.match.params.id, permission: 0});
+    this.props.createUserTodo({user_email: this.state.newUser, todo_id:this.props.match.params.id, permission: 0});
     this.setState({newUser: ""});
+  }
+
+  handleRemoveUser(e) {
+    e.preventDefault();
+    this.props.deleteUserTodo({id: e.target.id, todo_id:this.props.match.params.id});
   }
 
   handleInput(e) {
@@ -44,15 +60,23 @@ class TodoDetail extends React.Component {
       </ul>
     )
 
-    const users = () => (
-      <ul>
-        {
-          this.props.todos[this.props.match.params.id].users.map(user => (
-            <li key={user.id}>{user.username}</li>
-          ))
-        }
-      </ul>
-    )
+    const users = () => {
+      if(Object.keys(this.props.todos).length){
+        return(
+          <ul>
+            {
+              this.props.todos[this.props.match.params.id].users.map(user => (
+                <div key={user.id}>
+                  <input type="button" id={user.user_todo_id} onClick={this.handleRemoveUser} value="delete"/>
+                  <li >{user.username}</li>
+                </div>
+              ))
+            }
+          </ul>
+      )} else {
+        return (<div>test</div>)
+      }
+    }
 
     return (
       <div className="sub-tasks">
@@ -61,7 +85,7 @@ class TodoDetail extends React.Component {
         <input type="button" onClick={this.handleNewSubTask} value="add" />
 
         <input onChange={this.handleInput} name="newUser" type="text" placeholder="user email..." value={this.state.newUser}/>
-        <input type="button" onClick={this.handleNewUser} value="add" />
+        <input type="button" onClick={this.handleCreateUser} value="add" />
         <div>{subTaskItems()}</div>
       </div>
     )
@@ -70,8 +94,9 @@ class TodoDetail extends React.Component {
 
 const mapDispatchToProps = dispatch => ({
   createSubTask: subTask => dispatch(createSubTask(subTask)),
-  shareTodo: shareUser => dispatch(shareTodo(shareUser)),
-  getTodo: todoId => dispatch(getTodo(todoId))
+  createUserTodo: userTodo => dispatch(createUserTodo(userTodo)),
+  deleteUserTodo: userTodo => dispatch(deleteUserTodo(userTodo)),
+  getTodo: todoId => dispatch(getTodo(todoId)),
 });
 
 const mapStateToProps = (state) => ({

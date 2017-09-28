@@ -558,7 +558,7 @@ module.exports = shouldUseNative() ? Object.assign : function (target, source) {
 
 var _prodInvariant = __webpack_require__(3);
 
-var DOMProperty = __webpack_require__(16);
+var DOMProperty = __webpack_require__(17);
 var ReactDOMComponentFlags = __webpack_require__(93);
 
 var invariant = __webpack_require__(1);
@@ -1378,7 +1378,7 @@ var CallbackQueue = __webpack_require__(97);
 var PooledClass = __webpack_require__(19);
 var ReactFeatureFlags = __webpack_require__(98);
 var ReactReconciler = __webpack_require__(24);
-var Transaction = __webpack_require__(40);
+var Transaction = __webpack_require__(41);
 
 var invariant = __webpack_require__(1);
 
@@ -1885,6 +1885,25 @@ function getPooledWarningPropertyDefinition(propName, getVal) {
 
 /***/ }),
 /* 16 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Provider__ = __webpack_require__(340);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_connectAdvanced__ = __webpack_require__(138);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__connect_connect__ = __webpack_require__(343);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Provider", function() { return __WEBPACK_IMPORTED_MODULE_0__components_Provider__["b"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createProvider", function() { return __WEBPACK_IMPORTED_MODULE_0__components_Provider__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "connectAdvanced", function() { return __WEBPACK_IMPORTED_MODULE_1__components_connectAdvanced__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "connect", function() { return __WEBPACK_IMPORTED_MODULE_2__connect_connect__["a"]; });
+
+
+
+
+
+
+/***/ }),
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2099,25 +2118,6 @@ module.exports = DOMProperty;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 17 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Provider__ = __webpack_require__(340);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_connectAdvanced__ = __webpack_require__(138);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__connect_connect__ = __webpack_require__(343);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Provider", function() { return __WEBPACK_IMPORTED_MODULE_0__components_Provider__["b"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createProvider", function() { return __WEBPACK_IMPORTED_MODULE_0__components_Provider__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "connectAdvanced", function() { return __WEBPACK_IMPORTED_MODULE_1__components_connectAdvanced__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "connect", function() { return __WEBPACK_IMPORTED_MODULE_2__connect_connect__["a"]; });
-
-
-
-
-
-
-/***/ }),
 /* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2139,7 +2139,7 @@ var _assign = __webpack_require__(5);
 var ReactCurrentOwner = __webpack_require__(13);
 
 var warning = __webpack_require__(2);
-var canDefineProperty = __webpack_require__(37);
+var canDefineProperty = __webpack_require__(38);
 var hasOwnProperty = Object.prototype.hasOwnProperty;
 
 var REACT_ELEMENT_TYPE = __webpack_require__(88);
@@ -2722,7 +2722,7 @@ var cloneElement = ReactElement.cloneElement;
 
 if (process.env.NODE_ENV !== 'production') {
   var lowPriorityWarning = __webpack_require__(54);
-  var canDefineProperty = __webpack_require__(37);
+  var canDefineProperty = __webpack_require__(38);
   var ReactElementValidator = __webpack_require__(90);
   var didWarnPropTypesDeprecated = false;
   createElement = ReactElementValidator.createElement;
@@ -3059,7 +3059,7 @@ module.exports = ReactReconciler;
 
 
 var DOMNamespaces = __webpack_require__(62);
-var setInnerHTML = __webpack_require__(42);
+var setInnerHTML = __webpack_require__(43);
 
 var createMicrosoftUnsafeLocalFunction = __webpack_require__(63);
 var setTextContent = __webpack_require__(102);
@@ -3397,7 +3397,7 @@ module.exports = EventPropagators;
 
 var _prodInvariant = __webpack_require__(3);
 
-var EventPluginRegistry = __webpack_require__(39);
+var EventPluginRegistry = __webpack_require__(40);
 var EventPluginUtils = __webpack_require__(56);
 var ReactErrorUtils = __webpack_require__(57);
 
@@ -3803,6 +3803,132 @@ module.exports = function(module) {
 
 /***/ }),
 /* 33 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.deleteUserTodo = exports.createUserTodo = exports.deleteTodo = exports.updateTodo = exports.createTodo = exports.getTodo = exports.fetchTodos = exports.removeTodo = exports.removeFromTodo = exports.receiveTodo = exports.receiveTodos = exports.REMOVE_FROM_TODO = exports.REMOVE_TODO = exports.RECEIVE_TODO = exports.RECEIVE_TODOS = undefined;
+
+var _todo_api_util = __webpack_require__(266);
+
+var TodoAPIUtil = _interopRequireWildcard(_todo_api_util);
+
+var _user_todo_api_util = __webpack_require__(385);
+
+var UserTodoAPIUtil = _interopRequireWildcard(_user_todo_api_util);
+
+var _error_actions = __webpack_require__(47);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+var RECEIVE_TODOS = exports.RECEIVE_TODOS = "RECEIVE_TODOS";
+var RECEIVE_TODO = exports.RECEIVE_TODO = "RECEIVE_TODO";
+var REMOVE_TODO = exports.REMOVE_TODO = "REMOVE_TODO";
+var REMOVE_FROM_TODO = exports.REMOVE_FROM_TODO = "REMOVE_FROM_TODO";
+
+var receiveTodos = exports.receiveTodos = function receiveTodos(todos) {
+  return {
+    type: RECEIVE_TODOS,
+    todos: todos
+  };
+};
+
+var receiveTodo = exports.receiveTodo = function receiveTodo(todo) {
+  return {
+    type: RECEIVE_TODO,
+    todo: todo
+  };
+};
+
+var removeFromTodo = exports.removeFromTodo = function removeFromTodo(todo) {
+  return {
+    type: REMOVE_FROM_TODO,
+    todo: todo
+  };
+};
+
+var removeTodo = exports.removeTodo = function removeTodo(todo) {
+  return {
+    type: REMOVE_TODO,
+    todo: todo
+  };
+};
+
+//async actions
+var fetchTodos = exports.fetchTodos = function fetchTodos() {
+  return function (dispatch) {
+    return TodoAPIUtil.fetchTodos().then(function (todos) {
+      return dispatch(receiveTodos(todos));
+    });
+  };
+};
+
+var getTodo = exports.getTodo = function getTodo(todoId) {
+  return function (dispatch) {
+    return TodoAPIUtil.getTodo(todoId).then(function (todo) {
+      dispatch(receiveTodo(todo));dispatch((0, _error_actions.clearErrors)());
+    }, function (err) {
+      return dispatch((0, _error_actions.receiveErrors)(err.responseJSON));
+    });
+  };
+};
+
+var createTodo = exports.createTodo = function createTodo(todo) {
+  return function (dispatch) {
+    return TodoAPIUtil.createTodo(todo).then(function (todo) {
+      dispatch(receiveTodo(todo));dispatch((0, _error_actions.clearErrors)());
+    }, function (err) {
+      return dispatch((0, _error_actions.receiveErrors)(err.responseJSON));
+    });
+  };
+};
+
+var updateTodo = exports.updateTodo = function updateTodo(todo) {
+  return function (dispatch) {
+    return TodoAPIUtil.updateTodo(todo).then(function (todo) {
+      dispatch(receiveTodo(todo));dispatch((0, _error_actions.clearErrors)());
+    }, function (err) {
+      return dispatch((0, _error_actions.receiveErrors)(err.responseJSON));
+    });
+  };
+};
+
+var deleteTodo = exports.deleteTodo = function deleteTodo(todo) {
+  return function (dispatch) {
+    return TodoAPIUtil.deleteTodo(todo).then(function (todo) {
+      dispatch(removeTodo(todo));dispatch((0, _error_actions.clearErrors)());
+    }, function (err) {
+      return dispatch((0, _error_actions.receiveErrors)(err));
+    });
+  };
+};
+
+var createUserTodo = exports.createUserTodo = function createUserTodo(userTodo) {
+  return function (dispatch) {
+    return UserTodoAPIUtil.createUserTodo(userTodo).then(function (todo) {
+      dispatch(receiveTodo(todo));dispatch((0, _error_actions.clearErrors)());
+    }, function (err) {
+      return dispatch((0, _error_actions.receiveErrors)(err));
+    });
+  };
+};
+
+var deleteUserTodo = exports.deleteUserTodo = function deleteUserTodo(userTodo) {
+  return function (dispatch) {
+    return UserTodoAPIUtil.deleteUserTodo(userTodo).then(function (todo) {
+      dispatch(removeFromTodo(todo));dispatch((0, _error_actions.clearErrors)());
+    }, function (err) {
+      return dispatch((0, _error_actions.receiveErrors)(err));
+    });
+  };
+};
+
+/***/ }),
+/* 34 */
 /***/ (function(module, exports) {
 
 /**
@@ -3837,7 +3963,7 @@ module.exports = isObjectLike;
 
 
 /***/ }),
-/* 34 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3904,7 +4030,7 @@ var logout = exports.logout = function logout() {
 };
 
 /***/ }),
-/* 35 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3963,7 +4089,7 @@ module.exports = invariant;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 36 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4030,7 +4156,7 @@ var createPath = exports.createPath = function createPath(location) {
 };
 
 /***/ }),
-/* 37 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4062,7 +4188,7 @@ module.exports = canDefineProperty;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 38 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4088,7 +4214,7 @@ module.exports = emptyObject;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 39 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4347,7 +4473,7 @@ module.exports = EventPluginRegistry;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 40 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4581,7 +4707,7 @@ module.exports = TransactionImpl;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 41 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4658,7 +4784,7 @@ SyntheticUIEvent.augmentClass(SyntheticMouseEvent, MouseEventInterface);
 module.exports = SyntheticMouseEvent;
 
 /***/ }),
-/* 42 */
+/* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4761,7 +4887,7 @@ if (ExecutionEnvironment.canUseDOM) {
 module.exports = setInnerHTML;
 
 /***/ }),
-/* 43 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4888,7 +5014,7 @@ function escapeTextContentForBrowser(text) {
 module.exports = escapeTextContentForBrowser;
 
 /***/ }),
-/* 44 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4906,7 +5032,7 @@ module.exports = escapeTextContentForBrowser;
 
 var _assign = __webpack_require__(5);
 
-var EventPluginRegistry = __webpack_require__(39);
+var EventPluginRegistry = __webpack_require__(40);
 var ReactEventEmitterMixin = __webpack_require__(198);
 var ViewportMetrics = __webpack_require__(101);
 
@@ -5217,7 +5343,7 @@ var ReactBrowserEventEmitter = _assign({}, ReactEventEmitterMixin, {
 module.exports = ReactBrowserEventEmitter;
 
 /***/ }),
-/* 45 */
+/* 46 */
 /***/ (function(module, exports) {
 
 var g;
@@ -5242,111 +5368,6 @@ try {
 
 module.exports = g;
 
-
-/***/ }),
-/* 46 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.shareTodo = exports.deleteTodo = exports.updateTodo = exports.createTodo = exports.getTodo = exports.fetchTodos = exports.removeTodo = exports.receiveTodo = exports.receiveTodos = exports.UPDATE_TODO = exports.REMOVE_TODO = exports.RECEIVE_TODO = exports.RECEIVE_TODOS = undefined;
-
-var _todo_api_util = __webpack_require__(266);
-
-var TodoAPIUtil = _interopRequireWildcard(_todo_api_util);
-
-var _error_actions = __webpack_require__(47);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-var RECEIVE_TODOS = exports.RECEIVE_TODOS = "RECEIVE_TODOS";
-var RECEIVE_TODO = exports.RECEIVE_TODO = "RECEIVE_TODO";
-var REMOVE_TODO = exports.REMOVE_TODO = "REMOVE_TODO";
-var UPDATE_TODO = exports.UPDATE_TODO = "UPDATE_TODO";
-
-var receiveTodos = exports.receiveTodos = function receiveTodos(todos) {
-  return {
-    type: RECEIVE_TODOS,
-    todos: todos
-  };
-};
-
-var receiveTodo = exports.receiveTodo = function receiveTodo(todo) {
-  return {
-    type: RECEIVE_TODO,
-    todo: todo
-  };
-};
-
-var removeTodo = exports.removeTodo = function removeTodo(todo) {
-  return {
-    type: REMOVE_TODO,
-    todo: todo
-  };
-};
-
-//async actions
-var fetchTodos = exports.fetchTodos = function fetchTodos() {
-  return function (dispatch) {
-    return TodoAPIUtil.fetchTodos().then(function (todos) {
-      return dispatch(receiveTodos(todos));
-    });
-  };
-};
-
-var getTodo = exports.getTodo = function getTodo(todoId) {
-  return function (dispatch) {
-    return TodoAPIUtil.getTodo(todoId).then(function (todo) {
-      dispatch(receiveTodo(todo));dispatch((0, _error_actions.clearErrors)());
-    }, function (err) {
-      return dispatch((0, _error_actions.receiveErrors)(err.responseJSON));
-    });
-  };
-};
-
-var createTodo = exports.createTodo = function createTodo(todo) {
-  return function (dispatch) {
-    return TodoAPIUtil.createTodo(todo).then(function (todo) {
-      dispatch(receiveTodo(todo));dispatch((0, _error_actions.clearErrors)());
-    }, function (err) {
-      return dispatch((0, _error_actions.receiveErrors)(err.responseJSON));
-    });
-  };
-};
-
-var updateTodo = exports.updateTodo = function updateTodo(todo) {
-  return function (dispatch) {
-    return TodoAPIUtil.updateTodo(todo).then(function (todo) {
-      dispatch(receiveTodo(todo));dispatch((0, _error_actions.clearErrors)());
-    }, function (err) {
-      return dispatch((0, _error_actions.receiveErrors)(err.responseJSON));
-    });
-  };
-};
-
-var deleteTodo = exports.deleteTodo = function deleteTodo(todo) {
-  return function (dispatch) {
-    return TodoAPIUtil.deleteTodo(todo).then(function (todo) {
-      dispatch(removeTodo(todo));dispatch((0, _error_actions.clearErrors)());
-    }, function (err) {
-      return dispatch((0, _error_actions.receiveErrors)(err));
-    });
-  };
-};
-
-var shareTodo = exports.shareTodo = function shareTodo(newUser) {
-  return function (dispatch) {
-    return TodoAPIUtil.shareTodo(newUser).then(function (todo) {
-      dispatch(receiveTodo(todo));dispatch((0, _error_actions.clearErrors)());
-    }, function (err) {
-      return dispatch((0, _error_actions.receiveErrors)(err));
-    });
-  };
-};
 
 /***/ }),
 /* 47 */
@@ -6134,7 +6155,7 @@ var ReactDOMComponentTree = __webpack_require__(6);
 var ReactInstrumentation = __webpack_require__(12);
 
 var createMicrosoftUnsafeLocalFunction = __webpack_require__(63);
-var setInnerHTML = __webpack_require__(42);
+var setInnerHTML = __webpack_require__(43);
 var setTextContent = __webpack_require__(102);
 
 function getNodeAfter(parentNode, node) {
@@ -7906,7 +7927,7 @@ var _valueEqual = __webpack_require__(355);
 
 var _valueEqual2 = _interopRequireDefault(_valueEqual);
 
-var _PathUtils = __webpack_require__(36);
+var _PathUtils = __webpack_require__(37);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -8068,7 +8089,7 @@ exports.default = createTransitionManager;
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_warning__ = __webpack_require__(21);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_warning___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_warning__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_invariant__ = __webpack_require__(35);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_invariant__ = __webpack_require__(36);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_invariant___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_invariant__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_react__);
@@ -8277,8 +8298,8 @@ var _prodInvariant = __webpack_require__(23),
 
 var ReactNoopUpdateQueue = __webpack_require__(87);
 
-var canDefineProperty = __webpack_require__(37);
-var emptyObject = __webpack_require__(38);
+var canDefineProperty = __webpack_require__(38);
+var emptyObject = __webpack_require__(39);
 var invariant = __webpack_require__(1);
 var lowPriorityWarning = __webpack_require__(54);
 
@@ -8606,7 +8627,7 @@ var ReactElement = __webpack_require__(18);
 
 var checkReactTypeSpec = __webpack_require__(154);
 
-var canDefineProperty = __webpack_require__(37);
+var canDefineProperty = __webpack_require__(38);
 var getIteratorFn = __webpack_require__(89);
 var warning = __webpack_require__(2);
 var lowPriorityWarning = __webpack_require__(54);
@@ -9930,8 +9951,8 @@ module.exports = ViewportMetrics;
 
 
 var ExecutionEnvironment = __webpack_require__(7);
-var escapeTextContentForBrowser = __webpack_require__(43);
-var setInnerHTML = __webpack_require__(42);
+var escapeTextContentForBrowser = __webpack_require__(44);
+var setInnerHTML = __webpack_require__(43);
 
 /**
  * Set the textContent property of a node, ensuring that whitespace is preserved
@@ -10177,7 +10198,7 @@ module.exports = CSSProperty;
 
 
 
-var DOMProperty = __webpack_require__(16);
+var DOMProperty = __webpack_require__(17);
 var ReactDOMComponentTree = __webpack_require__(6);
 var ReactInstrumentation = __webpack_require__(12);
 
@@ -11383,9 +11404,9 @@ module.exports = getActiveElement;
 var _prodInvariant = __webpack_require__(3);
 
 var DOMLazyTree = __webpack_require__(25);
-var DOMProperty = __webpack_require__(16);
+var DOMProperty = __webpack_require__(17);
 var React = __webpack_require__(22);
-var ReactBrowserEventEmitter = __webpack_require__(44);
+var ReactBrowserEventEmitter = __webpack_require__(45);
 var ReactCurrentOwner = __webpack_require__(13);
 var ReactDOMComponentTree = __webpack_require__(6);
 var ReactDOMContainerInfo = __webpack_require__(239);
@@ -11398,10 +11419,10 @@ var ReactReconciler = __webpack_require__(24);
 var ReactUpdateQueue = __webpack_require__(69);
 var ReactUpdates = __webpack_require__(14);
 
-var emptyObject = __webpack_require__(38);
+var emptyObject = __webpack_require__(39);
 var instantiateReactComponent = __webpack_require__(108);
 var invariant = __webpack_require__(1);
-var setInnerHTML = __webpack_require__(42);
+var setInnerHTML = __webpack_require__(43);
 var shouldUpdateReactComponent = __webpack_require__(67);
 var warning = __webpack_require__(2);
 
@@ -12288,7 +12309,7 @@ var freeGlobal = typeof global == 'object' && global && global.Object === Object
 
 module.exports = freeGlobal;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(45)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(46)))
 
 /***/ }),
 /* 124 */
@@ -12374,7 +12395,7 @@ module.exports = isPrototype;
 /***/ (function(module, exports, __webpack_require__) {
 
 var baseIsArguments = __webpack_require__(310),
-    isObjectLike = __webpack_require__(33);
+    isObjectLike = __webpack_require__(34);
 
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
@@ -12666,7 +12687,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _reactRedux = __webpack_require__(17);
+var _reactRedux = __webpack_require__(16);
 
 var _todo_list = __webpack_require__(350);
 
@@ -12674,7 +12695,7 @@ var _todo_list2 = _interopRequireDefault(_todo_list);
 
 var _selectors = __webpack_require__(146);
 
-var _todo_actions = __webpack_require__(46);
+var _todo_actions = __webpack_require__(33);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -12738,7 +12759,7 @@ var storeShape = __WEBPACK_IMPORTED_MODULE_0_prop_types___default.a.shape({
 /* WEBPACK VAR INJECTION */(function(process) {/* harmony export (immutable) */ __webpack_exports__["a"] = connectAdvanced;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_hoist_non_react_statics__ = __webpack_require__(139);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_hoist_non_react_statics___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_hoist_non_react_statics__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_invariant__ = __webpack_require__(35);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_invariant__ = __webpack_require__(36);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_invariant___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_invariant__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_react__);
@@ -13606,11 +13627,11 @@ var _app = __webpack_require__(339);
 
 var _app2 = _interopRequireDefault(_app);
 
-var _landed = __webpack_require__(383);
+var _landed = __webpack_require__(384);
 
 var _landed2 = _interopRequireDefault(_landed);
 
-var _reactRedux = __webpack_require__(17);
+var _reactRedux = __webpack_require__(16);
 
 var _reactRouterDom = __webpack_require__(27);
 
@@ -14697,7 +14718,7 @@ module.exports = factory(Component, isValidElement, ReactNoopUpdateQueue);
 
 var _assign = __webpack_require__(5);
 
-var emptyObject = __webpack_require__(38);
+var emptyObject = __webpack_require__(39);
 var _invariant = __webpack_require__(1);
 
 if (process.env.NODE_ENV !== 'production') {
@@ -17547,7 +17568,7 @@ module.exports = DefaultEventPluginOrder;
 
 var EventPropagators = __webpack_require__(28);
 var ReactDOMComponentTree = __webpack_require__(6);
-var SyntheticMouseEvent = __webpack_require__(41);
+var SyntheticMouseEvent = __webpack_require__(42);
 
 var eventTypes = {
   mouseEnter: {
@@ -17648,7 +17669,7 @@ module.exports = EnterLeaveEventPlugin;
 
 
 
-var DOMProperty = __webpack_require__(16);
+var DOMProperty = __webpack_require__(17);
 
 var MUST_USE_PROPERTY = DOMProperty.injection.MUST_USE_PROPERTY;
 var HAS_BOOLEAN_VALUE = DOMProperty.injection.HAS_BOOLEAN_VALUE;
@@ -18345,11 +18366,11 @@ var AutoFocusUtils = __webpack_require__(189);
 var CSSPropertyOperations = __webpack_require__(190);
 var DOMLazyTree = __webpack_require__(25);
 var DOMNamespaces = __webpack_require__(62);
-var DOMProperty = __webpack_require__(16);
+var DOMProperty = __webpack_require__(17);
 var DOMPropertyOperations = __webpack_require__(105);
 var EventPluginHub = __webpack_require__(29);
-var EventPluginRegistry = __webpack_require__(39);
-var ReactBrowserEventEmitter = __webpack_require__(44);
+var EventPluginRegistry = __webpack_require__(40);
+var ReactBrowserEventEmitter = __webpack_require__(45);
 var ReactDOMComponentFlags = __webpack_require__(93);
 var ReactDOMComponentTree = __webpack_require__(6);
 var ReactDOMInput = __webpack_require__(200);
@@ -18361,7 +18382,7 @@ var ReactMultiChild = __webpack_require__(203);
 var ReactServerRenderingTransaction = __webpack_require__(212);
 
 var emptyFunction = __webpack_require__(11);
-var escapeTextContentForBrowser = __webpack_require__(43);
+var escapeTextContentForBrowser = __webpack_require__(44);
 var invariant = __webpack_require__(1);
 var isEventSupported = __webpack_require__(59);
 var shallowEqual = __webpack_require__(66);
@@ -19886,7 +19907,7 @@ module.exports = memoizeStringOnly;
 
 
 
-var escapeTextContentForBrowser = __webpack_require__(43);
+var escapeTextContentForBrowser = __webpack_require__(44);
 
 /**
  * Escapes attribute value to prevent scripting attacks.
@@ -21274,7 +21295,7 @@ if (process.env.NODE_ENV !== 'production') {
   var checkReactTypeSpec = __webpack_require__(206);
 }
 
-var emptyObject = __webpack_require__(38);
+var emptyObject = __webpack_require__(39);
 var invariant = __webpack_require__(1);
 var shallowEqual = __webpack_require__(66);
 var shouldUpdateReactComponent = __webpack_require__(67);
@@ -22470,7 +22491,7 @@ module.exports = flattenChildren;
 var _assign = __webpack_require__(5);
 
 var PooledClass = __webpack_require__(19);
-var Transaction = __webpack_require__(40);
+var Transaction = __webpack_require__(41);
 var ReactInstrumentation = __webpack_require__(12);
 var ReactServerUpdateQueue = __webpack_require__(213);
 
@@ -22922,7 +22943,7 @@ var DOMChildrenOperations = __webpack_require__(61);
 var DOMLazyTree = __webpack_require__(25);
 var ReactDOMComponentTree = __webpack_require__(6);
 
-var escapeTextContentForBrowser = __webpack_require__(43);
+var escapeTextContentForBrowser = __webpack_require__(44);
 var invariant = __webpack_require__(1);
 var validateDOMNesting = __webpack_require__(70);
 
@@ -23086,7 +23107,7 @@ module.exports = ReactDOMTextComponent;
 var _assign = __webpack_require__(5);
 
 var ReactUpdates = __webpack_require__(14);
-var Transaction = __webpack_require__(40);
+var Transaction = __webpack_require__(41);
 
 var emptyFunction = __webpack_require__(11);
 
@@ -23360,12 +23381,12 @@ module.exports = getUnboundedScrollPosition;
 
 
 
-var DOMProperty = __webpack_require__(16);
+var DOMProperty = __webpack_require__(17);
 var EventPluginHub = __webpack_require__(29);
 var EventPluginUtils = __webpack_require__(56);
 var ReactComponentEnvironment = __webpack_require__(65);
 var ReactEmptyComponent = __webpack_require__(110);
-var ReactBrowserEventEmitter = __webpack_require__(44);
+var ReactBrowserEventEmitter = __webpack_require__(45);
 var ReactHostComponent = __webpack_require__(111);
 var ReactUpdates = __webpack_require__(14);
 
@@ -23403,10 +23424,10 @@ var _assign = __webpack_require__(5);
 
 var CallbackQueue = __webpack_require__(97);
 var PooledClass = __webpack_require__(19);
-var ReactBrowserEventEmitter = __webpack_require__(44);
+var ReactBrowserEventEmitter = __webpack_require__(45);
 var ReactInputSelection = __webpack_require__(114);
 var ReactInstrumentation = __webpack_require__(12);
-var Transaction = __webpack_require__(40);
+var Transaction = __webpack_require__(41);
 var ReactUpdateQueue = __webpack_require__(69);
 
 /**
@@ -24495,7 +24516,7 @@ var SyntheticClipboardEvent = __webpack_require__(231);
 var SyntheticEvent = __webpack_require__(15);
 var SyntheticFocusEvent = __webpack_require__(232);
 var SyntheticKeyboardEvent = __webpack_require__(233);
-var SyntheticMouseEvent = __webpack_require__(41);
+var SyntheticMouseEvent = __webpack_require__(42);
 var SyntheticDragEvent = __webpack_require__(235);
 var SyntheticTouchEvent = __webpack_require__(236);
 var SyntheticTransitionEvent = __webpack_require__(237);
@@ -25050,7 +25071,7 @@ module.exports = getEventKey;
 
 
 
-var SyntheticMouseEvent = __webpack_require__(41);
+var SyntheticMouseEvent = __webpack_require__(42);
 
 /**
  * @interface DragEvent
@@ -25185,7 +25206,7 @@ module.exports = SyntheticTransitionEvent;
 
 
 
-var SyntheticMouseEvent = __webpack_require__(41);
+var SyntheticMouseEvent = __webpack_require__(42);
 
 /**
  * @interface WheelEvent
@@ -25514,8 +25535,8 @@ module.exports = ReactMount.renderSubtreeIntoContainer;
 
 
 
-var DOMProperty = __webpack_require__(16);
-var EventPluginRegistry = __webpack_require__(39);
+var DOMProperty = __webpack_require__(17);
+var EventPluginRegistry = __webpack_require__(40);
 var ReactComponentTreeHook = __webpack_require__(10);
 
 var warning = __webpack_require__(2);
@@ -25681,7 +25702,7 @@ module.exports = ReactDOMNullInputValuePropHook;
 
 
 
-var DOMProperty = __webpack_require__(16);
+var DOMProperty = __webpack_require__(17);
 var ReactComponentTreeHook = __webpack_require__(10);
 
 var warning = __webpack_require__(2);
@@ -25864,7 +25885,7 @@ var freeGlobal = typeof global == 'object' && global && global.Object === Object
 
 /* harmony default export */ __webpack_exports__["a"] = (freeGlobal);
 
-/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(45)))
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(46)))
 
 /***/ }),
 /* 253 */
@@ -26062,7 +26083,7 @@ if (typeof self !== 'undefined') {
 
 var result = (0, _ponyfill2['default'])(root);
 exports['default'] = result;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(45), __webpack_require__(32)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(46), __webpack_require__(32)(module)))
 
 /***/ }),
 /* 260 */
@@ -26400,7 +26421,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _todo_actions = __webpack_require__(46);
+var _todo_actions = __webpack_require__(33);
 
 var _merge = __webpack_require__(75);
 
@@ -26426,7 +26447,12 @@ var todosReducer = function todosReducer() {
       return nextState;
     case _todo_actions.RECEIVE_TODO:
       var newTodo = _defineProperty({}, action.todo.id, action.todo);
-      return (0, _merge2.default)({}, state, newTodo);
+      nextState = (0, _merge2.default)({}, state, newTodo);
+      return nextState;
+    case _todo_actions.REMOVE_FROM_TODO:
+      nextState = (0, _merge2.default)({}, state);
+      nextState[action.todo.id] = action.todo;
+      return nextState;
     case _todo_actions.REMOVE_TODO:
       nextState = (0, _merge2.default)({}, state);
       delete nextState[action.todo.id];
@@ -26460,7 +26486,7 @@ var fetchTodos = exports.fetchTodos = function fetchTodos() {
 var getTodo = exports.getTodo = function getTodo(todoId) {
   return $.ajax({
     method: 'GET',
-    url: '/api/todo/' + todoId
+    url: '/api/todos/' + todoId
   });
 };
 
@@ -26492,6 +26518,14 @@ var shareTodo = exports.shareTodo = function shareTodo(newUser) {
     method: 'PUT',
     url: '/api/todos/' + newUser.todo_id,
     data: { newUser: newUser }
+  });
+};
+
+var removeUserFromTodo = exports.removeUserFromTodo = function removeUserFromTodo(user) {
+  return $.ajax({
+    method: 'PUT',
+    url: '/api/todos/' + user.todo_id,
+    data: { user: user }
   });
 };
 
@@ -27781,7 +27815,7 @@ module.exports = overArg;
 /***/ (function(module, exports, __webpack_require__) {
 
 var baseGetTag = __webpack_require__(51),
-    isObjectLike = __webpack_require__(33);
+    isObjectLike = __webpack_require__(34);
 
 /** `Object#toString` result references. */
 var argsTag = '[object Arguments]';
@@ -27805,7 +27839,7 @@ module.exports = baseIsArguments;
 /***/ (function(module, exports, __webpack_require__) {
 
 var isArrayLike = __webpack_require__(79),
-    isObjectLike = __webpack_require__(33);
+    isObjectLike = __webpack_require__(34);
 
 /**
  * This method is like `_.isArrayLike` except that it also checks if `value`
@@ -27869,7 +27903,7 @@ module.exports = stubFalse;
 
 var baseGetTag = __webpack_require__(51),
     getPrototype = __webpack_require__(126),
-    isObjectLike = __webpack_require__(33);
+    isObjectLike = __webpack_require__(34);
 
 /** `Object#toString` result references. */
 var objectTag = '[object Object]';
@@ -27937,7 +27971,7 @@ module.exports = isPlainObject;
 
 var baseGetTag = __webpack_require__(51),
     isLength = __webpack_require__(130),
-    isObjectLike = __webpack_require__(33);
+    isObjectLike = __webpack_require__(34);
 
 /** `Object#toString` result references. */
 var argsTag = '[object Arguments]',
@@ -28615,7 +28649,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _user_actions = __webpack_require__(34);
+var _user_actions = __webpack_require__(35);
 
 var _merge = __webpack_require__(75);
 
@@ -28857,23 +28891,23 @@ var _todo_list_container = __webpack_require__(136);
 
 var _todo_list_container2 = _interopRequireDefault(_todo_list_container);
 
-var _login = __webpack_require__(380);
+var _login = __webpack_require__(381);
 
 var _login2 = _interopRequireDefault(_login);
 
-var _signup = __webpack_require__(381);
+var _signup = __webpack_require__(382);
 
 var _signup2 = _interopRequireDefault(_signup);
 
-var _contact = __webpack_require__(382);
+var _contact = __webpack_require__(383);
 
 var _contact2 = _interopRequireDefault(_contact);
 
 var _reactRouterDom = __webpack_require__(27);
 
-var _reactRedux = __webpack_require__(17);
+var _reactRedux = __webpack_require__(16);
 
-var _user_actions = __webpack_require__(34);
+var _user_actions = __webpack_require__(35);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -29690,7 +29724,7 @@ var _todo_content2 = _interopRequireDefault(_todo_content);
 
 var _reactRouterDom = __webpack_require__(27);
 
-var _todo = __webpack_require__(384);
+var _todo = __webpack_require__(380);
 
 var _todo2 = _interopRequireDefault(_todo);
 
@@ -29950,13 +29984,13 @@ var _warning = __webpack_require__(21);
 
 var _warning2 = _interopRequireDefault(_warning);
 
-var _invariant = __webpack_require__(35);
+var _invariant = __webpack_require__(36);
 
 var _invariant2 = _interopRequireDefault(_invariant);
 
 var _LocationUtils = __webpack_require__(82);
 
-var _PathUtils = __webpack_require__(36);
+var _PathUtils = __webpack_require__(37);
 
 var _createTransitionManager = __webpack_require__(83);
 
@@ -30445,7 +30479,7 @@ var _warning = __webpack_require__(21);
 
 var _warning2 = _interopRequireDefault(_warning);
 
-var _PathUtils = __webpack_require__(36);
+var _PathUtils = __webpack_require__(37);
 
 var _LocationUtils = __webpack_require__(82);
 
@@ -31222,13 +31256,13 @@ module.exports = Array.isArray || function (arr) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_invariant__ = __webpack_require__(35);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_invariant__ = __webpack_require__(36);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_invariant___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_invariant__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_prop_types__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_prop_types__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_history_PathUtils__ = __webpack_require__(36);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_history_PathUtils__ = __webpack_require__(37);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_history_PathUtils___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_history_PathUtils__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Router__ = __webpack_require__(84);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
@@ -31598,13 +31632,13 @@ var _warning = __webpack_require__(21);
 
 var _warning2 = _interopRequireDefault(_warning);
 
-var _invariant = __webpack_require__(35);
+var _invariant = __webpack_require__(36);
 
 var _invariant2 = _interopRequireDefault(_invariant);
 
 var _LocationUtils = __webpack_require__(82);
 
-var _PathUtils = __webpack_require__(36);
+var _PathUtils = __webpack_require__(37);
 
 var _createTransitionManager = __webpack_require__(83);
 
@@ -32088,7 +32122,7 @@ var _react = __webpack_require__(4);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRedux = __webpack_require__(17);
+var _reactRedux = __webpack_require__(16);
 
 var _reactRouter = __webpack_require__(8);
 
@@ -32096,7 +32130,7 @@ var _lodash = __webpack_require__(378);
 
 var _sub_task_actions = __webpack_require__(80);
 
-var _todo_actions = __webpack_require__(46);
+var _todo_actions = __webpack_require__(33);
 
 var _selectors = __webpack_require__(146);
 
@@ -32124,12 +32158,25 @@ var TodoDetail = function (_React$Component) {
 
     _this.state = { newSubTask: "", newUser: "" };
     _this.handleNewSubTask = _this.handleNewSubTask.bind(_this);
-    _this.handleNewUser = _this.handleNewUser.bind(_this);
+    _this.handleCreateUser = _this.handleCreateUser.bind(_this);
     _this.handleInput = _this.handleInput.bind(_this);
+    _this.handleRemoveUser = _this.handleRemoveUser.bind(_this);
     return _this;
   }
 
   _createClass(TodoDetail, [{
+    key: 'componentWillMount',
+    value: function componentWillMount() {
+      this.props.getTodo(this.props.match.params.id);
+      // this.props.fetchSubTasks(this.props.match.params.id);
+      // console.log(this.props.match.params.id)
+    }
+  }, {
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps(nextProps) {
+      // figure out how to fetch subtask each time the route changes.
+    }
+  }, {
     key: 'handleNewSubTask',
     value: function handleNewSubTask(e) {
       e.preventDefault();
@@ -32137,11 +32184,17 @@ var TodoDetail = function (_React$Component) {
       this.setState({ newSubTask: "" });
     }
   }, {
-    key: 'handleNewUser',
-    value: function handleNewUser(e) {
+    key: 'handleCreateUser',
+    value: function handleCreateUser(e) {
       e.preventDefault();
-      this.props.shareTodo({ user_email: this.state.newUser, todo_id: this.props.match.params.id, permission: 0 });
+      this.props.createUserTodo({ user_email: this.state.newUser, todo_id: this.props.match.params.id, permission: 0 });
       this.setState({ newUser: "" });
+    }
+  }, {
+    key: 'handleRemoveUser',
+    value: function handleRemoveUser(e) {
+      e.preventDefault();
+      this.props.deleteUserTodo({ id: e.target.id, todo_id: this.props.match.params.id });
     }
   }, {
     key: 'handleInput',
@@ -32165,17 +32218,30 @@ var TodoDetail = function (_React$Component) {
       };
 
       var users = function users() {
-        return _react2.default.createElement(
-          'ul',
-          null,
-          _this2.props.todos[_this2.props.match.params.id].users.map(function (user) {
-            return _react2.default.createElement(
-              'li',
-              { key: user.id },
-              user.username
-            );
-          })
-        );
+        if (Object.keys(_this2.props.todos).length) {
+          return _react2.default.createElement(
+            'ul',
+            null,
+            _this2.props.todos[_this2.props.match.params.id].users.map(function (user) {
+              return _react2.default.createElement(
+                'div',
+                { key: user.id },
+                _react2.default.createElement('input', { type: 'button', id: user.user_todo_id, onClick: _this2.handleRemoveUser, value: 'delete' }),
+                _react2.default.createElement(
+                  'li',
+                  null,
+                  user.username
+                )
+              );
+            })
+          );
+        } else {
+          return _react2.default.createElement(
+            'div',
+            null,
+            'test'
+          );
+        }
       };
 
       return _react2.default.createElement(
@@ -32189,7 +32255,7 @@ var TodoDetail = function (_React$Component) {
         _react2.default.createElement('input', { onChange: this.handleInput, name: 'newSubTask', type: 'text', placeholder: 'subtask...', value: this.state.newSubTask }),
         _react2.default.createElement('input', { type: 'button', onClick: this.handleNewSubTask, value: 'add' }),
         _react2.default.createElement('input', { onChange: this.handleInput, name: 'newUser', type: 'text', placeholder: 'user email...', value: this.state.newUser }),
-        _react2.default.createElement('input', { type: 'button', onClick: this.handleNewUser, value: 'add' }),
+        _react2.default.createElement('input', { type: 'button', onClick: this.handleCreateUser, value: 'add' }),
         _react2.default.createElement(
           'div',
           null,
@@ -32207,8 +32273,11 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     createSubTask: function createSubTask(subTask) {
       return dispatch((0, _sub_task_actions.createSubTask)(subTask));
     },
-    shareTodo: function shareTodo(shareUser) {
-      return dispatch((0, _todo_actions.shareTodo)(shareUser));
+    createUserTodo: function createUserTodo(userTodo) {
+      return dispatch((0, _todo_actions.createUserTodo)(userTodo));
+    },
+    deleteUserTodo: function deleteUserTodo(userTodo) {
+      return dispatch((0, _todo_actions.deleteUserTodo)(userTodo));
     },
     getTodo: function getTodo(todoId) {
       return dispatch((0, _todo_actions.getTodo)(todoId));
@@ -49315,7 +49384,7 @@ exports.default = (0, _reactRouter.withRouter)((0, _reactRedux.connect)(mapState
   }
 }.call(this));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(45), __webpack_require__(32)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(46), __webpack_require__(32)(module)))
 
 /***/ }),
 /* 379 */
@@ -49334,7 +49403,7 @@ var _react = __webpack_require__(4);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRedux = __webpack_require__(17);
+var _reactRedux = __webpack_require__(16);
 
 var _reactRouter = __webpack_require__(8);
 
@@ -49457,13 +49526,146 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _reactRedux = __webpack_require__(17);
+var _react = __webpack_require__(4);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRedux = __webpack_require__(16);
+
+var _reactRouter = __webpack_require__(8);
+
+var _reactRouterDom = __webpack_require__(27);
+
+var _todo_actions = __webpack_require__(33);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Todo = function (_React$Component) {
+  _inherits(Todo, _React$Component);
+
+  function Todo(props) {
+    _classCallCheck(this, Todo);
+
+    var _this = _possibleConstructorReturn(this, (Todo.__proto__ || Object.getPrototypeOf(Todo)).call(this, props));
+
+    var _this$props$todo = _this.props.todo,
+        id = _this$props$todo.id,
+        title = _this$props$todo.title,
+        body = _this$props$todo.body,
+        done = _this$props$todo.done,
+        list_order = _this$props$todo.list_order;
+
+    _this.state = {
+      id: id,
+      title: title,
+      body: body,
+      done: done,
+      list_order: list_order
+    };
+    _this.handleDelete = _this.handleDelete.bind(_this);
+    _this.handleCompleted = _this.handleCompleted.bind(_this);
+    _this.handleUpdate = _this.handleUpdate.bind(_this);
+    return _this;
+  }
+
+  _createClass(Todo, [{
+    key: 'handleDelete',
+    value: function handleDelete(e) {
+      e.preventDefault();
+      this.props.deleteTodo(this.state);
+      this.props.history.push('/' + Object.values(this.props.todos)[0].id);
+    }
+  }, {
+    key: 'handleCompleted',
+    value: function handleCompleted(e) {
+      e.preventDefault();
+      this.setState({
+        done: !this.state.done
+      });
+      this.props.updateTodo(this.state);
+    }
+  }, {
+    key: 'handleUpdate',
+    value: function handleUpdate(e) {
+      var _this2 = this;
+
+      e.preventDefault();
+      this.setState({
+        title: e.target.value
+      }, function () {
+        clearTimeout(_this2.timeout);
+        _this2.timeout = setTimeout(function () {
+          _this2.props.updateTodo(_this2.state);
+        }, 500);
+      });
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        _reactRouterDom.Link,
+        { to: '/' + this.state.id },
+        _react2.default.createElement(
+          'li',
+          { className: 'task_items' },
+          _react2.default.createElement('input', { type: 'button', onClick: this.handleCompleted, value: this.state.done ? "done" : "undo" }),
+          _react2.default.createElement('input', { type: 'button', value: 'delete', onClick: this.handleDelete }),
+          _react2.default.createElement('input', { type: 'text', value: this.state.title, onChange: this.handleUpdate })
+        )
+      );
+    }
+  }]);
+
+  return Todo;
+}(_react2.default.Component);
+
+var mapStateToProps = function mapStateToProps(state) {
+  return {
+    user: state.user,
+    todos: state.todos,
+    errors: state.errors
+  };
+};
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    updateTodo: function updateTodo(todo) {
+      return dispatch((0, _todo_actions.updateTodo)(todo));
+    },
+    deleteTodo: function deleteTodo(todo) {
+      return dispatch((0, _todo_actions.deleteTodo)(todo));
+    }
+  };
+};
+
+exports.default = (0, _reactRouter.withRouter)((0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Todo));
+
+/***/ }),
+/* 381 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _reactRedux = __webpack_require__(16);
 
 var _react = __webpack_require__(4);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _user_actions = __webpack_require__(34);
+var _user_actions = __webpack_require__(35);
 
 var _error = __webpack_require__(147);
 
@@ -49614,7 +49816,7 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Login);
 
 /***/ }),
-/* 381 */
+/* 382 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -49626,13 +49828,13 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _reactRedux = __webpack_require__(17);
+var _reactRedux = __webpack_require__(16);
 
 var _react = __webpack_require__(4);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _user_actions = __webpack_require__(34);
+var _user_actions = __webpack_require__(35);
 
 var _error = __webpack_require__(147);
 
@@ -49807,7 +50009,7 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Signup);
 
 /***/ }),
-/* 382 */
+/* 383 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -49834,7 +50036,7 @@ function Contact() {
 exports.default = Contact;
 
 /***/ }),
-/* 383 */
+/* 384 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -49850,11 +50052,11 @@ var _react = __webpack_require__(4);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _user_actions = __webpack_require__(34);
+var _user_actions = __webpack_require__(35);
 
-var _todo_actions = __webpack_require__(46);
+var _todo_actions = __webpack_require__(33);
 
-var _reactRedux = __webpack_require__(17);
+var _reactRedux = __webpack_require__(16);
 
 var _todo_list_container = __webpack_require__(136);
 
@@ -49890,11 +50092,6 @@ var Landed = function (_React$Component) {
   }
 
   _createClass(Landed, [{
-    key: 'componentWillMount',
-    value: function componentWillMount() {
-      this.props.fetchTodos();
-    }
-  }, {
     key: 'handleLogout',
     value: function handleLogout(e) {
       var _this2 = this;
@@ -50004,7 +50201,7 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 exports.default = (0, _reactRouter.withRouter)((0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Landed));
 
 /***/ }),
-/* 384 */
+/* 385 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -50013,136 +50210,20 @@ exports.default = (0, _reactRouter.withRouter)((0, _reactRedux.connect)(mapState
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(4);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactRedux = __webpack_require__(17);
-
-var _reactRouter = __webpack_require__(8);
-
-var _reactRouterDom = __webpack_require__(27);
-
-var _todo_actions = __webpack_require__(46);
-
-var _sub_task_actions = __webpack_require__(80);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var Todo = function (_React$Component) {
-  _inherits(Todo, _React$Component);
-
-  function Todo(props) {
-    _classCallCheck(this, Todo);
-
-    var _this = _possibleConstructorReturn(this, (Todo.__proto__ || Object.getPrototypeOf(Todo)).call(this, props));
-
-    var _this$props$todo = _this.props.todo,
-        id = _this$props$todo.id,
-        title = _this$props$todo.title,
-        body = _this$props$todo.body,
-        done = _this$props$todo.done,
-        list_order = _this$props$todo.list_order;
-
-    _this.state = {
-      id: id,
-      title: title,
-      body: body,
-      done: done,
-      list_order: list_order
-    };
-    _this.handleDelete = _this.handleDelete.bind(_this);
-    _this.handleCompleted = _this.handleCompleted.bind(_this);
-    _this.handleUpdate = _this.handleUpdate.bind(_this);
-
-    return _this;
-  }
-
-  _createClass(Todo, [{
-    key: 'handleDelete',
-    value: function handleDelete(e) {
-      e.preventDefault();
-      this.props.deleteTodo(this.state);
-    }
-  }, {
-    key: 'handleCompleted',
-    value: function handleCompleted(e) {
-      e.preventDefault();
-      this.setState({
-        done: !this.state.done
-      });
-      this.props.updateTodo(this.state);
-    }
-  }, {
-    key: 'handleUpdate',
-    value: function handleUpdate(e) {
-      var _this2 = this;
-
-      e.preventDefault();
-      this.setState({
-        title: e.target.value
-      }, function () {
-        clearTimeout(_this2.timeout);
-        _this2.timeout = setTimeout(function () {
-          _this2.props.updateTodo(_this2.state);
-        }, 500);
-      });
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var _this3 = this;
-
-      return _react2.default.createElement(
-        _reactRouterDom.Link,
-        { to: '/' + this.state.id, onClick: function onClick() {
-            _this3.props.fetchSubTasks(_this3.state.id);
-          } },
-        _react2.default.createElement(
-          'li',
-          { className: 'task_items' },
-          _react2.default.createElement('input', { type: 'button', onClick: this.handleCompleted, value: this.state.done ? "done" : "undo" }),
-          _react2.default.createElement('input', { type: 'button', value: 'delete', onClick: this.handleDelete }),
-          _react2.default.createElement('input', { type: 'text', value: this.state.title, onChange: this.handleUpdate })
-        )
-      );
-    }
-  }]);
-
-  return Todo;
-}(_react2.default.Component);
-
-var mapStateToProps = function mapStateToProps(state) {
-  return {
-    user: state.user,
-    errors: state.errors
-  };
+var createUserTodo = exports.createUserTodo = function createUserTodo(userTodo) {
+  return $.ajax({
+    method: 'POST',
+    url: '/api/todos/' + userTodo.todo_id + '/user_todos',
+    data: { userTodo: userTodo }
+  });
 };
 
-var mapDispatchToProps = function mapDispatchToProps(dispatch) {
-  return {
-    updateTodo: function updateTodo(todo) {
-      return dispatch((0, _todo_actions.updateTodo)(todo));
-    },
-    deleteTodo: function deleteTodo(todo) {
-      return dispatch((0, _todo_actions.deleteTodo)(todo));
-    },
-    fetchSubTasks: function fetchSubTasks(todoId) {
-      return dispatch((0, _sub_task_actions.fetchSubTasks)(todoId));
-    }
-  };
+var deleteUserTodo = exports.deleteUserTodo = function deleteUserTodo(userTodo) {
+  return $.ajax({
+    method: 'DELETE',
+    url: '/api/todos/' + userTodo.todo_id + '/user_todos/' + userTodo.id
+  });
 };
-
-exports.default = (0, _reactRouter.withRouter)((0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Todo));
 
 /***/ })
 /******/ ]);

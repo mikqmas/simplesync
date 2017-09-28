@@ -1,10 +1,11 @@
 import * as TodoAPIUtil from '../util/todo_api_util';
+import * as UserTodoAPIUtil from '../util/user_todo_api_util';
 import { receiveErrors, clearErrors } from './error_actions';
 
 export const RECEIVE_TODOS = "RECEIVE_TODOS";
 export const RECEIVE_TODO = "RECEIVE_TODO";
 export const REMOVE_TODO = "REMOVE_TODO";
-export const UPDATE_TODO = "UPDATE_TODO";
+export const REMOVE_FROM_TODO = "REMOVE_FROM_TODO";
 
 export const receiveTodos = todos => ({
   type: RECEIVE_TODOS,
@@ -13,6 +14,11 @@ export const receiveTodos = todos => ({
 
 export const receiveTodo = todo => ({
   type: RECEIVE_TODO,
+  todo
+});
+
+export const removeFromTodo = todo => ({
+  type: REMOVE_FROM_TODO,
   todo
 });
 
@@ -48,8 +54,14 @@ export const deleteTodo = todo => dispatch => (
   err => dispatch(receiveErrors(err)))
 );
 
-export const shareTodo = newUser => dispatch => (
-  TodoAPIUtil.shareTodo(newUser)
+export const createUserTodo = userTodo => dispatch => (
+  UserTodoAPIUtil.createUserTodo(userTodo)
   .then(todo => { dispatch(receiveTodo(todo)); dispatch(clearErrors())},
+  err => dispatch(receiveErrors(err)))
+);
+
+export const deleteUserTodo = userTodo => dispatch => (
+  UserTodoAPIUtil.deleteUserTodo(userTodo)
+  .then(todo => { dispatch(removeFromTodo(todo)); dispatch(clearErrors())},
   err => dispatch(receiveErrors(err)))
 );
