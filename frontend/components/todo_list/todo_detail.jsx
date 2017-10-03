@@ -27,6 +27,10 @@ class TodoDetail extends React.Component {
 
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    return (Object.keys(nextProps.user).length > 0);
+  }
+
   handleNewSubTask(e) {
     e.preventDefault();
     this.props.createSubTask({todo_id: this.props.match.params.id, body: this.state.newSubTask, done: false, list_order: 0});
@@ -66,12 +70,21 @@ class TodoDetail extends React.Component {
         return(
           <ul>
             {
-              this.props.todos[this.props.match.params.id].users.map(user => (
-                <div key={user.id}>
-                  <input type="button" id={user.user_todo_id} onClick={this.handleRemoveUser} value="delete"/>
-                  <li >{user.username}</li>
-                </div>
-              ))
+              this.props.todos[this.props.match.params.id].users.map(user => {
+                if(this.props.user.current_user.id === this.props.todos[this.props.match.params.id].owner_id) {
+                  return(
+                    <li key={user.id}>
+                      <i className="material-icons" id={user.user_todo_id} onClick={this.handleRemoveUser}>delete</i>{user.username}
+                    </li>
+                  )
+                }else {
+                  return(
+                    <li key={user.id}>
+                      {user.username}
+                    </li>
+                  )
+                }
+              })
             }
           </ul>
       )} else {
@@ -84,11 +97,11 @@ class TodoDetail extends React.Component {
         <div className="sub-tasks">
           <div>{this.props.todos[this.props.match.params.id].title}</div>
           <div>{users()}</div>
-          <input onChange={this.handleInput} name="newSubTask" type="text" placeholder="subtask..." value={this.state.newSubTask}/>
-          <input type="button" onClick={this.handleNewSubTask} value="add" />
+          <input className="searchfield" onChange={this.handleInput} name="newSubTask" type="text" placeholder="subtask..." value={this.state.newSubTask}/>
+          <i className="material-icons" title="add subtask" onClick={this.handleNewSubTask}>add_circle_outline</i>
 
-          <input onChange={this.handleInput} name="newUser" type="text" placeholder="user email..." value={this.state.newUser}/>
-          <input type="button" onClick={this.handleCreateUser} value="add" />
+          <input className="searchfield" onChange={this.handleInput} name="newUser" type="text" placeholder="user email..." value={this.state.newUser}/>
+          <i className="material-icons" title="add user" onClick={this.handleCreateUser}>add_circle_outline</i>
           <div>{subTaskItems()}</div>
         </div>
       )
@@ -110,7 +123,8 @@ const mapDispatchToProps = dispatch => ({
 
 const mapStateToProps = (state) => ({
   todos: state.todos,
-  subTasks: allSubTasks(state)
+  subTasks: allSubTasks(state),
+  user: state.user
 });
 
 export default withRouter(connect(

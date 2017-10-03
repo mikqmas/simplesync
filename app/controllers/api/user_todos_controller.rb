@@ -15,9 +15,10 @@ class Api::UserTodosController < ApplicationController
   def destroy
     # userTodo = @todo.user_todos.find_by(user_id: userTodo_params['user_id'])
     userTodo = UserTodo.find_by_id(params['id'])
-    if userTodo
+    if userTodo && !userTodo.is_owner && current_user.id == userTodo.todo.owner.user_id
       userTodo.destroy()
       @todo = userTodo.todo
+      puts @todo
       render 'api/todos/show'
     else
       render json: @todo.errors.full_messages, status: 422

@@ -13,6 +13,7 @@ class Landed extends React.Component {
     super(props);
     this.handleLogout = this.handleLogout.bind(this);
     this.handleAdd = this.handleAdd.bind(this);
+    this.handleAccount = this.handleAccount.bind(this);
   }
 
   componentWillMount() {
@@ -21,7 +22,8 @@ class Landed extends React.Component {
 
   handleLogout(e) {
     e.preventDefault();
-    this.props.logout().then(() => {
+    this.props.logout()
+    .then(() => {
       if(!this.props.user.current_user) {
         window.location.replace('/');
       }
@@ -39,22 +41,29 @@ class Landed extends React.Component {
     this.props.createTodo({todo});
   }
 
+  handleAccount(e) {
+    e.preventDefault();
+    e.target.children[0].style.display = e.target.children[0].style.display == "none" ? "flex" : "none";
+  }
+
   render() {
     return (
       <div className="app">
         <div className="toolbar">
           <div className="toolbar_left">
-            <input type="text" className="searchfield"></input>
+            <input type="text" placeholder="search" className="searchfield noselect"></input>
             <span className="searchcancel"></span>
-            <a onClick={this.handleAdd} title="add note" className="addnote">Add</a>
+            <i className="material-icons" onClick={this.handleAdd} title="add note">add_circle_outline</i>
           </div>
 
           <div className="toolbar_right">
             <div className="headerlog">
               <div className="popover">
                 <span id="user_account_menu">
-                  <a id="profile" onClick={this.handleLogout}>{this.props.user.current_user ?
-                    this.props.user.current_user.username : "Logging Out"}</a>
+                  <ul className="material-icons" onClick={this.handleAccount}>account_circle
+                    <li id="profile" style={{display:"none", position:"absolute"}} onClick={this.handleLogout}>{this.props.user.current_user ?
+                      this.props.user.current_user.username : "Logging Out"}</li>
+                  </ul>
                 </span>
               </div>
             </div>

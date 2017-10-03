@@ -46,8 +46,8 @@ class SubTask extends React.Component {
   render() {
     return(
       <li className="task_items">
-        <input type="button" onClick={this.handleCompleted} value={this.state.done ? "done" : "undo"}/>
-        <input type="button" value="delete" onClick={this.handleDelete} />
+        <i className="material-icons" onClick={this.handleCompleted}>{this.state.done ? "check_circle" : "done"}</i>
+        <i className="material-icons" onClick={this.handleDelete}>delete</i>
         <input type="text" value={this.state.body} name="body" onChange={this.handleUpdate}/>
       </li>
     )

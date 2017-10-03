@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170822005940) do
+ActiveRecord::Schema.define(version: 20171002233704) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -35,6 +35,7 @@ ActiveRecord::Schema.define(version: 20170822005940) do
     t.integer  "list_order",    default: 0,     null: false
     t.datetime "archived_time"
     t.datetime "deleted_time"
+    t.integer  "owner_id",      default: 0,     null: false
     t.index ["body"], name: "index_todos_on_body", using: :btree
     t.index ["title"], name: "index_todos_on_title", using: :btree
   end

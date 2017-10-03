@@ -1,4 +1,4 @@
-json.(todo, :id, :title, :body, :done, :list_order, :created_at, :updated_at)
+json.(todo, :id, :title, :body, :done, :list_order, :owner_id, :created_at, :updated_at)
 
 json.users todo.user_todos do |userTodo|
   user = userTodo.user

@@ -9,12 +9,13 @@ $color: #448AC9;
   align-items: center;
 
   input[type='text'] {
-    font-size: 2em;
+    background: transparent;
+    font-size: .8em;
     width: 100%;
     padding: .05em .2em;
     border: 0;
     outline: none;
-    border-bottom: 2px gray solid;
+    // border-bottom: 2px gray solid;
     margin: .2em;
   }
 

@@ -48,11 +48,16 @@ class Todo extends React.Component {
     this.props.fetchSubTasks(this.state.id);
   }
   render() {
+    let bgColor, fontColor;
+    if(this.props.location.pathname.split("/")[1] == this.state.id) {
+      bgColor = "#00B1E1";
+      fontColor = "#FFFFFF";
+    }
     return(
       <Link to={`/${this.state.id}`} onClick={this.handleClick} >
-        <li className="task_items">
-          <input type="button" onClick={this.handleCompleted} value={this.state.done ? "done" : "undo"}/>
-          <input type="button" value="delete" onClick={this.handleDelete} />
+        <li className="task_items" style={{backgroundColor:bgColor, color:fontColor}}>
+          <i className="material-icons" onClick={this.handleCompleted}>{this.state.done ? "check_circle" : "done"}</i>
+          <i className="material-icons" onClick={this.handleDelete}>delete</i>
           <input type="text" value={this.state.title} onChange={this.handleUpdate}/>
         </li>
       </Link>

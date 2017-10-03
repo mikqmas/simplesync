@@ -14,4 +14,9 @@ class UserTodo < ApplicationRecord
     # UserTodo.find_by()
   end
 
+  def owner
+    self.todo.owner
+  end
+
+
 end

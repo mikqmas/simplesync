@@ -17,18 +17,43 @@
   flex-direction: column;
 }
 
+.searchfield {
+  border: 0;
+  padding-left: .2em;
+  font-size: 1.2em;
+  width: 186px;
+}
+
 .toolbar {
   display: flex;
 
   .toolbar_left {
     width: 40%;
     border: 1px solid #eee;
+    display: flex;
 
+    .searchfield {
+      border: 0;
+      padding-left: .2em;
+      font-size: 1.2em;
+      width: 186px;
+    }
+
+    .material-icons {
+      margin-left: .2em;
+      font-size: 32px;
+    }
   }
 
   .toolbar_right {
     width: 60%;
     border: 1px solid #eee;
+    vertical-align: middle;
+
+    .material-icons {
+      margin-left: .2em;
+      font-size: 32px;
+    }
   }
 }
 
@@ -41,6 +66,7 @@
   .content_left {
     width:40%;
     border: 1px solid #eee;
+    overflow: scroll;
 
     .list_todos {
       width: 100%;
@@ -59,6 +85,7 @@
   .content_right {
     width:60%;
     border: 1px solid #eee;
+    overflow: scroll;
 
     .content_detail {
       width: 100%;
@@ -153,4 +180,14 @@
 
     }
   }
+}
+
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
 }
