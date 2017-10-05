@@ -21,7 +21,6 @@
   border: 0;
   padding-left: .2em;
   font-size: 1.2em;
-  width: 186px;
 }
 
 .toolbar {
@@ -33,10 +32,7 @@
     display: flex;
 
     .searchfield {
-      border: 0;
-      padding-left: .2em;
-      font-size: 1.2em;
-      width: 186px;
+      width: 90%;
     }
 
     .material-icons {

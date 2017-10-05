@@ -3919,11 +3919,19 @@ var createUserTodo = exports.createUserTodo = function createUserTodo(userTodo) 
 
 var deleteUserTodo = exports.deleteUserTodo = function deleteUserTodo(userTodo) {
   return function (dispatch) {
-    return UserTodoAPIUtil.deleteUserTodo(userTodo).then(function (todo) {
-      dispatch(removeFromTodo(todo));dispatch((0, _error_actions.clearErrors)());
-    }, function (err) {
-      return dispatch((0, _error_actions.receiveErrors)(err));
-    });
+    if (userTodo.is_owner) {
+      return UserTodoAPIUtil.deleteUserTodo(userTodo).then(function (todo) {
+        dispatch(removeFromTodo(todo));dispatch((0, _error_actions.clearErrors)());
+      }, function (err) {
+        return dispatch((0, _error_actions.receiveErrors)(err));
+      });
+    } else {
+      return UserTodoAPIUtil.deleteUserTodo(userTodo).then(function (todo) {
+        dispatch(removeTodo(todo));dispatch((0, _error_actions.clearErrors)());
+      }, function (err) {
+        return dispatch((0, _error_actions.receiveErrors)(err));
+      });
+    }
   };
 };
 
@@ -5623,7 +5631,7 @@ var removeSubTask = exports.removeSubTask = function removeSubTask(subTask) {
 var fetchSubTasks = exports.fetchSubTasks = function fetchSubTasks(todoId) {
   return function (dispatch) {
     return SubTaskAPIUtil.fetchSubTasks(todoId).then(function (subTasks) {
-      console.log(subTasks);dispatch(receiveSubTasks(subTasks));
+      dispatch(receiveSubTasks(subTasks));
     });
   };
 };
@@ -26451,7 +26459,6 @@ var todosReducer = function todosReducer() {
       return nextState;
     case _todo_actions.REMOVE_FROM_TODO:
       nextState = (0, _merge2.default)({}, state);
-      debugger;
       nextState[action.todo.id] = action.todo;
       return nextState;
     case _todo_actions.REMOVE_TODO:
@@ -28722,7 +28729,7 @@ var createUser = exports.createUser = function createUser(user) {
     url: '/api/user',
     data: user
   }).done(function (response) {
-    console.log(response);
+    // console.log(response);
   });
 };
 
@@ -28740,7 +28747,7 @@ var login = exports.login = function login(user) {
     url: '/api/session',
     data: user
   }).done(function (response) {
-    console.log(response);
+    // console.log(response);
   });
 };
 
@@ -28844,12 +28851,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 var fetchSubTasks = exports.fetchSubTasks = function fetchSubTasks(todoId) {
-  console.log(todoId);
   return $.ajax({
     method: 'GET',
     url: '/api/todos/' + todoId + '/sub_tasks'
   }).done(function (data) {
-    console.log("DATA: ", data);
+    // console.log("DATA: ", data);
   });
 };
 
@@ -32197,12 +32203,15 @@ var TodoDetail = function (_React$Component) {
     key: 'componentWillMount',
     value: function componentWillMount() {
       this.props.fetchSubTasks(this.props.match.params.id);
-      // this.props.getTodo(this.props.match.params.id);
-      // console.log(this.props.match.params.id)
     }
-  }, {
-    key: 'componentWillReceiveProps',
-    value: function componentWillReceiveProps(nextProps) {}
+
+    // componentWillUpdate(){
+    //   debugger;
+    //   if(Object.keys(this.props.todos).length > 0 && !this.props.todos[this.props.match.params.id]) {
+    //     this.props.history.push(`/${(Object.values(this.props.todos)[0]).id}`);
+    //   }
+    // }
+
   }, {
     key: 'shouldComponentUpdate',
     value: function shouldComponentUpdate(nextProps, nextState) {
@@ -32227,6 +32236,22 @@ var TodoDetail = function (_React$Component) {
     value: function handleRemoveUser(e) {
       e.preventDefault();
       this.props.deleteUserTodo({ id: e.target.id, todo_id: this.props.match.params.id });
+      if (this.props.user.current_user.id != this.props.todos[this.props.match.params.id].owner_id) {
+        var nextTodo = Object.keys(this.props.todos).indexOf(this.props.match.params.id) - 1;
+        this.props.history.push('/' + Object.values(this.props.todos)[nextTodo].id);
+
+        // TODO implement this here;
+        // const todosArray = Object.keys(this.props.todos);
+        // if(todosArray.length === 1) {
+        //   this.props.history.push(`/`);
+        // }else if(this.props.location.pathname.split("/")[1] == this.state.id) {
+        //   let nextTodo = todosArray.indexOf(this.state.id.toString()) - 1;
+        //   if(nextTodo < 0) {
+        //     nextTodo = 1;
+        //   }
+        //   this.props.history.push(`/${todosArray[nextTodo]}`);
+        // }
+      }
     }
   }, {
     key: 'handleInput',
@@ -32239,7 +32264,6 @@ var TodoDetail = function (_React$Component) {
     value: function render() {
       var _this2 = this;
 
-      console.log(this.props.subTasks);
       var subTaskItems = function subTaskItems() {
         return _react2.default.createElement(
           'ul',
@@ -32257,22 +32281,43 @@ var TodoDetail = function (_React$Component) {
             null,
             _this2.props.todos[_this2.props.match.params.id].users.map(function (user) {
               if (_this2.props.user.current_user.id === _this2.props.todos[_this2.props.match.params.id].owner_id) {
-                return _react2.default.createElement(
-                  'li',
-                  { key: user.id },
-                  _react2.default.createElement(
-                    'i',
-                    { className: 'material-icons', id: user.user_todo_id, onClick: _this2.handleRemoveUser },
-                    'delete'
-                  ),
-                  user.username
-                );
+                if (user.id == _this2.props.todos[_this2.props.match.params.id].owner_id) {
+                  return _react2.default.createElement(
+                    'li',
+                    { key: user.id },
+                    user.username
+                  );
+                } else {
+                  return _react2.default.createElement(
+                    'li',
+                    { key: user.id },
+                    _react2.default.createElement(
+                      'i',
+                      { className: 'material-icons', id: user.user_todo_id, onClick: _this2.handleRemoveUser },
+                      'delete'
+                    ),
+                    user.username
+                  );
+                }
               } else {
-                return _react2.default.createElement(
-                  'li',
-                  { key: user.id },
-                  user.username
-                );
+                if (user.id == _this2.props.user.current_user.id) {
+                  return _react2.default.createElement(
+                    'li',
+                    { key: user.id },
+                    _react2.default.createElement(
+                      'i',
+                      { className: 'material-icons', id: user.user_todo_id, onClick: _this2.handleRemoveUser },
+                      'delete'
+                    ),
+                    user.username
+                  );
+                } else {
+                  return _react2.default.createElement(
+                    'li',
+                    { key: user.id },
+                    user.username
+                  );
+                }
               }
             })
           );
@@ -49656,7 +49701,16 @@ var Todo = function (_React$Component) {
     value: function handleDelete(e) {
       e.preventDefault();
       this.props.deleteTodo(this.state);
-      this.props.history.push('/' + Object.values(this.props.todos)[0].id);
+      var todosArray = Object.keys(this.props.todos);
+      if (todosArray.length === 1) {
+        this.props.history.push('/');
+      } else if (this.props.location.pathname.split("/")[1] == this.state.id) {
+        var nextTodo = todosArray.indexOf(this.state.id.toString()) - 1;
+        if (nextTodo < 0) {
+          nextTodo = 1;
+        }
+        this.props.history.push('/' + todosArray[nextTodo]);
+      }
     }
   }, {
     key: 'handleCompleted',

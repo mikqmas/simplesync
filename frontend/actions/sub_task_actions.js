@@ -23,7 +23,7 @@ export const removeSubTask = subTask =>  ({
 
 //async actions
 export const fetchSubTasks = todoId => dispatch => (
-  SubTaskAPIUtil.fetchSubTasks(todoId).then(subTasks => {console.log(subTasks); dispatch(receiveSubTasks(subTasks))})
+  SubTaskAPIUtil.fetchSubTasks(todoId).then(subTasks => {dispatch(receiveSubTasks(subTasks))})
 );
 
 export const createSubTask = subTask => dispatch => (

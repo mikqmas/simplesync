@@ -4,7 +4,7 @@ export const createUser = user => (
     url: '/api/user',
     data: user
   }).done((response)=> {
-    console.log(response);
+    // console.log(response);
   })
 );
 
@@ -22,7 +22,7 @@ export const login = user => (
     url: '/api/session',
     data: user
   }).done((response) => {
-    console.log(response);
+    // console.log(response);
   })
 );
 

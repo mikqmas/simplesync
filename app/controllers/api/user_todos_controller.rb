@@ -4,7 +4,7 @@ class Api::UserTodosController < ApplicationController
     todoId = userTodo_params['todo_id']
     permission = userTodo_params['permission']
     user = User.find_by_username(userTodo_params['user_email'])
-    @todo = Todo.find_by(id: todoId)
+    @todo = Todo.find_by_id(todoId)
     if user && !@todo.users.include?(user) && @todo.user_todos.create!({user_id: user.id, todo_id: todoId, permission: permission})
       render 'api/todos/show'
     else
@@ -15,10 +15,9 @@ class Api::UserTodosController < ApplicationController
   def destroy
     # userTodo = @todo.user_todos.find_by(user_id: userTodo_params['user_id'])
     userTodo = UserTodo.find_by_id(params['id'])
-    if userTodo && !userTodo.is_owner && current_user.id == userTodo.todo.owner.user_id
+    if userTodo && !userTodo.is_owner && (current_user.id == userTodo.todo.owner.user_id || current_user.id == userTodo.user_id)
       userTodo.destroy()
-      @todo = userTodo.todo
-      puts @todo
+      @todo = Todo.find_by_id(userTodo.todo_id)
       render 'api/todos/show'
     else
       render json: @todo.errors.full_messages, status: 422

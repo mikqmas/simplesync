@@ -19,13 +19,14 @@ class TodoDetail extends React.Component {
 
   componentWillMount(){
     this.props.fetchSubTasks(this.props.match.params.id);
-    // this.props.getTodo(this.props.match.params.id);
-    // console.log(this.props.match.params.id)
   }
 
-  componentWillReceiveProps(nextProps){
-
-  }
+  // componentWillUpdate(){
+  //   debugger;
+  //   if(Object.keys(this.props.todos).length > 0 && !this.props.todos[this.props.match.params.id]) {
+  //     this.props.history.push(`/${(Object.values(this.props.todos)[0]).id}`);
+  //   }
+  // }
 
   shouldComponentUpdate(nextProps, nextState) {
     return (Object.keys(nextProps.user).length > 0);
@@ -46,6 +47,22 @@ class TodoDetail extends React.Component {
   handleRemoveUser(e) {
     e.preventDefault();
     this.props.deleteUserTodo({id: e.target.id, todo_id:this.props.match.params.id});
+    if(this.props.user.current_user.id != this.props.todos[this.props.match.params.id].owner_id) {
+      const nextTodo = Object.keys(this.props.todos).indexOf(this.props.match.params.id) - 1
+      this.props.history.push(`/${(Object.values(this.props.todos)[nextTodo]).id}`);
+
+      // TODO implement this here;
+      // const todosArray = Object.keys(this.props.todos);
+      // if(todosArray.length === 1) {
+      //   this.props.history.push(`/`);
+      // }else if(this.props.location.pathname.split("/")[1] == this.state.id) {
+      //   let nextTodo = todosArray.indexOf(this.state.id.toString()) - 1;
+      //   if(nextTodo < 0) {
+      //     nextTodo = 1;
+      //   }
+      //   this.props.history.push(`/${todosArray[nextTodo]}`);
+      // }
+    }
   }
 
   handleInput(e) {
@@ -54,7 +71,6 @@ class TodoDetail extends React.Component {
   }
 
   render() {
-    console.log(this.props.subTasks);
     const subTaskItems = () => (
       <ul>
         {
@@ -72,17 +88,33 @@ class TodoDetail extends React.Component {
             {
               this.props.todos[this.props.match.params.id].users.map(user => {
                 if(this.props.user.current_user.id === this.props.todos[this.props.match.params.id].owner_id) {
-                  return(
-                    <li key={user.id}>
-                      <i className="material-icons" id={user.user_todo_id} onClick={this.handleRemoveUser}>delete</i>{user.username}
-                    </li>
-                  )
+                  if(user.id == this.props.todos[this.props.match.params.id].owner_id){
+                    return(
+                      <li key={user.id}>
+                        {user.username}
+                      </li>
+                    );
+                  } else {
+                    return(
+                      <li key={user.id}>
+                        <i className="material-icons" id={user.user_todo_id} onClick={this.handleRemoveUser}>delete</i>{user.username}
+                      </li>
+                    )
+                  }
                 }else {
-                  return(
-                    <li key={user.id}>
-                      {user.username}
-                    </li>
-                  )
+                  if(user.id == this.props.user.current_user.id) {
+                    return(
+                      <li key={user.id}>
+                        <i className="material-icons" id={user.user_todo_id} onClick={this.handleRemoveUser}>delete</i>{user.username}
+                      </li>
+                    )
+                  }else {
+                    return(
+                      <li key={user.id}>
+                        {user.username}
+                      </li>
+                    )
+                  }
                 }
               })
             }

@@ -24,7 +24,16 @@ class Todo extends React.Component {
   handleDelete(e) {
     e.preventDefault();
     this.props.deleteTodo(this.state);
-    this.props.history.push(`/${(Object.values(this.props.todos)[0]).id}`);
+    const todosArray = Object.keys(this.props.todos);
+    if(todosArray.length === 1) {
+      this.props.history.push(`/`);
+    }else if(this.props.location.pathname.split("/")[1] == this.state.id) {
+      let nextTodo = todosArray.indexOf(this.state.id.toString()) - 1;
+      if(nextTodo < 0) {
+        nextTodo = 1;
+      }
+      this.props.history.push(`/${todosArray[nextTodo]}`);
+    }
   }
   handleCompleted(e) {
     e.preventDefault();

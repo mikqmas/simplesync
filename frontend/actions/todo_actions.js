@@ -60,8 +60,14 @@ export const createUserTodo = userTodo => dispatch => (
   err => dispatch(receiveErrors(err)))
 );
 
-export const deleteUserTodo = userTodo => dispatch => (
-  UserTodoAPIUtil.deleteUserTodo(userTodo)
-  .then(todo => { dispatch(removeFromTodo(todo)); dispatch(clearErrors())},
-  err => dispatch(receiveErrors(err)))
-);
+export const deleteUserTodo = userTodo => dispatch => {
+  if(userTodo.is_owner) {
+    return (UserTodoAPIUtil.deleteUserTodo(userTodo)
+    .then(todo => { dispatch(removeFromTodo(todo)); dispatch(clearErrors())},
+    err => dispatch(receiveErrors(err))))
+  }else {
+    return (UserTodoAPIUtil.deleteUserTodo(userTodo)
+    .then(todo => { dispatch(removeTodo(todo)); dispatch(clearErrors());},
+    err => dispatch(receiveErrors(err))))
+  }
+};
