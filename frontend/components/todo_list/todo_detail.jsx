@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
 import {merge} from 'lodash';
 import {createSubTask, fetchSubTasks} from '../../actions/sub_task_actions';
-import {createUserTodo, getTodo, deleteUserTodo} from '../../actions/todo_actions';
+import {createUserTodo, getTodo, deleteUserTodo, deleteUserTodoAsOwner} from '../../actions/todo_actions';
 import {allSubTasks} from '../../reducers/selectors';
 import SubTask from './subtask';
 
@@ -15,6 +15,7 @@ class TodoDetail extends React.Component {
     this.handleCreateUser = this.handleCreateUser.bind(this);
     this.handleInput = this.handleInput.bind(this);
     this.handleRemoveUser = this.handleRemoveUser.bind(this);
+    this.handleRemoveUserAsOwner = this.handleRemoveUserAsOwner.bind(this);
   }
 
   componentWillMount(){
@@ -44,25 +45,30 @@ class TodoDetail extends React.Component {
     this.setState({newUser: ""});
   }
 
+  handleRemoveUserAsOwner(e) {
+    e.preventDefault();
+    this.props.deleteUserTodoAsOwner({id: e.target.id, todo_id:this.props.match.params.id});
+  }
+
   handleRemoveUser(e) {
     e.preventDefault();
     this.props.deleteUserTodo({id: e.target.id, todo_id:this.props.match.params.id});
-    if(this.props.user.current_user.id != this.props.todos[this.props.match.params.id].owner_id) {
-      const nextTodo = Object.keys(this.props.todos).indexOf(this.props.match.params.id) - 1
-      this.props.history.push(`/${(Object.values(this.props.todos)[nextTodo]).id}`);
+    // if(this.props.user.current_user.id != e.target.id) {
+    //   const nextTodo = Object.keys(this.props.todos).indexOf(this.props.match.params.id) - 1
+    //   this.props.history.push(`/${(Object.values(this.props.todos)[nextTodo]).id}`);
+    // }
 
       // TODO implement this here;
-      // const todosArray = Object.keys(this.props.todos);
-      // if(todosArray.length === 1) {
-      //   this.props.history.push(`/`);
-      // }else if(this.props.location.pathname.split("/")[1] == this.state.id) {
-      //   let nextTodo = todosArray.indexOf(this.state.id.toString()) - 1;
-      //   if(nextTodo < 0) {
-      //     nextTodo = 1;
-      //   }
-      //   this.props.history.push(`/${todosArray[nextTodo]}`);
-      // }
-    }
+      const todosArray = Object.keys(this.props.todos);
+      if(todosArray.length <= 1) {
+        this.props.history.push(`/`);
+      }else {
+        let nextTodo = todosArray.indexOf(this.props.match.params.id) - 1;
+        if(nextTodo < 0) {
+          nextTodo = 1;
+        }
+        this.props.history.push(`/${todosArray[nextTodo]}`);
+      }
   }
 
   handleInput(e) {
@@ -87,40 +93,96 @@ class TodoDetail extends React.Component {
           <ul>
             {
               this.props.todos[this.props.match.params.id].users.map(user => {
-                if(this.props.user.current_user.id === this.props.todos[this.props.match.params.id].owner_id) {
-                  if(user.id == this.props.todos[this.props.match.params.id].owner_id){
-                    return(
-                      <li key={user.id}>
-                        {user.username}
-                      </li>
-                    );
-                  } else {
-                    return(
-                      <li key={user.id}>
-                        <i className="material-icons" id={user.user_todo_id} onClick={this.handleRemoveUser}>delete</i>{user.username}
-                      </li>
-                    )
-                  }
-                }else {
-                  if(user.id == this.props.user.current_user.id) {
-                    return(
-                      <li key={user.id}>
-                        <i className="material-icons" id={user.user_todo_id} onClick={this.handleRemoveUser}>delete</i>{user.username}
-                      </li>
-                    )
-                  }else {
-                    return(
-                      <li key={user.id}>
-                        {user.username}
-                      </li>
-                    )
-                  }
-                }
+                const isOwner = this.props.user.current_user.id === this.props.todos[this.props.match.params.id].owner_id;
+                const isMe = user.id === this.props.user.current_user.id;
+                return (
+                  <li key={user.id}>
+                    {
+                      (isOwner && !isMe) || (!isOwner && isMe)
+                      ? isOwner ? (<i className="material-icons" id={user.user_todo_id} onClick={this.handleRemoveUserAsOwner}>delete</i>)
+                        : (<i className="material-icons" id={user.user_todo_id} onClick={this.handleRemoveUser}>delete</i>)
+                      : null
+                    }
+                    {user.username}
+                  </li>
+                )
               })
             }
           </ul>
-      )} else {
-        return (<div>test</div>)
+        )
+      //   return(
+      //     <ul>
+      //       {
+      //         // if current user is owner, can delete all except self.
+      //         if(this.props.user.current_user.id === this.props.todos[this.props.match.params.id].owner_id) {
+      //           this.props.todos[this.props.match.params.id].users.map(user => {
+      //             if(user.id === his.props.user.current_user.id){
+      //               return(
+      //                 <li key={user.id}>
+      //                   {user.username}
+      //                 </li>
+      //               );
+      //             } else {
+      //               return(
+      //                 <li key={user.id}>
+      //                   <i className="material-icons" id={user.user_todo_id} onClick={this.handleRemoveUser}>delete</i>{user.username}
+      //                 </li>
+      //               )
+      //             }
+      //           })
+      //         } else {
+      //             // else can delete only self
+      //           this.props.todos[this.props.match.params.id].users.map(user => {
+      //             if(user.id == this.props.user.current_user.id) {
+      //               return(
+      //                 <li key={user.id}>
+      //                   <i className="material-icons" id={user.user_todo_id} onClick={this.handleRemoveUser}>delete</i>{user.username}
+      //                 </li>
+      //               )
+      //             }else {
+      //               return(
+      //                 <li key={user.id}>
+      //                   {user.username}
+      //                 </li>
+      //               )
+      //             }
+      //           }
+      //         }
+      //
+      //           if(this.props.user.current_user.id === this.props.todos[this.props.match.params.id].owner_id) {
+      //             if(user.id == this.props.todos[this.props.match.params.id].owner_id){
+      //               return(
+      //                 <li key={user.id}>
+      //                   {user.username}
+      //                 </li>
+      //               );
+      //             } else {
+      //               return(
+      //                 <li key={user.id}>
+      //                   <i className="material-icons" id={user.user_todo_id} onClick={this.handleRemoveUser}>delete</i>{user.username}
+      //                 </li>
+      //               )
+      //             }
+      //           }else {
+      //             if(user.id == this.props.user.current_user.id) {
+      //               return(
+      //                 <li key={user.id}>
+      //                   <i className="material-icons" id={user.user_todo_id} onClick={this.handleRemoveUser}>delete</i>{user.username}
+      //                 </li>
+      //               )
+      //             }else {
+      //               return(
+      //                 <li key={user.id}>
+      //                   {user.username}
+      //                 </li>
+      //               )
+      //             }
+      //           }
+      //         })
+      //       }
+      //     </ul>
+      // )} else {
+      //   return (<div>test</div>)
       }
     }
 
@@ -150,6 +212,7 @@ const mapDispatchToProps = dispatch => ({
   fetchSubTasks: todoId => dispatch(fetchSubTasks(todoId)),
   createUserTodo: userTodo => dispatch(createUserTodo(userTodo)),
   deleteUserTodo: userTodo => dispatch(deleteUserTodo(userTodo)),
+  deleteUserTodoAsOwner: userTodo => dispatch(deleteUserTodoAsOwner(userTodo)),
   getTodo: todoId => dispatch(getTodo(todoId)),
 });
 

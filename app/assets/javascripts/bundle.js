@@ -3811,7 +3811,7 @@ module.exports = function(module) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.deleteUserTodo = exports.createUserTodo = exports.deleteTodo = exports.updateTodo = exports.createTodo = exports.getTodo = exports.fetchTodos = exports.removeTodo = exports.removeFromTodo = exports.receiveTodo = exports.receiveTodos = exports.REMOVE_FROM_TODO = exports.REMOVE_TODO = exports.RECEIVE_TODO = exports.RECEIVE_TODOS = undefined;
+exports.deleteUserTodoAsOwner = exports.deleteUserTodo = exports.createUserTodo = exports.deleteTodo = exports.updateTodo = exports.createTodo = exports.getTodo = exports.fetchTodos = exports.removeTodo = exports.removeFromTodo = exports.receiveTodo = exports.receiveTodos = exports.REMOVE_FROM_TODO = exports.REMOVE_TODO = exports.RECEIVE_TODO = exports.RECEIVE_TODOS = undefined;
 
 var _todo_api_util = __webpack_require__(266);
 
@@ -3919,19 +3919,21 @@ var createUserTodo = exports.createUserTodo = function createUserTodo(userTodo) 
 
 var deleteUserTodo = exports.deleteUserTodo = function deleteUserTodo(userTodo) {
   return function (dispatch) {
-    if (userTodo.is_owner) {
-      return UserTodoAPIUtil.deleteUserTodo(userTodo).then(function (todo) {
-        dispatch(removeFromTodo(todo));dispatch((0, _error_actions.clearErrors)());
-      }, function (err) {
-        return dispatch((0, _error_actions.receiveErrors)(err));
-      });
-    } else {
-      return UserTodoAPIUtil.deleteUserTodo(userTodo).then(function (todo) {
-        dispatch(removeTodo(todo));dispatch((0, _error_actions.clearErrors)());
-      }, function (err) {
-        return dispatch((0, _error_actions.receiveErrors)(err));
-      });
-    }
+    return UserTodoAPIUtil.deleteUserTodo(userTodo).then(function (todo) {
+      dispatch(removeTodo(todo));dispatch((0, _error_actions.clearErrors)());
+    }, function (err) {
+      return dispatch((0, _error_actions.receiveErrors)(err));
+    });
+  };
+};
+
+var deleteUserTodoAsOwner = exports.deleteUserTodoAsOwner = function deleteUserTodoAsOwner(userTodo) {
+  return function (dispatch) {
+    return UserTodoAPIUtil.deleteUserTodo(userTodo).then(function (todo) {
+      dispatch(removeFromTodo(todo));dispatch((0, _error_actions.clearErrors)());
+    }, function (err) {
+      return dispatch((0, _error_actions.receiveErrors)(err));
+    });
   };
 };
 
@@ -32196,6 +32198,7 @@ var TodoDetail = function (_React$Component) {
     _this.handleCreateUser = _this.handleCreateUser.bind(_this);
     _this.handleInput = _this.handleInput.bind(_this);
     _this.handleRemoveUser = _this.handleRemoveUser.bind(_this);
+    _this.handleRemoveUserAsOwner = _this.handleRemoveUserAsOwner.bind(_this);
     return _this;
   }
 
@@ -32232,25 +32235,31 @@ var TodoDetail = function (_React$Component) {
       this.setState({ newUser: "" });
     }
   }, {
+    key: 'handleRemoveUserAsOwner',
+    value: function handleRemoveUserAsOwner(e) {
+      e.preventDefault();
+      this.props.deleteUserTodoAsOwner({ id: e.target.id, todo_id: this.props.match.params.id });
+    }
+  }, {
     key: 'handleRemoveUser',
     value: function handleRemoveUser(e) {
       e.preventDefault();
       this.props.deleteUserTodo({ id: e.target.id, todo_id: this.props.match.params.id });
-      if (this.props.user.current_user.id != this.props.todos[this.props.match.params.id].owner_id) {
-        var nextTodo = Object.keys(this.props.todos).indexOf(this.props.match.params.id) - 1;
-        this.props.history.push('/' + Object.values(this.props.todos)[nextTodo].id);
+      // if(this.props.user.current_user.id != e.target.id) {
+      //   const nextTodo = Object.keys(this.props.todos).indexOf(this.props.match.params.id) - 1
+      //   this.props.history.push(`/${(Object.values(this.props.todos)[nextTodo]).id}`);
+      // }
 
-        // TODO implement this here;
-        // const todosArray = Object.keys(this.props.todos);
-        // if(todosArray.length === 1) {
-        //   this.props.history.push(`/`);
-        // }else if(this.props.location.pathname.split("/")[1] == this.state.id) {
-        //   let nextTodo = todosArray.indexOf(this.state.id.toString()) - 1;
-        //   if(nextTodo < 0) {
-        //     nextTodo = 1;
-        //   }
-        //   this.props.history.push(`/${todosArray[nextTodo]}`);
-        // }
+      // TODO implement this here;
+      var todosArray = Object.keys(this.props.todos);
+      if (todosArray.length <= 1) {
+        this.props.history.push('/');
+      } else {
+        var nextTodo = todosArray.indexOf(this.props.match.params.id) - 1;
+        if (nextTodo < 0) {
+          nextTodo = 1;
+        }
+        this.props.history.push('/' + todosArray[nextTodo]);
       }
     }
   }, {
@@ -32280,53 +32289,97 @@ var TodoDetail = function (_React$Component) {
             'ul',
             null,
             _this2.props.todos[_this2.props.match.params.id].users.map(function (user) {
-              if (_this2.props.user.current_user.id === _this2.props.todos[_this2.props.match.params.id].owner_id) {
-                if (user.id == _this2.props.todos[_this2.props.match.params.id].owner_id) {
-                  return _react2.default.createElement(
-                    'li',
-                    { key: user.id },
-                    user.username
-                  );
-                } else {
-                  return _react2.default.createElement(
-                    'li',
-                    { key: user.id },
-                    _react2.default.createElement(
-                      'i',
-                      { className: 'material-icons', id: user.user_todo_id, onClick: _this2.handleRemoveUser },
-                      'delete'
-                    ),
-                    user.username
-                  );
-                }
-              } else {
-                if (user.id == _this2.props.user.current_user.id) {
-                  return _react2.default.createElement(
-                    'li',
-                    { key: user.id },
-                    _react2.default.createElement(
-                      'i',
-                      { className: 'material-icons', id: user.user_todo_id, onClick: _this2.handleRemoveUser },
-                      'delete'
-                    ),
-                    user.username
-                  );
-                } else {
-                  return _react2.default.createElement(
-                    'li',
-                    { key: user.id },
-                    user.username
-                  );
-                }
-              }
+              var isOwner = _this2.props.user.current_user.id === _this2.props.todos[_this2.props.match.params.id].owner_id;
+              var isMe = user.id === _this2.props.user.current_user.id;
+              return _react2.default.createElement(
+                'li',
+                { key: user.id },
+                isOwner && !isMe || !isOwner && isMe ? isOwner ? _react2.default.createElement(
+                  'i',
+                  { className: 'material-icons', id: user.user_todo_id, onClick: _this2.handleRemoveUserAsOwner },
+                  'delete'
+                ) : _react2.default.createElement(
+                  'i',
+                  { className: 'material-icons', id: user.user_todo_id, onClick: _this2.handleRemoveUser },
+                  'delete'
+                ) : null,
+                user.username
+              );
             })
           );
-        } else {
-          return _react2.default.createElement(
-            'div',
-            null,
-            'test'
-          );
+          //   return(
+          //     <ul>
+          //       {
+          //         // if current user is owner, can delete all except self.
+          //         if(this.props.user.current_user.id === this.props.todos[this.props.match.params.id].owner_id) {
+          //           this.props.todos[this.props.match.params.id].users.map(user => {
+          //             if(user.id === his.props.user.current_user.id){
+          //               return(
+          //                 <li key={user.id}>
+          //                   {user.username}
+          //                 </li>
+          //               );
+          //             } else {
+          //               return(
+          //                 <li key={user.id}>
+          //                   <i className="material-icons" id={user.user_todo_id} onClick={this.handleRemoveUser}>delete</i>{user.username}
+          //                 </li>
+          //               )
+          //             }
+          //           })
+          //         } else {
+          //             // else can delete only self
+          //           this.props.todos[this.props.match.params.id].users.map(user => {
+          //             if(user.id == this.props.user.current_user.id) {
+          //               return(
+          //                 <li key={user.id}>
+          //                   <i className="material-icons" id={user.user_todo_id} onClick={this.handleRemoveUser}>delete</i>{user.username}
+          //                 </li>
+          //               )
+          //             }else {
+          //               return(
+          //                 <li key={user.id}>
+          //                   {user.username}
+          //                 </li>
+          //               )
+          //             }
+          //           }
+          //         }
+          //
+          //           if(this.props.user.current_user.id === this.props.todos[this.props.match.params.id].owner_id) {
+          //             if(user.id == this.props.todos[this.props.match.params.id].owner_id){
+          //               return(
+          //                 <li key={user.id}>
+          //                   {user.username}
+          //                 </li>
+          //               );
+          //             } else {
+          //               return(
+          //                 <li key={user.id}>
+          //                   <i className="material-icons" id={user.user_todo_id} onClick={this.handleRemoveUser}>delete</i>{user.username}
+          //                 </li>
+          //               )
+          //             }
+          //           }else {
+          //             if(user.id == this.props.user.current_user.id) {
+          //               return(
+          //                 <li key={user.id}>
+          //                   <i className="material-icons" id={user.user_todo_id} onClick={this.handleRemoveUser}>delete</i>{user.username}
+          //                 </li>
+          //               )
+          //             }else {
+          //               return(
+          //                 <li key={user.id}>
+          //                   {user.username}
+          //                 </li>
+          //               )
+          //             }
+          //           }
+          //         })
+          //       }
+          //     </ul>
+          // )} else {
+          //   return (<div>test</div>)
         }
       };
 
@@ -32388,6 +32441,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     },
     deleteUserTodo: function deleteUserTodo(userTodo) {
       return dispatch((0, _todo_actions.deleteUserTodo)(userTodo));
+    },
+    deleteUserTodoAsOwner: function deleteUserTodoAsOwner(userTodo) {
+      return dispatch((0, _todo_actions.deleteUserTodoAsOwner)(userTodo));
     },
     getTodo: function getTodo(todoId) {
       return dispatch((0, _todo_actions.getTodo)(todoId));
