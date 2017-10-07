@@ -3,6 +3,7 @@ class ApplicationController < ActionController::Base
   helper_method :current_user, :logged_in?
 
   def require_no_user!
+    print "hello"
     redirect_to "/" if current_user
   end
 
