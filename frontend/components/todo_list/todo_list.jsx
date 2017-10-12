@@ -9,7 +9,9 @@ class TodoList extends React.Component {
     const {user, search, todos, createTodo, errors} = this.props;
     const filteredTodo = todos.filter((todo) => {
       return (todo.title.toLowerCase()
-        .indexOf(search.toLowerCase()) != -1);
+        .indexOf(search.toLowerCase()) != -1 ||
+        todo.users.map((user)=>(user.username)).join().toLowerCase()
+        .indexOf(search.toLowerCase()) != -1 );
     });
     const todoItems = () => (
       <ul>
@@ -27,7 +29,6 @@ class TodoList extends React.Component {
 
     return (
       <div className="list_todos">
-
         {todoItems()}
       </div>
     )

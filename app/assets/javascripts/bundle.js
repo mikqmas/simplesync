@@ -29791,7 +29791,9 @@ var TodoList = function (_React$Component) {
           errors = _props.errors;
 
       var filteredTodo = todos.filter(function (todo) {
-        return todo.title.toLowerCase().indexOf(search.toLowerCase()) != -1;
+        return todo.title.toLowerCase().indexOf(search.toLowerCase()) != -1 || todo.users.map(function (user) {
+          return user.username;
+        }).join().toLowerCase().indexOf(search.toLowerCase()) != -1;
       });
       var todoItems = function todoItems() {
         return _react2.default.createElement(
