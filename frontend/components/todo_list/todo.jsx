@@ -21,6 +21,11 @@ class Todo extends React.Component {
     this.handleUpdate = this.handleUpdate.bind(this);
     this.handleClick = this.handleClick.bind(this);
   }
+
+  shouldComponentUpdate(nextProps) {
+    return !!nextProps.user.current_user;
+  }
+
   handleDelete(e) {
     e.preventDefault();
     this.props.deleteTodo(this.state);
@@ -66,7 +71,9 @@ class Todo extends React.Component {
       <Link to={`/${this.state.id}`} onClick={this.handleClick} >
         <li className="task_items" style={{backgroundColor:bgColor, color:fontColor}}>
           <i className="material-icons" onClick={this.handleCompleted}>{this.state.done ? "check_circle" : "done"}</i>
-          <i className="material-icons" onClick={this.handleDelete}>delete</i>
+          {
+            this.props.todo.owner_id == this.props.user.current_user.id ? <i className="material-icons" onClick={this.handleDelete}>delete</i> : null
+          }
           <input type="text" value={this.state.title} onChange={this.handleUpdate}/>
         </li>
       </Link>

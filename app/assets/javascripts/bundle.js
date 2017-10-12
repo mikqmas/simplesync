@@ -13222,6 +13222,10 @@ var _todo_detail = __webpack_require__(378);
 
 var _todo_detail2 = _interopRequireDefault(_todo_detail);
 
+var _empty_todo = __webpack_require__(386);
+
+var _empty_todo2 = _interopRequireDefault(_empty_todo);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var TodoContent = function TodoContent() {
@@ -13231,13 +13235,7 @@ var TodoContent = function TodoContent() {
     _react2.default.createElement(
       _reactRouterDom.Switch,
       null,
-      _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/', render: function render() {
-          return _react2.default.createElement(
-            'div',
-            null,
-            'this is a test!!!!'
-          );
-        } }),
+      _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/', component: _empty_todo2.default }),
       _react2.default.createElement(_reactRouterDom.Route, { path: '/:id', component: _todo_detail2.default })
     )
   );
@@ -32307,79 +32305,6 @@ var TodoDetail = function (_React$Component) {
               );
             })
           );
-          //   return(
-          //     <ul>
-          //       {
-          //         // if current user is owner, can delete all except self.
-          //         if(this.props.user.current_user.id === this.props.todos[this.props.match.params.id].owner_id) {
-          //           this.props.todos[this.props.match.params.id].users.map(user => {
-          //             if(user.id === his.props.user.current_user.id){
-          //               return(
-          //                 <li key={user.id}>
-          //                   {user.username}
-          //                 </li>
-          //               );
-          //             } else {
-          //               return(
-          //                 <li key={user.id}>
-          //                   <i className="material-icons" id={user.user_todo_id} onClick={this.handleRemoveUser}>delete</i>{user.username}
-          //                 </li>
-          //               )
-          //             }
-          //           })
-          //         } else {
-          //             // else can delete only self
-          //           this.props.todos[this.props.match.params.id].users.map(user => {
-          //             if(user.id == this.props.user.current_user.id) {
-          //               return(
-          //                 <li key={user.id}>
-          //                   <i className="material-icons" id={user.user_todo_id} onClick={this.handleRemoveUser}>delete</i>{user.username}
-          //                 </li>
-          //               )
-          //             }else {
-          //               return(
-          //                 <li key={user.id}>
-          //                   {user.username}
-          //                 </li>
-          //               )
-          //             }
-          //           }
-          //         }
-          //
-          //           if(this.props.user.current_user.id === this.props.todos[this.props.match.params.id].owner_id) {
-          //             if(user.id == this.props.todos[this.props.match.params.id].owner_id){
-          //               return(
-          //                 <li key={user.id}>
-          //                   {user.username}
-          //                 </li>
-          //               );
-          //             } else {
-          //               return(
-          //                 <li key={user.id}>
-          //                   <i className="material-icons" id={user.user_todo_id} onClick={this.handleRemoveUser}>delete</i>{user.username}
-          //                 </li>
-          //               )
-          //             }
-          //           }else {
-          //             if(user.id == this.props.user.current_user.id) {
-          //               return(
-          //                 <li key={user.id}>
-          //                   <i className="material-icons" id={user.user_todo_id} onClick={this.handleRemoveUser}>delete</i>{user.username}
-          //                 </li>
-          //               )
-          //             }else {
-          //               return(
-          //                 <li key={user.id}>
-          //                   {user.username}
-          //                 </li>
-          //               )
-          //             }
-          //           }
-          //         })
-          //       }
-          //     </ul>
-          // )} else {
-          //   return (<div>test</div>)
         }
       };
 
@@ -49753,6 +49678,11 @@ var Todo = function (_React$Component) {
   }
 
   _createClass(Todo, [{
+    key: 'shouldComponentUpdate',
+    value: function shouldComponentUpdate(nextProps) {
+      return !!nextProps.user.current_user;
+    }
+  }, {
     key: 'handleDelete',
     value: function handleDelete(e) {
       e.preventDefault();
@@ -49817,11 +49747,11 @@ var Todo = function (_React$Component) {
             { className: 'material-icons', onClick: this.handleCompleted },
             this.state.done ? "check_circle" : "done"
           ),
-          _react2.default.createElement(
+          this.props.todo.owner_id == this.props.user.current_user.id ? _react2.default.createElement(
             'i',
             { className: 'material-icons', onClick: this.handleDelete },
             'delete'
-          ),
+          ) : null,
           _react2.default.createElement('input', { type: 'text', value: this.state.title, onChange: this.handleUpdate })
         )
       );
@@ -50304,16 +50234,23 @@ var Landed = function (_React$Component) {
   _createClass(Landed, [{
     key: 'componentWillMount',
     value: function componentWillMount() {
-      this.props.fetchTodos();
+      var _this2 = this;
+
+      this.props.fetchTodos().then(function () {
+        var todoList = Object.keys(_this2.props.todos);
+        var firstTodo = '/' + todoList[todoList.length - 1];
+        _this2.props.history.push(firstTodo);
+      });
     }
   }, {
     key: 'handleLogout',
     value: function handleLogout(e) {
-      var _this2 = this;
+      var _this3 = this;
 
       e.preventDefault();
+      e.stopPropagation();
       this.props.logout().then(function () {
-        if (!_this2.props.user.current_user) {
+        if (!_this3.props.user.current_user) {
           window.location.replace('/');
         }
       });
@@ -50339,6 +50276,11 @@ var Landed = function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
+
+      // if(!!Object.keys(this.props.todos).length && !this.props.match.params.id) {
+      //   this.props.history.push('/' + Object.keys(this.props.todos)[0]);
+      // }
+
       return _react2.default.createElement(
         'div',
         { className: 'app' },
@@ -50406,7 +50348,8 @@ var Landed = function (_React$Component) {
 
 var mapStateToProps = function mapStateToProps(state) {
   return {
-    user: state.user
+    user: state.user,
+    todos: state.todos
   };
 };
 
@@ -50425,6 +50368,56 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 };
 
 exports.default = (0, _reactRouter.withRouter)((0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Landed));
+
+/***/ }),
+/* 386 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(4);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var EmptyTodo = function (_React$Component) {
+  _inherits(EmptyTodo, _React$Component);
+
+  function EmptyTodo() {
+    _classCallCheck(this, EmptyTodo);
+
+    return _possibleConstructorReturn(this, (EmptyTodo.__proto__ || Object.getPrototypeOf(EmptyTodo)).apply(this, arguments));
+  }
+
+  _createClass(EmptyTodo, [{
+    key: "render",
+    value: function render() {
+      return _react2.default.createElement(
+        "div",
+        { id: "task_completed" },
+        "All Tasks Completed"
+      );
+    }
+  }]);
+
+  return EmptyTodo;
+}(_react2.default.Component);
+
+exports.default = EmptyTodo;
 
 /***/ })
 /******/ ]);

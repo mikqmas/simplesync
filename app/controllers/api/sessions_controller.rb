@@ -12,6 +12,7 @@ class Api::SessionsController < ApplicationController
     else
       login_user!(@user)
       redirect_to '/'
+      # + @user.todos.last.id.to_s
     end
   end
 
@@ -25,6 +26,7 @@ class Api::SessionsController < ApplicationController
       )
     else
       logout_user!
+      redirect_to '/'
     end
   end
 

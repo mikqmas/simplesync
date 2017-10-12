@@ -17,11 +17,16 @@ class Landed extends React.Component {
   }
 
   componentWillMount() {
-    this.props.fetchTodos();
+    this.props.fetchTodos().then(() => {
+      const todoList = Object.keys(this.props.todos);
+      const firstTodo = '/' + todoList[todoList.length - 1];
+      this.props.history.push(firstTodo);
+    });
   }
 
   handleLogout(e) {
     e.preventDefault();
+    e.stopPropagation();
     this.props.logout()
     .then(() => {
       if(!this.props.user.current_user) {
@@ -47,6 +52,12 @@ class Landed extends React.Component {
   }
 
   render() {
+
+
+    // if(!!Object.keys(this.props.todos).length && !this.props.match.params.id) {
+    //   this.props.history.push('/' + Object.keys(this.props.todos)[0]);
+    // }
+
     return (
       <div className="app">
         <div className="toolbar">
@@ -85,7 +96,8 @@ class Landed extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  user: state.user
+  user: state.user,
+  todos: state.todos
 })
 
 const mapDispatchToProps = dispatch => ({

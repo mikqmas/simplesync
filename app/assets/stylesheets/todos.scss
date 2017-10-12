@@ -27,3 +27,10 @@ $color: #448AC9;
     margin: 0 .5em;
   }
 }
+
+#task_completed {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+}
