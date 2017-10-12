@@ -10,8 +10,10 @@ class TodoList extends React.Component {
     const filteredTodo = todos.filter((todo) => {
       return (todo.title.toLowerCase()
         .indexOf(search.toLowerCase()) != -1 ||
-        todo.users.map((user)=>(user.username)).join().toLowerCase()
-        .indexOf(search.toLowerCase()) != -1 );
+        todo.users.filter((user)=>
+        (user.username.toLowerCase()
+        .indexOf(search.toLowerCase()) != -1 )).length > 0
+      );
     });
     const todoItems = () => (
       <ul>
