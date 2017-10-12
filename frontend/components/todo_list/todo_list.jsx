@@ -5,15 +5,16 @@ import { Link } from 'react-router-dom';
 import Todo from './todo';
 
 class TodoList extends React.Component {
-  componentWillMount() {
-    // this.props.fetchTodos();
-  }
   render() {
-    const {user, todos, createTodo, errors} = this.props;
+    const {user, search, todos, createTodo, errors} = this.props;
+    const filteredTodo = todos.filter((todo) => {
+      return (todo.title.toLowerCase()
+        .indexOf(search.toLowerCase()) != -1);
+    });
     const todoItems = () => (
       <ul>
         {
-          todos.map(todo => (
+          filteredTodo.map(todo => (
             <Todo key={todo.id} todo={todo}/>
           ))
         }
@@ -26,6 +27,7 @@ class TodoList extends React.Component {
 
     return (
       <div className="list_todos">
+
         {todoItems()}
       </div>
     )

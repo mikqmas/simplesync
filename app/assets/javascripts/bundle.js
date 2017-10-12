@@ -29781,24 +29781,23 @@ var TodoList = function (_React$Component) {
   }
 
   _createClass(TodoList, [{
-    key: 'componentWillMount',
-    value: function componentWillMount() {
-      // this.props.fetchTodos();
-    }
-  }, {
     key: 'render',
     value: function render() {
       var _props = this.props,
           user = _props.user,
+          search = _props.search,
           todos = _props.todos,
           createTodo = _props.createTodo,
           errors = _props.errors;
 
+      var filteredTodo = todos.filter(function (todo) {
+        return todo.title.toLowerCase().indexOf(search.toLowerCase()) != -1;
+      });
       var todoItems = function todoItems() {
         return _react2.default.createElement(
           'ul',
           null,
-          todos.map(function (todo) {
+          filteredTodo.map(function (todo) {
             return _react2.default.createElement(_todo2.default, { key: todo.id, todo: todo });
           })
         );
@@ -50225,9 +50224,11 @@ var Landed = function (_React$Component) {
 
     var _this = _possibleConstructorReturn(this, (Landed.__proto__ || Object.getPrototypeOf(Landed)).call(this, props));
 
+    _this.state = { "search": "" };
     _this.handleLogout = _this.handleLogout.bind(_this);
     _this.handleAdd = _this.handleAdd.bind(_this);
     _this.handleAccount = _this.handleAccount.bind(_this);
+    _this.handleSearch = _this.handleSearch.bind(_this);
     return _this;
   }
 
@@ -50274,6 +50275,12 @@ var Landed = function (_React$Component) {
       e.target.children[0].style.display = e.target.children[0].style.display == "none" ? "flex" : "none";
     }
   }, {
+    key: 'handleSearch',
+    value: function handleSearch(e) {
+      e.preventDefault();
+      this.setState({ "search": e.target.value });
+    }
+  }, {
     key: 'render',
     value: function render() {
 
@@ -50290,7 +50297,7 @@ var Landed = function (_React$Component) {
           _react2.default.createElement(
             'div',
             { className: 'toolbar_left' },
-            _react2.default.createElement('input', { type: 'text', placeholder: 'search', className: 'searchfield noselect' }),
+            _react2.default.createElement('input', { type: 'text', placeholder: 'search', onChange: this.handleSearch, value: this.state.search, className: 'searchfield noselect' }),
             _react2.default.createElement('span', { className: 'searchcancel' }),
             _react2.default.createElement(
               'i',
@@ -50331,7 +50338,7 @@ var Landed = function (_React$Component) {
           _react2.default.createElement(
             'div',
             { className: 'content_left' },
-            _react2.default.createElement(_todo_list_container2.default, null)
+            _react2.default.createElement(_todo_list_container2.default, { search: this.state.search })
           ),
           _react2.default.createElement(
             'div',

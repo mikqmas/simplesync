@@ -18,8 +18,6 @@ document.addEventListener('DOMContentLoaded', () => {
     store = configureStore();
   }
 
-
-
   const preLanded = (
     <BrowserRouter>
       <Provider store={store}>

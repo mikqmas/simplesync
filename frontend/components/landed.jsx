@@ -11,9 +11,11 @@ import {Link, Switch, Route} from 'react-router-dom';
 class Landed extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {"search": ""}
     this.handleLogout = this.handleLogout.bind(this);
     this.handleAdd = this.handleAdd.bind(this);
     this.handleAccount = this.handleAccount.bind(this);
+    this.handleSearch = this.handleSearch.bind(this);
   }
 
   componentWillMount() {
@@ -51,6 +53,11 @@ class Landed extends React.Component {
     e.target.children[0].style.display = e.target.children[0].style.display == "none" ? "flex" : "none";
   }
 
+  handleSearch(e) {
+    e.preventDefault();
+    this.setState({"search": e.target.value});
+  }
+
   render() {
 
 
@@ -62,7 +69,7 @@ class Landed extends React.Component {
       <div className="app">
         <div className="toolbar">
           <div className="toolbar_left">
-            <input type="text" placeholder="search" className="searchfield noselect"></input>
+            <input type="text" placeholder="search" onChange={this.handleSearch} value={this.state.search} className="searchfield noselect"/>
             <span className="searchcancel"></span>
             <i className="material-icons" onClick={this.handleAdd} title="add note">add_circle_outline</i>
           </div>
@@ -83,7 +90,7 @@ class Landed extends React.Component {
 
         <div className="main_content">
           <div className="content_left">
-            <TodoList />
+            <TodoList search={this.state.search}/>
           </div>
 
           <div className="content_right">
