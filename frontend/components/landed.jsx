@@ -50,12 +50,20 @@ class Landed extends React.Component {
 
   handleAccount(e) {
     e.preventDefault();
-    e.target.children[0].style.display = e.target.children[0].style.display == "none" ? "flex" : "none";
+    const children = e.target.children;
+    for(let i=0; i < children.length; i++) {
+      children[i].style.display = children[i].style.display == "none" ? "flex" : "none";
+    }
   }
 
   handleSearch(e) {
     e.preventDefault();
     this.setState({"search": e.target.value});
+  }
+
+  handleSettings(e) {
+    e.preventDefault();
+
   }
 
   render() {
@@ -75,16 +83,13 @@ class Landed extends React.Component {
           </div>
 
           <div className="toolbar_right">
-            <div className="headerlog">
-              <div className="popover">
-                <span id="user_account_menu">
-                  <ul className="material-icons" onClick={this.handleAccount}>account_circle
-                    <li id="profile" style={{display:"none", position:"absolute"}} onClick={this.handleLogout}>{this.props.user.current_user ?
-                      this.props.user.current_user.username : "Logging Out"}</li>
-                  </ul>
-                </span>
-              </div>
-            </div>
+            <span id="user_account_menu">
+              <ul onClick={this.handleAccount} className="profile_icon">{this.props.user.current_user ?
+                this.props.user.current_user.username : "Logging Out"}
+                <li id="profile" style={{"display": "none"}} onClick={this.handleLogout}>Logout</li>
+                <li id="settings" style={{"display": "none"}} onClick={this.handleSettings}>Settings</li>
+              </ul>
+            </span>
           </div>
         </div>
 

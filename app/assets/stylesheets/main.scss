@@ -45,10 +45,31 @@
     width: 60%;
     border: 1px solid #eee;
     vertical-align: middle;
+    display:flex;
+    justify-content: flex-end;
+    align-items: center;
 
     .material-icons {
       margin-left: .2em;
       font-size: 32px;
+    }
+
+    #user_account_menu {
+      position: absolute;
+      top: 0;
+
+      .profile_icon {
+        font-size: 1.2em;
+        cursor: pointer;
+        position: relative;
+
+
+        li {
+          display: none;
+          position: inherit;
+          background-color: white;
+        }
+      }
     }
   }
 }
@@ -173,7 +194,6 @@
       list-style: none;
       text-decoration: none;
       padding: 0 1em;
-
     }
   }
 }

@@ -13222,7 +13222,7 @@ var _todo_detail = __webpack_require__(378);
 
 var _todo_detail2 = _interopRequireDefault(_todo_detail);
 
-var _empty_todo = __webpack_require__(386);
+var _empty_todo = __webpack_require__(381);
 
 var _empty_todo2 = _interopRequireDefault(_empty_todo);
 
@@ -13635,7 +13635,7 @@ var _app = __webpack_require__(340);
 
 var _app2 = _interopRequireDefault(_app);
 
-var _landed = __webpack_require__(385);
+var _landed = __webpack_require__(386);
 
 var _landed2 = _interopRequireDefault(_landed);
 
@@ -28926,15 +28926,15 @@ var _todo_list_container = __webpack_require__(136);
 
 var _todo_list_container2 = _interopRequireDefault(_todo_list_container);
 
-var _login = __webpack_require__(382);
+var _login = __webpack_require__(383);
 
 var _login2 = _interopRequireDefault(_login);
 
-var _signup = __webpack_require__(383);
+var _signup = __webpack_require__(384);
 
 var _signup2 = _interopRequireDefault(_signup);
 
-var _contact = __webpack_require__(384);
+var _contact = __webpack_require__(385);
 
 var _contact2 = _interopRequireDefault(_contact);
 
@@ -29759,7 +29759,7 @@ var _todo_content2 = _interopRequireDefault(_todo_content);
 
 var _reactRouterDom = __webpack_require__(27);
 
-var _todo = __webpack_require__(381);
+var _todo = __webpack_require__(382);
 
 var _todo2 = _interopRequireDefault(_todo);
 
@@ -49631,6 +49631,56 @@ var _react = __webpack_require__(4);
 
 var _react2 = _interopRequireDefault(_react);
 
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var EmptyTodo = function (_React$Component) {
+  _inherits(EmptyTodo, _React$Component);
+
+  function EmptyTodo() {
+    _classCallCheck(this, EmptyTodo);
+
+    return _possibleConstructorReturn(this, (EmptyTodo.__proto__ || Object.getPrototypeOf(EmptyTodo)).apply(this, arguments));
+  }
+
+  _createClass(EmptyTodo, [{
+    key: "render",
+    value: function render() {
+      return _react2.default.createElement(
+        "div",
+        { id: "task_completed" },
+        "All Tasks Completed"
+      );
+    }
+  }]);
+
+  return EmptyTodo;
+}(_react2.default.Component);
+
+exports.default = EmptyTodo;
+
+/***/ }),
+/* 382 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(4);
+
+var _react2 = _interopRequireDefault(_react);
+
 var _reactRedux = __webpack_require__(16);
 
 var _reactRouter = __webpack_require__(8);
@@ -49787,7 +49837,7 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 exports.default = (0, _reactRouter.withRouter)((0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Todo));
 
 /***/ }),
-/* 382 */
+/* 383 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -49956,7 +50006,7 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Login);
 
 /***/ }),
-/* 383 */
+/* 384 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -50149,7 +50199,7 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Signup);
 
 /***/ }),
-/* 384 */
+/* 385 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -50176,7 +50226,7 @@ function Contact() {
 exports.default = Contact;
 
 /***/ }),
-/* 385 */
+/* 386 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -50274,13 +50324,21 @@ var Landed = function (_React$Component) {
     key: 'handleAccount',
     value: function handleAccount(e) {
       e.preventDefault();
-      e.target.children[0].style.display = e.target.children[0].style.display == "none" ? "flex" : "none";
+      var children = e.target.children;
+      for (var i = 0; i < children.length; i++) {
+        children[i].style.display = children[i].style.display == "none" ? "flex" : "none";
+      }
     }
   }, {
     key: 'handleSearch',
     value: function handleSearch(e) {
       e.preventDefault();
       this.setState({ "search": e.target.value });
+    }
+  }, {
+    key: 'handleSettings',
+    value: function handleSettings(e) {
+      e.preventDefault();
     }
   }, {
     key: 'render',
@@ -50311,24 +50369,21 @@ var Landed = function (_React$Component) {
             'div',
             { className: 'toolbar_right' },
             _react2.default.createElement(
-              'div',
-              { className: 'headerlog' },
+              'span',
+              { id: 'user_account_menu' },
               _react2.default.createElement(
-                'div',
-                { className: 'popover' },
+                'ul',
+                { onClick: this.handleAccount, className: 'profile_icon' },
+                this.props.user.current_user ? this.props.user.current_user.username : "Logging Out",
                 _react2.default.createElement(
-                  'span',
-                  { id: 'user_account_menu' },
-                  _react2.default.createElement(
-                    'ul',
-                    { className: 'material-icons', onClick: this.handleAccount },
-                    'account_circle',
-                    _react2.default.createElement(
-                      'li',
-                      { id: 'profile', style: { display: "none", position: "absolute" }, onClick: this.handleLogout },
-                      this.props.user.current_user ? this.props.user.current_user.username : "Logging Out"
-                    )
-                  )
+                  'li',
+                  { id: 'profile', style: { "display": "none" }, onClick: this.handleLogout },
+                  'Logout'
+                ),
+                _react2.default.createElement(
+                  'li',
+                  { id: 'settings', style: { "display": "none" }, onClick: this.handleSettings },
+                  'Settings'
                 )
               )
             )
@@ -50377,56 +50432,6 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 };
 
 exports.default = (0, _reactRouter.withRouter)((0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Landed));
-
-/***/ }),
-/* 386 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(4);
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var EmptyTodo = function (_React$Component) {
-  _inherits(EmptyTodo, _React$Component);
-
-  function EmptyTodo() {
-    _classCallCheck(this, EmptyTodo);
-
-    return _possibleConstructorReturn(this, (EmptyTodo.__proto__ || Object.getPrototypeOf(EmptyTodo)).apply(this, arguments));
-  }
-
-  _createClass(EmptyTodo, [{
-    key: "render",
-    value: function render() {
-      return _react2.default.createElement(
-        "div",
-        { id: "task_completed" },
-        "All Tasks Completed"
-      );
-    }
-  }]);
-
-  return EmptyTodo;
-}(_react2.default.Component);
-
-exports.default = EmptyTodo;
 
 /***/ })
 /******/ ]);
