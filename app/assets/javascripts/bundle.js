@@ -50256,6 +50256,10 @@ var _todo_content = __webpack_require__(142);
 
 var _todo_content2 = _interopRequireDefault(_todo_content);
 
+var _settings = __webpack_require__(387);
+
+var _settings2 = _interopRequireDefault(_settings);
+
 var _reactRouter = __webpack_require__(8);
 
 var _reactRouterDom = __webpack_require__(27);
@@ -50276,10 +50280,11 @@ var Landed = function (_React$Component) {
 
     var _this = _possibleConstructorReturn(this, (Landed.__proto__ || Object.getPrototypeOf(Landed)).call(this, props));
 
-    _this.state = { "search": "" };
+    _this.state = { "search": "", "modalIsOpen": false };
+    _this.toggleModal = _this.toggleModal.bind(_this);
     _this.handleLogout = _this.handleLogout.bind(_this);
     _this.handleAdd = _this.handleAdd.bind(_this);
-    _this.handleAccount = _this.handleAccount.bind(_this);
+    _this.toggleAccount = _this.toggleAccount.bind(_this);
     _this.handleSearch = _this.handleSearch.bind(_this);
     return _this;
   }
@@ -50296,19 +50301,6 @@ var Landed = function (_React$Component) {
       });
     }
   }, {
-    key: 'handleLogout',
-    value: function handleLogout(e) {
-      var _this3 = this;
-
-      e.preventDefault();
-      e.stopPropagation();
-      this.props.logout().then(function () {
-        if (!_this3.props.user.current_user) {
-          window.location.replace('/');
-        }
-      });
-    }
-  }, {
     key: 'handleAdd',
     value: function handleAdd(e) {
       e.preventDefault();
@@ -50321,12 +50313,24 @@ var Landed = function (_React$Component) {
       this.props.createTodo({ todo: todo });
     }
   }, {
-    key: 'handleAccount',
-    value: function handleAccount(e) {
-      e.preventDefault();
-      var children = e.target.children;
-      for (var i = 0; i < children.length; i++) {
-        children[i].style.display = children[i].style.display == "none" ? "flex" : "none";
+    key: 'toggleAccount',
+    value: function toggleAccount(e) {
+      var children = void 0;
+      if (e.preventDefault == null) {
+        children = Array.from(e.children);
+      } else {
+        e.preventDefault();
+        children = Array.from(e.target.children);
+      }
+      var isOpen = children[0].style.display != "none";
+      if (isOpen) {
+        children.forEach(function (child) {
+          child.style.display = "none";
+        });
+      } else {
+        children.forEach(function (child) {
+          child.style.display = "flex";
+        });
       }
     }
   }, {
@@ -50336,9 +50340,26 @@ var Landed = function (_React$Component) {
       this.setState({ "search": e.target.value });
     }
   }, {
-    key: 'handleSettings',
-    value: function handleSettings(e) {
+    key: 'toggleModal',
+    value: function toggleModal(e) {
       e.preventDefault();
+      e.stopPropagation();
+      this.toggleAccount(e.target.parentElement);
+      this.setState({ "modalIsOpen": !this.state.modalIsOpen });
+    }
+  }, {
+    key: 'handleLogout',
+    value: function handleLogout(e) {
+      var _this3 = this;
+
+      e.preventDefault();
+      e.stopPropagation();
+      this.toggleAccount(e.target.parentNode);
+      this.props.logout().then(function () {
+        if (!_this3.props.user.current_user) {
+          window.location.replace('/');
+        }
+      });
     }
   }, {
     key: 'render',
@@ -50351,6 +50372,8 @@ var Landed = function (_React$Component) {
       return _react2.default.createElement(
         'div',
         { className: 'app' },
+        this.state.modalIsOpen ? _react2.default.createElement(_settings2.default, { onClose: this.toggleModal,
+          modalIsOpen: this.state.modalIsOpen }) : null,
         _react2.default.createElement(
           'div',
           { className: 'toolbar' },
@@ -50373,7 +50396,7 @@ var Landed = function (_React$Component) {
               { id: 'user_account_menu' },
               _react2.default.createElement(
                 'ul',
-                { onClick: this.handleAccount, className: 'profile_icon' },
+                { onClick: this.toggleAccount, className: 'profile_icon' },
                 this.props.user.current_user ? this.props.user.current_user.username : "Logging Out",
                 _react2.default.createElement(
                   'li',
@@ -50382,7 +50405,7 @@ var Landed = function (_React$Component) {
                 ),
                 _react2.default.createElement(
                   'li',
-                  { id: 'settings', style: { "display": "none" }, onClick: this.handleSettings },
+                  { id: 'settings', style: { "display": "none" }, onClick: this.toggleModal },
                   'Settings'
                 )
               )
@@ -50432,6 +50455,222 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 };
 
 exports.default = (0, _reactRouter.withRouter)((0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Landed));
+
+/***/ }),
+/* 387 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(4);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Settings = function (_React$Component) {
+  _inherits(Settings, _React$Component);
+
+  function Settings(props) {
+    _classCallCheck(this, Settings);
+
+    var _this = _possibleConstructorReturn(this, (Settings.__proto__ || Object.getPrototypeOf(Settings)).call(this, props));
+
+    _this.toggleEdit = _this.toggleEdit.bind(_this);
+    _this.showEditPassword = _this.showEditPassword.bind(_this);
+    _this.showDeleteAccount = _this.showDeleteAccount.bind(_this);
+    _this.handleEditEmail = _this.handleEditEmail.bind(_this);
+    _this.handleEditPassword = _this.handleEditPassword.bind(_this);
+    _this.handleDeleteAccount = _this.handleDeleteAccount.bind(_this);
+    return _this;
+  }
+
+  _createClass(Settings, [{
+    key: "toggleEdit",
+    value: function toggleEdit(e) {
+      e.preventDefault();
+      var display = e.target.nextSibling.style.display;
+      if (display == "none") {
+        e.target.nextSibling.style.display = "flex";
+      } else {
+        e.target.nextSibling.style.display = "none";
+      }
+    }
+  }, {
+    key: "showEditPassword",
+    value: function showEditPassword(e) {
+      e.preventDefault();
+    }
+  }, {
+    key: "showDeleteAccount",
+    value: function showDeleteAccount(e) {
+      e.preventDefault();
+    }
+  }, {
+    key: "handleEditEmail",
+    value: function handleEditEmail(e) {
+      e.preventDefault();
+    }
+  }, {
+    key: "handleEditPassword",
+    value: function handleEditPassword(e) {
+      e.preventDefault();
+    }
+  }, {
+    key: "handleDeleteAccount",
+    value: function handleDeleteAccount(e) {
+      e.preventDefault();
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      if (!this.props.modalIsOpen) {
+        return null;
+      }
+
+      return _react2.default.createElement(
+        "div",
+        { className: "modalBg" },
+        _react2.default.createElement(
+          "div",
+          { className: "modal" },
+          _react2.default.createElement(
+            "button",
+            { id: "closeButton", onClick: this.props.onClose },
+            "Close"
+          ),
+          _react2.default.createElement(
+            "h1",
+            null,
+            "Email Address"
+          ),
+          _react2.default.createElement(
+            "a",
+            { href: "javascript:$(this).click();", style: { cursor: 'pointer' }, onClick: this.toggleEdit },
+            "EDIT"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "editSettings", style: { display: "none" } },
+            _react2.default.createElement(
+              "span",
+              null,
+              "New Email Address ",
+              _react2.default.createElement("input", { type: "text" })
+            ),
+            _react2.default.createElement(
+              "span",
+              null,
+              "Confirm Email Address ",
+              _react2.default.createElement("input", { type: "text" })
+            ),
+            _react2.default.createElement(
+              "span",
+              null,
+              "Password ",
+              _react2.default.createElement("input", { type: "password" })
+            ),
+            _react2.default.createElement(
+              "button",
+              { onClick: this.handleEditEmail },
+              "Change Email"
+            )
+          ),
+          _react2.default.createElement(
+            "h1",
+            null,
+            "Password"
+          ),
+          _react2.default.createElement(
+            "a",
+            { href: "javascript:$(this).click();", style: { cursor: 'pointer' }, onClick: this.toggleEdit },
+            "EDIT"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "editSettings", style: { display: "none" } },
+            _react2.default.createElement(
+              "span",
+              null,
+              "Old Password ",
+              _react2.default.createElement("input", { type: "password" })
+            ),
+            _react2.default.createElement(
+              "span",
+              null,
+              "New Password ",
+              _react2.default.createElement("input", { type: "password" })
+            ),
+            _react2.default.createElement(
+              "span",
+              null,
+              "Confirm Password ",
+              _react2.default.createElement("input", { type: "password" })
+            ),
+            _react2.default.createElement(
+              "button",
+              { onClick: this.handleEditPassword },
+              "Change Password"
+            )
+          ),
+          _react2.default.createElement(
+            "h1",
+            null,
+            "Delete Account"
+          ),
+          _react2.default.createElement(
+            "a",
+            { href: "javascript:$(this).click();", style: { cursor: 'pointer' }, onClick: this.toggleEdit },
+            "DELETE"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "editSettings", style: { display: "none" } },
+            _react2.default.createElement(
+              "h2",
+              null,
+              "Confirmation"
+            ),
+            _react2.default.createElement(
+              "span",
+              null,
+              _react2.default.createElement("input", { type: "checkbox" }),
+              "Permanently delete my account"
+            ),
+            _react2.default.createElement(
+              "span",
+              null,
+              "Password ",
+              _react2.default.createElement("input", { type: "password" })
+            ),
+            _react2.default.createElement(
+              "button",
+              { onClick: this.handleDeleteAccount },
+              "Delete Account"
+            )
+          )
+        )
+      );
+    }
+  }]);
+
+  return Settings;
+}(_react2.default.Component);
+
+exports.default = Settings;
 
 /***/ })
 /******/ ]);
