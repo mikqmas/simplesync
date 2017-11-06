@@ -1,4 +1,5 @@
 import React from 'react'
+import deleteUser from '../actions/user_actions'
 
 class Settings extends React.Component {
   constructor(props) {
@@ -27,6 +28,7 @@ class Settings extends React.Component {
 
   showDeleteAccount(e) {
     e.preventDefault();
+    this.props.deleteUser();
   }
 
   handleEditEmail(e) {
@@ -85,4 +87,16 @@ class Settings extends React.Component {
   }
 }
 
-export default Settings;
+export default withRouter(connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Settings);
+
+
+const mapStateToProps = (state) => ({
+  user: state.user
+})
+
+const mapDispatchToProps = dispatch => ({
+  deleteUser: () => dispatch(deleteUser())
+})

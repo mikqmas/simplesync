@@ -3982,7 +3982,7 @@ module.exports = isObjectLike;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.logout = exports.login = exports.createUser = exports.removeCurrentUser = exports.receiveUser = exports.REMOVE_CURRENT_USER = exports.RECEIVE_USER = undefined;
+exports.logout = exports.login = exports.updateUser = exports.deleteUser = exports.createUser = exports.removeCurrentUser = exports.receiveUser = exports.REMOVE_CURRENT_USER = exports.RECEIVE_USER = undefined;
 
 var _user_api_util = __webpack_require__(335);
 
@@ -4012,6 +4012,26 @@ var removeCurrentUser = exports.removeCurrentUser = function removeCurrentUser()
 var createUser = exports.createUser = function createUser(user) {
   return function (dispatch) {
     return UserAPIUtil.createUser(user).then(function (user) {
+      dispatch(receiveUser(user));dispatch((0, _error_actions.clearErrors)());
+    }, function (err) {
+      return dispatch((0, _error_actions.receiveErrors)(err.responseJSON));
+    });
+  };
+};
+
+var deleteUser = exports.deleteUser = function deleteUser(user) {
+  return function (dispatch) {
+    return UserAPIUtil.deleteUser(user).then(function (user) {
+      dispatch(receiveUser(user));dispatch((0, _error_actions.clearErrors)());
+    }, function (err) {
+      return dispatch((0, _error_actions.receiveErrors)(err.responseJSON));
+    });
+  };
+};
+
+var updateUser = exports.updateUser = function updateUser(user) {
+  return function (dispatch) {
+    return UserAPIUtil.updateUser(user).then(function (user) {
       dispatch(receiveUser(user));dispatch((0, _error_actions.clearErrors)());
     }, function (err) {
       return dispatch((0, _error_actions.receiveErrors)(err.responseJSON));
@@ -50458,219 +50478,9 @@ exports.default = (0, _reactRouter.withRouter)((0, _reactRedux.connect)(mapState
 
 /***/ }),
 /* 387 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports) {
 
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(4);
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var Settings = function (_React$Component) {
-  _inherits(Settings, _React$Component);
-
-  function Settings(props) {
-    _classCallCheck(this, Settings);
-
-    var _this = _possibleConstructorReturn(this, (Settings.__proto__ || Object.getPrototypeOf(Settings)).call(this, props));
-
-    _this.toggleEdit = _this.toggleEdit.bind(_this);
-    _this.showEditPassword = _this.showEditPassword.bind(_this);
-    _this.showDeleteAccount = _this.showDeleteAccount.bind(_this);
-    _this.handleEditEmail = _this.handleEditEmail.bind(_this);
-    _this.handleEditPassword = _this.handleEditPassword.bind(_this);
-    _this.handleDeleteAccount = _this.handleDeleteAccount.bind(_this);
-    return _this;
-  }
-
-  _createClass(Settings, [{
-    key: "toggleEdit",
-    value: function toggleEdit(e) {
-      e.preventDefault();
-      var display = e.target.nextSibling.style.display;
-      if (display == "none") {
-        e.target.nextSibling.style.display = "flex";
-      } else {
-        e.target.nextSibling.style.display = "none";
-      }
-    }
-  }, {
-    key: "showEditPassword",
-    value: function showEditPassword(e) {
-      e.preventDefault();
-    }
-  }, {
-    key: "showDeleteAccount",
-    value: function showDeleteAccount(e) {
-      e.preventDefault();
-    }
-  }, {
-    key: "handleEditEmail",
-    value: function handleEditEmail(e) {
-      e.preventDefault();
-    }
-  }, {
-    key: "handleEditPassword",
-    value: function handleEditPassword(e) {
-      e.preventDefault();
-    }
-  }, {
-    key: "handleDeleteAccount",
-    value: function handleDeleteAccount(e) {
-      e.preventDefault();
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      if (!this.props.modalIsOpen) {
-        return null;
-      }
-
-      return _react2.default.createElement(
-        "div",
-        { className: "modalBg" },
-        _react2.default.createElement(
-          "div",
-          { className: "modal" },
-          _react2.default.createElement(
-            "button",
-            { id: "closeButton", onClick: this.props.onClose },
-            "Close"
-          ),
-          _react2.default.createElement(
-            "h1",
-            null,
-            "Email Address"
-          ),
-          _react2.default.createElement(
-            "a",
-            { href: "javascript:$(this).click();", style: { cursor: 'pointer' }, onClick: this.toggleEdit },
-            "EDIT"
-          ),
-          _react2.default.createElement(
-            "div",
-            { className: "editSettings", style: { display: "none" } },
-            _react2.default.createElement(
-              "span",
-              null,
-              "New Email Address ",
-              _react2.default.createElement("input", { type: "text" })
-            ),
-            _react2.default.createElement(
-              "span",
-              null,
-              "Confirm Email Address ",
-              _react2.default.createElement("input", { type: "text" })
-            ),
-            _react2.default.createElement(
-              "span",
-              null,
-              "Password ",
-              _react2.default.createElement("input", { type: "password" })
-            ),
-            _react2.default.createElement(
-              "button",
-              { onClick: this.handleEditEmail },
-              "Change Email"
-            )
-          ),
-          _react2.default.createElement(
-            "h1",
-            null,
-            "Password"
-          ),
-          _react2.default.createElement(
-            "a",
-            { href: "javascript:$(this).click();", style: { cursor: 'pointer' }, onClick: this.toggleEdit },
-            "EDIT"
-          ),
-          _react2.default.createElement(
-            "div",
-            { className: "editSettings", style: { display: "none" } },
-            _react2.default.createElement(
-              "span",
-              null,
-              "Old Password ",
-              _react2.default.createElement("input", { type: "password" })
-            ),
-            _react2.default.createElement(
-              "span",
-              null,
-              "New Password ",
-              _react2.default.createElement("input", { type: "password" })
-            ),
-            _react2.default.createElement(
-              "span",
-              null,
-              "Confirm Password ",
-              _react2.default.createElement("input", { type: "password" })
-            ),
-            _react2.default.createElement(
-              "button",
-              { onClick: this.handleEditPassword },
-              "Change Password"
-            )
-          ),
-          _react2.default.createElement(
-            "h1",
-            null,
-            "Delete Account"
-          ),
-          _react2.default.createElement(
-            "a",
-            { href: "javascript:$(this).click();", style: { cursor: 'pointer' }, onClick: this.toggleEdit },
-            "DELETE"
-          ),
-          _react2.default.createElement(
-            "div",
-            { className: "editSettings", style: { display: "none" } },
-            _react2.default.createElement(
-              "h2",
-              null,
-              "Confirmation"
-            ),
-            _react2.default.createElement(
-              "span",
-              null,
-              _react2.default.createElement("input", { type: "checkbox" }),
-              "Permanently delete my account"
-            ),
-            _react2.default.createElement(
-              "span",
-              null,
-              "Password ",
-              _react2.default.createElement("input", { type: "password" })
-            ),
-            _react2.default.createElement(
-              "button",
-              { onClick: this.handleDeleteAccount },
-              "Delete Account"
-            )
-          )
-        )
-      );
-    }
-  }]);
-
-  return Settings;
-}(_react2.default.Component);
-
-exports.default = Settings;
+throw new Error("Module build failed: SyntaxError: Unexpected token, expected , (93:11)\n\n\u001b[0m \u001b[90m 91 | \u001b[39m  mapStateToProps\u001b[33m,\u001b[39m\n \u001b[90m 92 | \u001b[39m  mapDispatchToProps\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 93 | \u001b[39m)(\u001b[33mSettings\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    | \u001b[39m           \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 94 | \u001b[39m\n \u001b[90m 95 | \u001b[39m\n \u001b[90m 96 | \u001b[39m\u001b[36mconst\u001b[39m mapStateToProps \u001b[33m=\u001b[39m (state) \u001b[33m=>\u001b[39m ({\u001b[0m\n");
 
 /***/ })
 /******/ ]);
