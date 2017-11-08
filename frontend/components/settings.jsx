@@ -1,5 +1,7 @@
-import React from 'react'
-import deleteUser from '../actions/user_actions'
+import React from 'react';
+import {withRouter} from 'react-router';
+import {connect} from 'react-redux';
+import deleteUser from '../actions/user_actions';
 
 class Settings extends React.Component {
   constructor(props) {
@@ -90,7 +92,7 @@ class Settings extends React.Component {
 export default withRouter(connect(
   mapStateToProps,
   mapDispatchToProps
-)(Settings);
+)(Settings));
 
 
 const mapStateToProps = (state) => ({

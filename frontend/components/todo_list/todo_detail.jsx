@@ -116,7 +116,7 @@ class TodoDetail extends React.Component {
     if(Object.keys(this.props.todos).length > 0) {
       return (
         <div className="sub-tasks">
-          <div>{this.props.todos[this.props.match.params.id].title}</div>
+          <h1 className="task-title">{this.props.todos[this.props.match.params.id].title}</h1>
           <div>{users()}</div>
           <input className="searchfield" onChange={this.handleInput} name="newSubTask" type="text" placeholder="subtask..." value={this.state.newSubTask}/>
           <i className="material-icons" title="add subtask" onClick={this.handleNewSubTask}>add_circle_outline</i>

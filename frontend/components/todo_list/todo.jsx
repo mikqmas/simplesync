@@ -70,11 +70,16 @@ class Todo extends React.Component {
     return(
       <Link to={`/${this.state.id}`} onClick={this.handleClick} >
         <li className="task_items" style={{backgroundColor:bgColor, color:fontColor}}>
-          <i className="material-icons" onClick={this.handleCompleted}>{this.state.done ? "check_circle" : "done"}</i>
+          <span className="delete-done-icon">
           {
             this.props.todo.owner_id == this.props.user.current_user.id ? <i className="material-icons" onClick={this.handleDelete}>delete</i> : null
           }
+          <i className="material-icons" onClick={this.handleCompleted}>{this.state.done ? "check_circle" : "done"}</i>
+          </span>
+          <span className="delete-done-icon">
           <input type="text" value={this.state.title} onChange={this.handleUpdate}/>
+          <span>{this.props.todo.created_at}{this.props.todo.updated_at}</span>
+          </span>
         </li>
       </Link>
     );

@@ -50,6 +50,9 @@
 }
 
 .searchfield {
+  .searchfield::before {
+    background: url();
+  }
   border: 0;
   padding-left: .2em;
   font-size: 1.2em;
@@ -109,7 +112,6 @@
 
   .content_left {
     width:40%;
-    border: 1px solid #eee;
     overflow: scroll;
 
     .list_todos {
@@ -226,6 +228,7 @@
 }
 
 .noselect {
+  outline: none;
   -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none; /* Safari */
      -khtml-user-select: none; /* Konqueror HTML */

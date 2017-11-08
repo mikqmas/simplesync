@@ -96,7 +96,8 @@ class Landed extends React.Component {
           modalIsOpen={this.state.modalIsOpen} /> : null}
         <div className="toolbar">
           <div className="toolbar_left">
-            <input type="text" placeholder="search" onChange={this.handleSearch} value={this.state.search} className="searchfield noselect"/>
+            <i className="material-icons">search</i>
+            <input type="search" placeholder="Search Tasks" onChange={this.handleSearch} value={this.state.search} className="searchfield noselect"/>
             <span className="searchcancel"></span>
             <i className="material-icons" onClick={this.handleAdd} title="add note">add_circle_outline</i>
           </div>
