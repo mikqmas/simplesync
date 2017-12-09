@@ -15,9 +15,44 @@
   min-height: 600px;
   display: flex;
   flex-direction: column;
+
+  .modalBg {
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0,0,0,0.3);
+    padding: 50;
+  }
+
+  .modal {
+    background-color: #fff;
+    border-radius: 5px;
+    max-width: 500px;
+    min-height: 300px;
+    margin: 0 auto;
+    padding: 30px;
+
+    .editSettings {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+    }
+
+    #closeButton {
+      position: absolute;
+      top: 10px;
+      right: 50px;
+    }
+  }
 }
 
 .searchfield {
+  .searchfield::before {
+    background: url();
+  }
   border: 0;
   padding-left: .2em;
   font-size: 1.2em;
@@ -49,11 +84,6 @@
     justify-content: flex-end;
     align-items: center;
 
-    .material-icons {
-      margin-left: .2em;
-      font-size: 32px;
-    }
-
     #user_account_menu {
       position: absolute;
       top: 0;
@@ -82,11 +112,15 @@
 
   .content_left {
     width:40%;
-    border: 1px solid #eee;
     overflow: scroll;
 
     .list_todos {
       width: 100%;
+
+      .created_time {
+        font-size: .3em;
+        text-align: right;
+      }
 
       .task_items{
         border: 1px solid #eee;
@@ -199,6 +233,7 @@
 }
 
 .noselect {
+  outline: none;
   -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none; /* Safari */
      -khtml-user-select: none; /* Konqueror HTML */

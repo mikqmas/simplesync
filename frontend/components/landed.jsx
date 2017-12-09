@@ -4,6 +4,7 @@ import {createTodo, fetchTodos} from '../actions/todo_actions';
 import {connect} from 'react-redux';
 import TodoList from './todo_list/todo_list_container';
 import TodoContent from './todo_list/todo_content';
+import Settings from './settings';
 
 import {withRouter} from 'react-router';
 import {Link, Switch, Route} from 'react-router-dom';
@@ -11,10 +12,11 @@ import {Link, Switch, Route} from 'react-router-dom';
 class Landed extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {"search": ""}
+    this.state = {"search": "", "modalIsOpen": false}
+    this.toggleModal = this.toggleModal.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
     this.handleAdd = this.handleAdd.bind(this);
-    this.handleAccount = this.handleAccount.bind(this);
+    this.toggleAccount = this.toggleAccount.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
   }
 
@@ -23,17 +25,6 @@ class Landed extends React.Component {
       const todoList = Object.keys(this.props.todos);
       const firstTodo = '/' + todoList[todoList.length - 1];
       this.props.history.push(firstTodo);
-    });
-  }
-
-  handleLogout(e) {
-    e.preventDefault();
-    e.stopPropagation();
-    this.props.logout()
-    .then(() => {
-      if(!this.props.user.current_user) {
-        window.location.replace('/');
-      }
     });
   }
 
@@ -48,11 +39,23 @@ class Landed extends React.Component {
     this.props.createTodo({todo});
   }
 
-  handleAccount(e) {
-    e.preventDefault();
-    const children = e.target.children;
-    for(let i=0; i < children.length; i++) {
-      children[i].style.display = children[i].style.display == "none" ? "flex" : "none";
+  toggleAccount(e) {
+    let children;
+    if(e.preventDefault == null) {
+      children = Array.from(e.children);
+    } else {
+      e.preventDefault();
+      children = Array.from(e.target.children);
+    }
+    const isOpen = children[0].style.display != "none";
+    if(isOpen) {
+      children.forEach((child) => {
+        child.style.display = "none";
+      })
+    }else {
+      children.forEach((child) => {
+        child.style.display = "flex";
+      })
     }
   }
 
@@ -61,9 +64,23 @@ class Landed extends React.Component {
     this.setState({"search": e.target.value});
   }
 
-  handleSettings(e) {
+  toggleModal(e) {
     e.preventDefault();
+    e.stopPropagation();
+    this.toggleAccount(e.target.parentElement);
+    this.setState({"modalIsOpen": !this.state.modalIsOpen});
+  }
 
+  handleLogout(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    this.toggleAccount(e.target.parentNode);
+    this.props.logout()
+    .then(() => {
+      if(!this.props.user.current_user) {
+        window.location.replace('/');
+      }
+    });
   }
 
   render() {
@@ -75,19 +92,22 @@ class Landed extends React.Component {
 
     return (
       <div className="app">
+        {this.state.modalIsOpen ? <Settings onClose={this.toggleModal}
+          modalIsOpen={this.state.modalIsOpen} /> : null}
         <div className="toolbar">
           <div className="toolbar_left">
-            <input type="text" placeholder="search" onChange={this.handleSearch} value={this.state.search} className="searchfield noselect"/>
+            <i className="material-icons">search</i>
+            <input type="search" placeholder="Search Tasks" onChange={this.handleSearch} value={this.state.search} className="searchfield noselect"/>
             <span className="searchcancel"></span>
             <i className="material-icons" onClick={this.handleAdd} title="add note">add_circle_outline</i>
           </div>
 
           <div className="toolbar_right">
             <span id="user_account_menu">
-              <ul onClick={this.handleAccount} className="profile_icon">{this.props.user.current_user ?
+              <ul onClick={this.toggleAccount} className="profile_icon">{this.props.user.current_user ?
                 this.props.user.current_user.username : "Logging Out"}
                 <li id="profile" style={{"display": "none"}} onClick={this.handleLogout}>Logout</li>
-                <li id="settings" style={{"display": "none"}} onClick={this.handleSettings}>Settings</li>
+                <li id="settings" style={{"display": "none"}} onClick={this.toggleModal}>Settings</li>
               </ul>
             </span>
           </div>

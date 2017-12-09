@@ -13,9 +13,14 @@
  *= require_tree .
  *= require_self
  */
-
-$font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif;
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,600,700');
+// $font-family: Whitney SSm A,Whitney SSm B,Helvetica,Arial,sans-serif;
 $color: #448AC9;
+
+* {
+  font-family: 'Open Sans', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
 
  body, div, span, h1, h2,
  h3, h4, h5, footer, header, p, nav, ul, li {
@@ -26,7 +31,6 @@ $color: #448AC9;
    font: inherit;
    vertical-align: baseline;
    list-style-type: none;
-   font-family: $font-family;
  }
 
  a {
@@ -35,6 +39,6 @@ $color: #448AC9;
  }
 
  .material-icons {
-   font-size: 32px !important;
-   cursor: pointer;
+   font-size: 24px !important;
+  //  cursor: pointer;
  }

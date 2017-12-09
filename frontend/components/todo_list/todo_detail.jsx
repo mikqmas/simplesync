@@ -77,6 +77,8 @@ class TodoDetail extends React.Component {
   }
 
   render() {
+    const todo = this.props.todos[this.props.match.params.id];
+
     const subTaskItems = () => (
       <ul>
         {
@@ -92,8 +94,8 @@ class TodoDetail extends React.Component {
         return(
           <ul>
             {
-              this.props.todos[this.props.match.params.id].users.map(user => {
-                const isOwner = this.props.user.current_user.id === this.props.todos[this.props.match.params.id].owner_id;
+              todo.users.map(user => {
+                const isOwner = this.props.user.current_user.id === todo.owner_id;
                 const isMe = user.id === this.props.user.current_user.id;
                 return (
                   <li key={user.id}>
@@ -116,7 +118,7 @@ class TodoDetail extends React.Component {
     if(Object.keys(this.props.todos).length > 0) {
       return (
         <div className="sub-tasks">
-          <div>{this.props.todos[this.props.match.params.id].title}</div>
+          <h1 className="task-title" disabled={todo.done} style={todo.done ? {textDecoration: "line-through"} : {}}>{todo.title}</h1>
           <div>{users()}</div>
           <input className="searchfield" onChange={this.handleInput} name="newSubTask" type="text" placeholder="subtask..." value={this.state.newSubTask}/>
           <i className="material-icons" title="add subtask" onClick={this.handleNewSubTask}>add_circle_outline</i>

@@ -21,6 +21,18 @@ export const createUser = user => dispatch => (
   err => dispatch(receiveErrors(err.responseJSON)))
 );
 
+export const deleteUser = user => dispatch => (
+  UserAPIUtil.deleteUser(user)
+  .then(user => {dispatch(receiveUser(user)); dispatch(clearErrors())},
+  err => dispatch(receiveErrors(err.responseJSON)))
+);
+
+export const updateUser = user => dispatch => (
+  UserAPIUtil.updateUser(user)
+  .then(user => {dispatch(receiveUser(user)); dispatch(clearErrors())},
+  err => dispatch(receiveErrors(err.responseJSON)))
+);
+
 export const login = user => dispatch => (
   UserAPIUtil.login(user)
   .then(user => {dispatch(receiveUser(user)); dispatch(clearErrors())},
