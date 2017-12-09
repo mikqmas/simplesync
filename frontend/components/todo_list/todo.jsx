@@ -20,6 +20,9 @@ class Todo extends React.Component {
     this.handleCompleted = this.handleCompleted.bind(this);
     this.handleUpdate = this.handleUpdate.bind(this);
     this.handleClick = this.handleClick.bind(this);
+    // this.handleDragStart = this.handleDragStart.bind(this);
+    // this.handleDragEnter = this.handleDragEnter.bind(this);
+    // this.handleDragLeave = this.handleDragLeave.bind(this);
   }
 
   shouldComponentUpdate(nextProps) {
@@ -61,27 +64,92 @@ class Todo extends React.Component {
   handleClick(e) {
     this.props.fetchSubTasks(this.state.id);
   }
+
+  // handleDragStart(e) {
+  //   e.dataTransfer.setData("text/plain", e.target.id);
+  //   e.dataTransfer.dropEffect = "move";
+  // }
+  //
+  // handleDrop(e) {
+  //   e.preventDefault();
+  //   e.stopPropagation();
+  //   let el = e.target;
+  //   let i = 0;
+  //   while(!el.getAttribute("draggable") && i < 4) {
+  //     el = el.parentElement;
+  //     i++;
+  //   }
+  //   var data = e.dataTransfer.getData("text");
+  //   el.insertAdjacentElement("afterend", document.getElementById(data));
+  // }
+  //
+  // handleDragOver(e) {
+  //   e.preventDefault();
+  //   e.dataTransfer.dropEffect = "move";
+  // }
+  //
+  // handleDragEnter(e) {
+  //   e.preventDefault();
+  //   // e.dataTransfer.dropEffect = "move";
+  //   // let el = e.target;
+  //   // let i = 0;
+  //   // while(!el.getAttribute("draggable") && i < 4) {
+  //   //   el = el.parentElement;
+  //   //   i++;
+  //   // }
+  //   // if(el.getAttribute("draggable") && el.nextSibling.id != "holder") {
+  //   //   const el2 = document.createElement("div");
+  //   //   el2.textContent = "hello world";
+  //   //   el2.id = "holder";
+  //   //   el.insertAdjacentElement("afterend", el2);
+  //   // }
+  // }
+  //
+  // handleDragLeave(e) {
+  //   e.preventDefault();
+  //   // e.dataTransfer.dropEffect = "move";
+  //   // if(e.target.getAttribute("draggable")) {
+  //   //   console.log(e.target);
+  //   // }
+  //   // if(!e.target.class == "task_items") {
+  //   //   return false;
+  //   // }
+  //   // let el = e.target;
+  //   // let i = 0;
+  //   // while(!el.getAttribute("draggable") && i < 4) {
+  //   //   el = el.parentElement;
+  //   //   i++;
+  //   // }
+  //   // if(el.getAttribute("draggable") && el.nextSibling.id == "holder") {
+  //   //   el.nextSibling.remove();
+  //   // }
+  // }
+
   render() {
     let bgColor, fontColor;
     if(this.props.location.pathname.split("/")[1] == this.state.id) {
       bgColor = "#00B1E1";
       fontColor = "#FFFFFF";
     }
+    // const updatedDate = new Date(this.props.todo.updated_at); //Time updated
+    // <span className="created_time">{"Last Update: " + updatedDate.getMonth() + "-" + updatedDate.getDate() + "-" + updatedDate.getFullYear() + " " + updatedDate.getHours() + ":" + updatedDate.getMinutes()}</span>
     return(
-      <Link to={`/${this.state.id}`} onClick={this.handleClick} >
-        <li className="task_items" style={{backgroundColor:bgColor, color:fontColor}}>
-          <span className="delete-done-icon">
-          {
-            this.props.todo.owner_id == this.props.user.current_user.id ? <i className="material-icons" onClick={this.handleDelete}>delete</i> : null
-          }
-          <i className="material-icons" onClick={this.handleCompleted}>{this.state.done ? "check_circle" : "done"}</i>
-          </span>
-          <span className="delete-done-icon">
-          <input type="text" value={this.state.title} onChange={this.handleUpdate}/>
-          <span>{this.props.todo.created_at}{this.props.todo.updated_at}</span>
-          </span>
-        </li>
-      </Link>
+      // <div id={this.state.id} draggable="true" onDragStart={this.handleDragStart} onDrop={this.handleDrop} onDragOver={this.handleDragOver} onDragEnter={this.handleDragEnter} onDragLeave={this.handleDragLeave}>
+      <div id={this.state.id}>
+        <Link className="nodrop" to={`/${this.state.id}`} onClick={this.handleClick}>
+          <li className="task_items nodrop" style={{backgroundColor:bgColor, color:fontColor}}>
+            <span className="delete-done-icon nodrop">
+            {
+              this.props.todo.owner_id == this.props.user.current_user.id ? <i className="material-icons" onClick={this.handleDelete}>delete</i> : null
+            }
+            <i className="material-icons nodrop" onClick={this.handleCompleted}>{this.state.done ? "check_circle" : "done"}</i>
+            </span>
+            <span className="delete-done-icon nodrop">
+            <input type="text" className="nodrop" value={this.state.title} onChange={this.handleUpdate} disabled={this.state.done} style={this.state.done ? {textDecoration: "line-through"} : {}}/>
+            </span>
+          </li>
+        </Link>
+      </div>
     );
   }
 }

@@ -32292,6 +32292,8 @@ var TodoDetail = function (_React$Component) {
     value: function render() {
       var _this2 = this;
 
+      var todo = this.props.todos[this.props.match.params.id];
+
       var subTaskItems = function subTaskItems() {
         return _react2.default.createElement(
           'ul',
@@ -32307,8 +32309,8 @@ var TodoDetail = function (_React$Component) {
           return _react2.default.createElement(
             'ul',
             null,
-            _this2.props.todos[_this2.props.match.params.id].users.map(function (user) {
-              var isOwner = _this2.props.user.current_user.id === _this2.props.todos[_this2.props.match.params.id].owner_id;
+            todo.users.map(function (user) {
+              var isOwner = _this2.props.user.current_user.id === todo.owner_id;
               var isMe = user.id === _this2.props.user.current_user.id;
               return _react2.default.createElement(
                 'li',
@@ -32335,8 +32337,8 @@ var TodoDetail = function (_React$Component) {
           { className: 'sub-tasks' },
           _react2.default.createElement(
             'h1',
-            { className: 'task-title' },
-            this.props.todos[this.props.match.params.id].title
+            { className: 'task-title', disabled: todo.done, style: todo.done ? { textDecoration: "line-through" } : {} },
+            todo.title
           ),
           _react2.default.createElement(
             'div',
@@ -49745,6 +49747,9 @@ var Todo = function (_React$Component) {
     _this.handleCompleted = _this.handleCompleted.bind(_this);
     _this.handleUpdate = _this.handleUpdate.bind(_this);
     _this.handleClick = _this.handleClick.bind(_this);
+    // this.handleDragStart = this.handleDragStart.bind(this);
+    // this.handleDragEnter = this.handleDragEnter.bind(this);
+    // this.handleDragLeave = this.handleDragLeave.bind(this);
     return _this;
   }
 
@@ -49798,6 +49803,67 @@ var Todo = function (_React$Component) {
     value: function handleClick(e) {
       this.props.fetchSubTasks(this.state.id);
     }
+
+    // handleDragStart(e) {
+    //   e.dataTransfer.setData("text/plain", e.target.id);
+    //   e.dataTransfer.dropEffect = "move";
+    // }
+    //
+    // handleDrop(e) {
+    //   e.preventDefault();
+    //   e.stopPropagation();
+    //   let el = e.target;
+    //   let i = 0;
+    //   while(!el.getAttribute("draggable") && i < 4) {
+    //     el = el.parentElement;
+    //     i++;
+    //   }
+    //   var data = e.dataTransfer.getData("text");
+    //   el.insertAdjacentElement("afterend", document.getElementById(data));
+    // }
+    //
+    // handleDragOver(e) {
+    //   e.preventDefault();
+    //   e.dataTransfer.dropEffect = "move";
+    // }
+    //
+    // handleDragEnter(e) {
+    //   e.preventDefault();
+    //   // e.dataTransfer.dropEffect = "move";
+    //   // let el = e.target;
+    //   // let i = 0;
+    //   // while(!el.getAttribute("draggable") && i < 4) {
+    //   //   el = el.parentElement;
+    //   //   i++;
+    //   // }
+    //   // if(el.getAttribute("draggable") && el.nextSibling.id != "holder") {
+    //   //   const el2 = document.createElement("div");
+    //   //   el2.textContent = "hello world";
+    //   //   el2.id = "holder";
+    //   //   el.insertAdjacentElement("afterend", el2);
+    //   // }
+    // }
+    //
+    // handleDragLeave(e) {
+    //   e.preventDefault();
+    //   // e.dataTransfer.dropEffect = "move";
+    //   // if(e.target.getAttribute("draggable")) {
+    //   //   console.log(e.target);
+    //   // }
+    //   // if(!e.target.class == "task_items") {
+    //   //   return false;
+    //   // }
+    //   // let el = e.target;
+    //   // let i = 0;
+    //   // while(!el.getAttribute("draggable") && i < 4) {
+    //   //   el = el.parentElement;
+    //   //   i++;
+    //   // }
+    //   // if(el.getAttribute("draggable") && el.nextSibling.id == "holder") {
+    //   //   el.nextSibling.remove();
+    //   // }
+    // }
+
   }, {
     key: 'render',
     value: function render() {
@@ -49807,35 +49873,38 @@ var Todo = function (_React$Component) {
         bgColor = "#00B1E1";
         fontColor = "#FFFFFF";
       }
-      return _react2.default.createElement(
-        _reactRouterDom.Link,
-        { to: '/' + this.state.id, onClick: this.handleClick },
+      // const updatedDate = new Date(this.props.todo.updated_at); //Time updated
+      // <span className="created_time">{"Last Update: " + updatedDate.getMonth() + "-" + updatedDate.getDate() + "-" + updatedDate.getFullYear() + " " + updatedDate.getHours() + ":" + updatedDate.getMinutes()}</span>
+      return (
+        // <div id={this.state.id} draggable="true" onDragStart={this.handleDragStart} onDrop={this.handleDrop} onDragOver={this.handleDragOver} onDragEnter={this.handleDragEnter} onDragLeave={this.handleDragLeave}>
         _react2.default.createElement(
-          'li',
-          { className: 'task_items', style: { backgroundColor: bgColor, color: fontColor } },
+          'div',
+          { id: this.state.id },
           _react2.default.createElement(
-            'span',
-            { className: 'delete-done-icon' },
-            this.props.todo.owner_id == this.props.user.current_user.id ? _react2.default.createElement(
-              'i',
-              { className: 'material-icons', onClick: this.handleDelete },
-              'delete'
-            ) : null,
+            _reactRouterDom.Link,
+            { className: 'nodrop', to: '/' + this.state.id, onClick: this.handleClick },
             _react2.default.createElement(
-              'i',
-              { className: 'material-icons', onClick: this.handleCompleted },
-              this.state.done ? "check_circle" : "done"
-            )
-          ),
-          _react2.default.createElement(
-            'span',
-            { className: 'delete-done-icon' },
-            _react2.default.createElement('input', { type: 'text', value: this.state.title, onChange: this.handleUpdate }),
-            _react2.default.createElement(
-              'span',
-              null,
-              this.props.todo.created_at,
-              this.props.todo.updated_at
+              'li',
+              { className: 'task_items nodrop', style: { backgroundColor: bgColor, color: fontColor } },
+              _react2.default.createElement(
+                'span',
+                { className: 'delete-done-icon nodrop' },
+                this.props.todo.owner_id == this.props.user.current_user.id ? _react2.default.createElement(
+                  'i',
+                  { className: 'material-icons', onClick: this.handleDelete },
+                  'delete'
+                ) : null,
+                _react2.default.createElement(
+                  'i',
+                  { className: 'material-icons nodrop', onClick: this.handleCompleted },
+                  this.state.done ? "check_circle" : "done"
+                )
+              ),
+              _react2.default.createElement(
+                'span',
+                { className: 'delete-done-icon nodrop' },
+                _react2.default.createElement('input', { type: 'text', className: 'nodrop', value: this.state.title, onChange: this.handleUpdate, disabled: this.state.done, style: this.state.done ? { textDecoration: "line-through" } : {} })
+              )
             )
           )
         )

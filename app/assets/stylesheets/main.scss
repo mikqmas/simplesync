@@ -117,6 +117,11 @@
     .list_todos {
       width: 100%;
 
+      .created_time {
+        font-size: .3em;
+        text-align: right;
+      }
+
       .task_items{
         border: 1px solid #eee;
         min-height: 2em;
