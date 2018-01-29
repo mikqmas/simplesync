@@ -53,32 +53,46 @@
   .searchfield::before {
     background: url();
   }
+  background: transparent;
   border: 0;
   padding-left: .2em;
   font-size: 1.2em;
+  color: #fff;
 }
 
 .toolbar {
   display: flex;
+  background-color: #333;
+  color: #fff;
 
   .toolbar_left {
     width: 40%;
-    border: 1px solid #eee;
+    margin: 5px 0;
     display: flex;
+
 
     .searchfield {
       width: 90%;
     }
 
     .material-icons {
-      margin-left: .2em;
+      margin: 0 .2em;
       font-size: 32px;
+    }
+
+    #search-icon {
+      margin-top: 3px;
+      cursor: default;
+    }
+
+    #add-todo-icon {
+      margin-top: 2px;
+      cursor: pointer;
     }
   }
 
   .toolbar_right {
     width: 60%;
-    border: 1px solid #eee;
     vertical-align: middle;
     display:flex;
     justify-content: flex-end;
@@ -89,15 +103,18 @@
       top: 0;
 
       .profile_icon {
+        margin: 4px 5px 0 0;
         font-size: 1.2em;
+        font-weight: bold;
         cursor: pointer;
         position: relative;
-
 
         li {
           display: none;
           position: inherit;
-          background-color: white;
+          background-color: transparent;
+          font-size: .7em;
+          justify-content: flex-end;
         }
       }
     }
@@ -113,6 +130,7 @@
   .content_left {
     width:40%;
     overflow: scroll;
+    background-color: #555;
 
     .list_todos {
       width: 100%;
@@ -123,7 +141,6 @@
       }
 
       .task_items{
-        border: 1px solid #eee;
         min-height: 2em;
       }
 
@@ -135,7 +152,6 @@
 
   .content_right {
     width:60%;
-    border: 1px solid #eee;
     overflow: scroll;
 
     .content_detail {

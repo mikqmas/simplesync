@@ -92,25 +92,17 @@ class TodoDetail extends React.Component {
     const users = () => {
       if(Object.keys(this.props.todos).length){
         return(
-          <ul>
+          <span>
             {
               todo.users.map(user => {
                 const isOwner = this.props.user.current_user.id === todo.owner_id;
                 const isMe = user.id === this.props.user.current_user.id;
                 return (
-                  <li key={user.id}>
-                    {
-                      (isOwner && !isMe) || (!isOwner && isMe)
-                      ? isOwner ? (<i className="material-icons" id={user.user_todo_id} onClick={this.handleRemoveUserAsOwner}>delete</i>)
-                        : (<i className="material-icons" id={user.user_todo_id} onClick={this.handleRemoveUser}>delete</i>)
-                      : null
-                    }
-                    {user.username}
-                  </li>
+                  <a key={user.id} onClick={isOwner ? this.handleRemoveUser : null}>{user.username}</a>
                 )
               })
             }
-          </ul>
+          </span>
         )
       }
     }
@@ -119,12 +111,15 @@ class TodoDetail extends React.Component {
       return (
         <div className="sub-tasks">
           <h1 className="task-title" disabled={todo.done} style={todo.done ? {textDecoration: "line-through"} : {}}>{todo.title}</h1>
-          <div>{users()}</div>
+          <div className="shared-users-list">
+            <div className="owner">Owner: test123</div>
+            <div className="user-list">Shared: {users()}</div>
+          </div>
           <input className="searchfield" onChange={this.handleInput} name="newSubTask" type="text" placeholder="subtask..." value={this.state.newSubTask}/>
-          <i className="material-icons" title="add subtask" onClick={this.handleNewSubTask}>add_circle_outline</i>
+          <i className="material-icons add-icon" title="add subtask" onClick={this.handleNewSubTask}>add_circle_outline</i>
 
           <input className="searchfield" onChange={this.handleInput} name="newUser" type="text" placeholder="user email..." value={this.state.newUser}/>
-          <i className="material-icons" title="add user" onClick={this.handleCreateUser}>add_circle_outline</i>
+          <i className="material-icons add-icon" title="add user" onClick={this.handleCreateUser}>add_circle_outline</i>
           <div>{subTaskItems()}</div>
         </div>
       )
