@@ -49,17 +49,6 @@
   }
 }
 
-.searchfield {
-  .searchfield::before {
-    background: url();
-  }
-  background: transparent;
-  border: 0;
-  padding-left: .2em;
-  font-size: .8em;
-  width: 100%;
-}
-
 .toolbar {
   display: flex;
   background-color: #333;
@@ -72,7 +61,15 @@
 
 
     .searchfield {
-      width: 90%;
+      .searchfield::before {
+        background: url();
+      }
+      background: transparent;
+      border: 0;
+      padding-left: .2em;
+      font-size: .8em;
+      width: 100%;
+      font-size: 1.5em;
       color: #fff;
     }
 
@@ -81,12 +78,14 @@
     }
 
     #search-icon {
-      margin-top: 3px;
+      font-size: 1.5em;
+      margin-top: 6px;
       cursor: default;
     }
 
     #add-todo-icon {
-      margin-top: 2px;
+      font-size: 1.5em;
+      margin-top: 6px;
       cursor: pointer;
     }
   }
@@ -103,7 +102,7 @@
       top: 0;
 
       .profile_icon {
-        margin: 4px 5px 0 0;
+        margin: 6px 5px 0 0;
         font-size: 1.2em;
         font-weight: bold;
         cursor: pointer;

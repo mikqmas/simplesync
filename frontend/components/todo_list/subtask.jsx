@@ -23,6 +23,10 @@ class SubTask extends React.Component {
     // });
   }
 
+  componentWillMount() {
+
+  }
+
   handleCompleted(e) {
     e.preventDefault();
     this.setState({done: !this.state.done}, ()=>{this.props.updateSubTask(this.state)});
@@ -43,12 +47,23 @@ class SubTask extends React.Component {
     });
   }
 
+  componentDidMount() {
+    const ta = document.getElementById(this.state.id);
+    ta.style.height = "5px";
+    ta.style.height = (ta.scrollHeight)+"px";
+  }
+
   render() {
+    function auto_grow(e) {
+      e.target.style.height = "5px";
+      e.target.style.height = (e.target.scrollHeight)+"px";
+    }
+
     return(
       <li className="task_items">
         <i className="material-icons complete-icon" onClick={this.handleCompleted}>{this.state.done ? "check_circle" : "done"}</i>
         <i className="material-icons delete-icon" onClick={this.handleDelete}>delete</i>
-        <input type="text" value={this.state.body} name="body" onChange={this.handleUpdate}/>
+        <textarea id={this.state.id} rows="1" className="subtask-input" onLoad={auto_grow} onKeyUp={auto_grow} value={this.state.body} name="body" onChange={this.handleUpdate}/>
       </li>
     )
   }
