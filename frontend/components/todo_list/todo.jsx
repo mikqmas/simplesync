@@ -145,7 +145,7 @@ class Todo extends React.Component {
             <i className="material-icons nodrop" onClick={this.handleCompleted}>{this.state.done ? "check_circle" : "done"}</i>
             </span>
             <span className="delete-done-icon nodrop">
-            <input type="text" className="nodrop" value={this.state.title} onChange={this.handleUpdate} disabled={this.state.done} style={this.state.done ? {textDecoration: "line-through", cursor: "pointer"} : {}}/>
+            <input placeholder="eg. Distribute mail..." type="text" className="nodrop" value={this.state.title} onChange={this.handleUpdate} disabled={this.state.done} style={this.state.done ? {textDecoration: "line-through", cursor: "pointer"} : {}}/>
             </span>
           </li>
         </Link>

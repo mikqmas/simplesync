@@ -10,12 +10,15 @@ import SubTask from './subtask';
 class TodoDetail extends React.Component {
   constructor(props) {
     super(props);
+    //newUser is deprecated as new user is created from input that doesn't save state.
     this.state = {newSubTask: "", newUser: ""};
     this.handleNewSubTask = this.handleNewSubTask.bind(this);
     this.handleCreateUser = this.handleCreateUser.bind(this);
     this.handleInput = this.handleInput.bind(this);
     this.handleRemoveUser = this.handleRemoveUser.bind(this);
     this.handleRemoveUserAsOwner = this.handleRemoveUserAsOwner.bind(this);
+    this.newUserInput = this.newUserInput.bind(this);
+    this.handleEnter = this.handleEnter.bind(this);
 
     this.todo;
     this.owner;
@@ -51,16 +54,49 @@ class TodoDetail extends React.Component {
     }
   }
 
-  handleNewSubTask(e) {
-    e.preventDefault();
+  handleNewSubTask() {
     this.props.createSubTask({todo_id: this.props.match.params.id, body: this.state.newSubTask, done: false, list_order: 0});
     this.setState({newSubTask: ""});
   }
 
-  handleCreateUser(e) {
+  newUserInput(e) {
     e.preventDefault();
-    this.props.createUserTodo({user_email: this.state.newUser, todo_id:this.props.match.params.id, permission: 0});
-    this.setState({newUser: ""});
+    if(!document.getElementsByClassName('newUser')[0]) {
+      document.getElementsByClassName('add-icon')[0].innerHTML = 'remove_circle_outline';
+      const el = document.createElement('input');
+      el.type = 'text';
+      el.placeholder = 'pepe.silvia@example.com';
+      el.onkeydown = this.handleEnter;
+      el.title = 'add user';
+      el.value = this.state.newUser;
+      el.className = 'newUser';
+      const docEl = document.getElementsByClassName('user-list')[0].appendChild(el);
+      docEl.focus();
+    }else {
+      document.getElementsByClassName('add-icon')[0].innerHTML = 'add_circle_outline';
+      document.getElementsByClassName('user-list')[0].removeChild(document.getElementsByClassName('newUser')[0]);
+    }
+  }
+
+  handleEnter(e) {
+    if(e.key === 'Enter' || e.type === 'blur') {
+      switch(e.target.title) {
+        case('add user'):
+          this.handleCreateUser(e.target);
+          break;
+        case('add subtask'):
+          this.handleNewSubTask();
+          break;
+        default:
+          break;
+      }
+    }
+  }
+
+  handleCreateUser(target) {
+    this.props.createUserTodo({user_email: target.value, todo_id:this.props.match.params.id, permission: 0});
+    target.value = '';
+    // this.setState({newUser: ""});
   }
 
   handleRemoveUserAsOwner(e) {
@@ -108,6 +144,9 @@ class TodoDetail extends React.Component {
   //       </span>
   //     )
   //   }
+
+  // subtask add button is deprecated.
+  // <i className="material-icons add-icon" title="add subtask" onClick={this.handleNewSubTask}>add_circle_outline</i>
   render() {
     const subTaskItems = () => (
       <ul>
@@ -124,15 +163,13 @@ class TodoDetail extends React.Component {
         <div className="sub-tasks">
           <h1 className="task-title" disabled={this.todo.done} style={this.todo.done ? {textDecoration: "line-through"} : {}}>{this.todo.title}</h1>
           <div className="shared-users-list">
-            <div className="owner">Owner: {this.owner.username}</div>
-            <div className="user-list">Shared: {this.users.map(user => user.username).join(", ")}</div>
-            <i className="material-icons add-icon" title="add user" onClick={this.handleCreateUser}>add_circle_outline</i>
+            <div className="owner">Owner: <span className="user-name">{this.owner.username}</span></div>
+            <div className="user-list">Shared: {this.users.map(user => <span key={user.id} className="user-name">{user.username}</span>)}<i className="material-icons add-icon" title="add user" onClick={this.newUserInput}>add_circle_outline</i></div>
           </div>
-          <input className="searchfield" onChange={this.handleInput} name="newSubTask" type="text" placeholder="subtask..." value={this.state.newSubTask}/>
-          <i className="material-icons add-icon" title="add subtask" onClick={this.handleNewSubTask}>add_circle_outline</i>
-
-          <input className="searchfield" onChange={this.handleInput} name="newUser" type="text" placeholder="user email..." value={this.state.newUser}/>
-
+          <div className="subtask-add"><h3 className="subtask-title">Subtasks </h3>
+            <i className="material-icons add-icon" style={{fontSize: "1.5em"}} onClick={(e) => {document.getElementsByClassName('subtask-input')[0].hidden = document.getElementsByClassName('subtask-input')[0].hidden ? false : true;}}>add_circle_outline</i>
+            <input hidden className="searchfield subtask-input" onChange={this.handleInput} onKeyDown={this.handleEnter} onBlur={this.handleEnter} title="add subtask" name="newSubTask" type="text" placeholder="eg. Talk to Carol from HR..." value={this.state.newSubTask}/>
+          </div>
           <div>{subTaskItems()}</div>
         </div>
       )

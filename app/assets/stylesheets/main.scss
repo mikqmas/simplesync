@@ -56,8 +56,8 @@
   background: transparent;
   border: 0;
   padding-left: .2em;
-  font-size: 1.2em;
-  color: #fff;
+  font-size: .8em;
+  width: 100%;
 }
 
 .toolbar {
@@ -73,11 +73,11 @@
 
     .searchfield {
       width: 90%;
+      color: #fff;
     }
 
     .material-icons {
       margin: 0 .2em;
-      font-size: 32px;
     }
 
     #search-icon {
@@ -143,8 +143,6 @@
         font-size: .3em;
         text-align: right;
       }
-
-      
     }
   }
 
@@ -158,6 +156,10 @@
 
     .content_detail {
       width: 100%;
+    }
+    .material-icons {
+      color: #555;
+      cursor: pointer;
     }
   }
 }
