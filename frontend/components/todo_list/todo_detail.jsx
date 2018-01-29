@@ -16,6 +16,10 @@ class TodoDetail extends React.Component {
     this.handleInput = this.handleInput.bind(this);
     this.handleRemoveUser = this.handleRemoveUser.bind(this);
     this.handleRemoveUserAsOwner = this.handleRemoveUserAsOwner.bind(this);
+
+    this.todo;
+    this.owner;
+    this.users;
   }
 
   componentWillMount(){
@@ -31,6 +35,20 @@ class TodoDetail extends React.Component {
 
   shouldComponentUpdate(nextProps, nextState) {
     return (Object.keys(nextProps.user).length > 0);
+  }
+
+  componentWillUpdate(nextProps, nextState) {
+    if(!!Object.keys(this.props.todos).length && nextProps != this.props){
+      this.users = [];
+      this.todo = this.props.todos[this.props.match.params.id]
+      for(let i = 0; i < this.todo.users.length; i++) {
+        if(this.todo.users[i].id == this.todo.owner_id) {
+          this.owner = this.todo.users[i];
+        }else {
+          this.users.push(this.todo.users[i]);
+        }
+      }
+    }
   }
 
   handleNewSubTask(e) {
@@ -75,10 +93,22 @@ class TodoDetail extends React.Component {
     e.preventDefault();
     this.setState({[e.target.name]: e.target.value});
   }
-
+  // const users = () => {
+  //     return(
+  //       <span>
+  //         {
+  //           todo.users.map(user => {
+  //             const isOwner = this.props.user.current_user.id === todo.owner_id;
+  //             const isMe = user.id === this.props.user.current_user.id;
+  //             return (
+  //               <a key={user.id} onClick={isOwner ? this.handleRemoveUser : null}>{user.username}</a>
+  //             )
+  //           })
+  //         }
+  //       </span>
+  //     )
+  //   }
   render() {
-    const todo = this.props.todos[this.props.match.params.id];
-
     const subTaskItems = () => (
       <ul>
         {
@@ -89,37 +119,20 @@ class TodoDetail extends React.Component {
       </ul>
     )
 
-    const users = () => {
-      if(Object.keys(this.props.todos).length){
-        return(
-          <span>
-            {
-              todo.users.map(user => {
-                const isOwner = this.props.user.current_user.id === todo.owner_id;
-                const isMe = user.id === this.props.user.current_user.id;
-                return (
-                  <a key={user.id} onClick={isOwner ? this.handleRemoveUser : null}>{user.username}</a>
-                )
-              })
-            }
-          </span>
-        )
-      }
-    }
-
-    if(Object.keys(this.props.todos).length > 0) {
+    if(!!this.todo) {
       return (
         <div className="sub-tasks">
-          <h1 className="task-title" disabled={todo.done} style={todo.done ? {textDecoration: "line-through"} : {}}>{todo.title}</h1>
+          <h1 className="task-title" disabled={this.todo.done} style={this.todo.done ? {textDecoration: "line-through"} : {}}>{this.todo.title}</h1>
           <div className="shared-users-list">
-            <div className="owner">Owner: test123</div>
-            <div className="user-list">Shared: {users()}</div>
+            <div className="owner">Owner: {this.owner.username}</div>
+            <div className="user-list">Shared: {this.users.map(user => user.username).join(", ")}</div>
+            <i className="material-icons add-icon" title="add user" onClick={this.handleCreateUser}>add_circle_outline</i>
           </div>
           <input className="searchfield" onChange={this.handleInput} name="newSubTask" type="text" placeholder="subtask..." value={this.state.newSubTask}/>
           <i className="material-icons add-icon" title="add subtask" onClick={this.handleNewSubTask}>add_circle_outline</i>
 
           <input className="searchfield" onChange={this.handleInput} name="newUser" type="text" placeholder="user email..." value={this.state.newUser}/>
-          <i className="material-icons add-icon" title="add user" onClick={this.handleCreateUser}>add_circle_outline</i>
+
           <div>{subTaskItems()}</div>
         </div>
       )

@@ -18,11 +18,13 @@
     padding: .3em;
   }
 
-  .owner {
-
-  }
-
   .user-list {
     display: inline-flex;
+    margin-right: .1em;
+  }
+
+  .add-icon {
+    position: absolute;
+    cursor: pointer;
   }
 }

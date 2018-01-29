@@ -132,6 +132,10 @@
     overflow: scroll;
     background-color: #555;
 
+    input[type="text"] {
+      color: white;
+    }
+
     .list_todos {
       width: 100%;
 
@@ -140,19 +144,17 @@
         text-align: right;
       }
 
-      .task_items{
-        min-height: 2em;
-      }
-
-      .task_items:hover {
-        background-color: #ccc;
-      }
+      
     }
   }
 
   .content_right {
     width:60%;
     overflow: scroll;
+
+    input[type="text"] {
+      color: black;
+    }
 
     .content_detail {
       width: 100%;
