@@ -147,6 +147,7 @@ class TodoDetail extends React.Component {
 
   // subtask add button is deprecated.
   // <i className="material-icons add-icon" title="add subtask" onClick={this.handleNewSubTask}>add_circle_outline</i>
+  // <i className="material-icons add-icon" style={{fontSize: "1.5em"}} onClick={(e) => {document.getElementsByClassName('subtask-input')[0].hidden = document.getElementsByClassName('subtask-input')[0].hidden ? false : true;}}>add_circle_outline</i>
   render() {
     const subTaskItems = () => (
       <ul>
@@ -166,9 +167,8 @@ class TodoDetail extends React.Component {
             <div className="owner">Owner: <span className="user-name">{this.owner.username}</span></div>
             <div className="user-list">Shared: {this.users.map(user => <span key={user.id} className="user-name">{user.username}</span>)}<i className="material-icons add-icon" title="add user" onClick={this.newUserInput}>add_circle_outline</i></div>
           </div>
-          <div className="subtask-add"><h3 className="subtask-title">Subtasks </h3>
-            <i className="material-icons add-icon" style={{fontSize: "1.5em"}} onClick={(e) => {document.getElementsByClassName('subtask-input')[0].hidden = document.getElementsByClassName('subtask-input')[0].hidden ? false : true;}}>add_circle_outline</i>
-            <input hidden className="searchfield subtask-input" onChange={this.handleInput} onKeyDown={this.handleEnter} onBlur={this.handleEnter} title="add subtask" name="newSubTask" type="text" placeholder="eg. Talk to Carol from HR..." value={this.state.newSubTask}/>
+          <div className="subtask-add">
+            <input className="searchfield subtask-input" onChange={this.handleInput} onKeyDown={this.handleEnter} onBlur={this.handleEnter} title="add subtask" name="newSubTask" type="text" placeholder="eg. Talk to Carol from HR..." value={this.state.newSubTask}/>
           </div>
           <div>{subTaskItems()}</div>
         </div>
