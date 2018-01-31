@@ -8,7 +8,18 @@ class Api::UserTodosController < ApplicationController
     if user && !@todo.users.include?(user) && @todo.user_todos.create!({user_id: user.id, todo_id: todoId, permission: permission})
       render 'api/todos/show'
     else
-      render json: @todo.errors.full_messages, status: 422
+      render(
+        json: {
+          messages: ["User #{userTodo_params['user_email']} is not a teammate yet. Send this task and invite?"]
+        },
+        status: 422
+      )
+      # render(
+      #   json: {
+      #       messages: ["user does not exist"]
+      #     },
+      #     status: 422
+      # )
     end
   end
 

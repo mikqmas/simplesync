@@ -6,6 +6,14 @@ export const RECEIVE_TODOS = "RECEIVE_TODOS";
 export const RECEIVE_TODO = "RECEIVE_TODO";
 export const REMOVE_TODO = "REMOVE_TODO";
 export const REMOVE_FROM_TODO = "REMOVE_FROM_TODO";
+// export const ERROR_TODO = "ERROR_TODO";
+
+// export const RECEIVE_USER_TODO = "RECEIVE_USER_TODO";
+// export const receiveUserTodo = userTodo => ({
+//   type: RECEIVE_USER_TODO,
+//   userTodo
+// });
+
 
 export const receiveTodos = todos => ({
   type: RECEIVE_TODOS,
@@ -26,6 +34,11 @@ export const removeTodo = todo =>  ({
   type: REMOVE_TODO,
   todo
 });
+
+// export const errorTodo = todo =>  ({
+//   type: ERROR_TODO,
+//   todo
+// });
 
 //async actions
 export const fetchTodos = () => dispatch => (
@@ -57,7 +70,7 @@ export const deleteTodo = todo => dispatch => (
 export const createUserTodo = userTodo => dispatch => (
   UserTodoAPIUtil.createUserTodo(userTodo)
   .then(todo => { dispatch(receiveTodo(todo)); dispatch(clearErrors())},
-  err => dispatch(receiveErrors(err)))
+  err => dispatch(receiveErrors(err.responseJSON)))
 );
 
 export const deleteUserTodo = userTodo => dispatch => {

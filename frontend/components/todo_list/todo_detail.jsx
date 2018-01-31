@@ -6,6 +6,7 @@ import {createSubTask, fetchSubTasks} from '../../actions/sub_task_actions';
 import {createUserTodo, getTodo, deleteUserTodo, deleteUserTodoAsOwner} from '../../actions/todo_actions';
 import {allSubTasks} from '../../reducers/selectors';
 import SubTask from './subtask';
+import {ErrorList} from '../error';
 
 class TodoDetail extends React.Component {
   constructor(props) {
@@ -79,7 +80,7 @@ class TodoDetail extends React.Component {
   }
 
   handleEnter(e) {
-    if(e.key === 'Enter' || e.type === 'blur') {
+    if(e.target.value != "" && (e.key === 'Enter' || e.type === 'blur')) {
       e.preventDefault();
       switch(e.target.title) {
         case('add user'):
@@ -150,6 +151,12 @@ class TodoDetail extends React.Component {
   // <i className="material-icons add-icon" title="add subtask" onClick={this.handleNewSubTask}>add_circle_outline</i>
   // <i className="material-icons add-icon" style={{fontSize: "1.5em"}} onClick={(e) => {document.getElementsByClassName('subtask-input')[0].hidden = document.getElementsByClassName('subtask-input')[0].hidden ? false : true;}}>add_circle_outline</i>
   render() {
+    function inviteToast() {
+      // if(!!this.props.errors.length) {
+      //   // const inviteToast = document.createElement('div');
+      //   // <InviteToast email={this.props.errors.user_email}/>
+      // }
+    }
     function auto_grow(e) {
       e.target.style.height = "5px";
       e.target.style.height = (e.target.scrollHeight)+"px";
@@ -173,6 +180,7 @@ class TodoDetail extends React.Component {
             <div className="owner">Owner: <span className="user-name">{this.owner.username}</span></div>
             <div className="user-list">Shared: {this.users.map(user => <span key={user.id} className="user-name">{user.username}</span>)}<i className="material-icons add-icon" title="add user" onClick={this.newUserInput}>add_circle_outline</i></div>
           </div>
+          <ErrorList errors={this.props.errors}/>
           <div className="subtask-add">
             <textarea className="subtask-input" onKeyUp={auto_grow} rows="1" onChange={this.handleInput} onKeyDown={this.handleEnter} onBlur={this.handleEnter} title="add subtask" name="newSubTask" type="text" placeholder="eg. Talk to Carol from HR..." value={this.state.newSubTask}/>
           </div>
@@ -199,7 +207,8 @@ const mapDispatchToProps = dispatch => ({
 const mapStateToProps = (state) => ({
   todos: state.todos,
   subTasks: allSubTasks(state),
-  user: state.user
+  user: state.user,
+  errors: state.errors
 });
 
 export default withRouter(connect(

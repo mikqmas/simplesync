@@ -6,6 +6,8 @@ export const receiveErrors = errors => ({
   errors
 });
 
-export const clearErrors = () => ({
+export const clearErrors = () => {
+  debugger;
+  return ({
   type: CLEAR_ERRORS
-});
+})};

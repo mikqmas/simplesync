@@ -4,6 +4,7 @@ export const createUser = user => (
     url: '/api/user',
     data: user
   }).done((response)=> {
+    debugger;
     // console.log(response);
   })
 );

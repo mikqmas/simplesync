@@ -5,8 +5,12 @@ export const ErrorList = ({errors}) => {
   const errorItems = Object.values(errors).map(error => <li key={ error }>{ error }</li>);
 
   return(
-    <ul className="error-list">
+    <ul className="error-list" style={{display:'flex', flexDirection:'row'}}>
       {errorItems}
+      <div>
+        <input type="button" name="invite" value="invite"/>
+        <input type="button" name="close" value="close"/>
+      </div>
     </ul>
   )
 };

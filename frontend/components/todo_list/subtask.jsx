@@ -63,7 +63,8 @@ class SubTask extends React.Component {
       <li className="task_items">
         <i className="material-icons complete-icon" onClick={this.handleCompleted}>{this.state.done ? "check_circle" : "done"}</i>
         <i className="material-icons delete-icon" onClick={this.handleDelete}>delete</i>
-        <textarea id={this.state.id} rows="1" className="subtask-input" onLoad={auto_grow} onKeyUp={auto_grow} value={this.state.body} name="body" onChange={this.handleUpdate}/>
+        <textarea id={this.state.id} rows="1" className="subtask-input" onLoad={auto_grow} onKeyUp={auto_grow} value={this.state.body} name="body" onChange={this.handleUpdate}
+          disabled={this.state.done} style={this.state.done ? {textDecoration: "line-through", cursor: "pointer"} : {}}/>
       </li>
     )
   }

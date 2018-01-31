@@ -48,7 +48,9 @@ $error-color: #2e689b;
   color: white;
   display: flex;
   justify-content: center;
+  box-sizing: border-box;
   padding: .6em;
-  margin: 10px -10px;
-  // transition: opacity .25s ease-in-out;
+  font-size: .5em;
+  // margin: 10px -10px;
+  transition: opacity .25s ease-in-out;
 }
