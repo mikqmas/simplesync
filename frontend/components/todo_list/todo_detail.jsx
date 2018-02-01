@@ -80,12 +80,23 @@ class TodoDetail extends React.Component {
     }
   }
 
+  validateEmail(email) {
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email.toLowerCase());
+  }
+
   handleEnter(e) {
     if(e.target.value != "" && (e.key === 'Enter' || e.type === 'blur')) {
       e.preventDefault();
       switch(e.target.title) {
         case('add user'):
-          this.handleCreateUser(e.target);
+          const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+          if(re.test(e.target.value.toLowerCase())) {
+            debugger;
+            this.handleCreateUser(e.target);
+          }else {
+            // TODO::error messaging need to input correct email.
+          }
           break;
         case('add subtask'):
           this.handleNewSubTask();
