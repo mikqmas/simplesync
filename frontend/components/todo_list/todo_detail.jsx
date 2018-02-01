@@ -2,6 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
 import {merge} from 'lodash';
+import {clearErrors} from '../../actions/error_actions';
 import {createSubTask, fetchSubTasks} from '../../actions/sub_task_actions';
 import {createUserTodo, getTodo, deleteUserTodo, deleteUserTodoAsOwner} from '../../actions/todo_actions';
 import {allSubTasks} from '../../reducers/selectors';
@@ -157,6 +158,7 @@ class TodoDetail extends React.Component {
       //   // <InviteToast email={this.props.errors.user_email}/>
       // }
     }
+
     function auto_grow(e) {
       e.target.style.height = "5px";
       e.target.style.height = (e.target.scrollHeight)+"px";
@@ -180,7 +182,7 @@ class TodoDetail extends React.Component {
             <div className="owner">Owner: <span className="user-name">{this.owner.username}</span></div>
             <div className="user-list">Shared: {this.users.map(user => <span key={user.id} className="user-name">{user.username}</span>)}<i className="material-icons add-icon" title="add user" onClick={this.newUserInput}>add_circle_outline</i></div>
           </div>
-          <ErrorList errors={this.props.errors}/>
+          <ErrorList errors={this.props.errors} clearErrors={this.props.clearErrors}/>
           <div className="subtask-add">
             <textarea className="subtask-input" onKeyUp={auto_grow} rows="1" onChange={this.handleInput} onKeyDown={this.handleEnter} onBlur={this.handleEnter} title="add subtask" name="newSubTask" type="text" placeholder="eg. Talk to Carol from HR..." value={this.state.newSubTask}/>
           </div>
@@ -202,6 +204,7 @@ const mapDispatchToProps = dispatch => ({
   deleteUserTodo: userTodo => dispatch(deleteUserTodo(userTodo)),
   deleteUserTodoAsOwner: userTodo => dispatch(deleteUserTodoAsOwner(userTodo)),
   getTodo: todoId => dispatch(getTodo(todoId)),
+  clearErrors: () => dispatch(clearErrors())
 });
 
 const mapStateToProps = (state) => ({

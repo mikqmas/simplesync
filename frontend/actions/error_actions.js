@@ -7,7 +7,6 @@ export const receiveErrors = errors => ({
 });
 
 export const clearErrors = () => {
-  debugger;
   return ({
   type: CLEAR_ERRORS
 })};
