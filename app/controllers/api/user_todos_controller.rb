@@ -7,6 +7,8 @@ class Api::UserTodosController < ApplicationController
     @todo = Todo.find_by_id(todoId)
     if user && !@todo.users.include?(user) && @todo.user_todos.create!({user_id: user.id, todo_id: todoId, permission: permission})
       render 'api/todos/show'
+    elsif user && @todo.users.include?(user)
+      render json: {messages: ["User #{userTodo_params['user_email']} already shared"]}, status: 422
     else
       render(
         json: {
