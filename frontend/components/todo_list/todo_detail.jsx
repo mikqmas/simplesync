@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
 import {merge} from 'lodash';
-import {clearErrors} from '../../actions/error_actions';
+import {clearErrors, receiveErrors} from '../../actions/error_actions';
 import {createSubTask, fetchSubTasks} from '../../actions/sub_task_actions';
 import {createUserTodo, getTodo, deleteUserTodo, deleteUserTodoAsOwner} from '../../actions/todo_actions';
 import {allSubTasks} from '../../reducers/selectors';
@@ -80,11 +80,6 @@ class TodoDetail extends React.Component {
     }
   }
 
-  validateEmail(email) {
-    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(email.toLowerCase());
-  }
-
   handleEnter(e) {
     if(e.target.value != "" && (e.key === 'Enter' || e.type === 'blur')) {
       e.preventDefault();
@@ -92,10 +87,11 @@ class TodoDetail extends React.Component {
         case('add user'):
           const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
           if(re.test(e.target.value.toLowerCase())) {
-            debugger;
             this.handleCreateUser(e.target);
           }else {
-            // TODO::error messaging need to input correct email.
+            this.props.receiveErrors([e.target.value + " is not a valid email"]);
+            // this.props.errors = {messages: [e.target.value + " is not a valid email"]}
+            // TODO::error messaging need to input correct email. aka, send email with invitation email.
           }
           break;
         case('add subtask'):
@@ -215,7 +211,8 @@ const mapDispatchToProps = dispatch => ({
   deleteUserTodo: userTodo => dispatch(deleteUserTodo(userTodo)),
   deleteUserTodoAsOwner: userTodo => dispatch(deleteUserTodoAsOwner(userTodo)),
   getTodo: todoId => dispatch(getTodo(todoId)),
-  clearErrors: () => dispatch(clearErrors())
+  clearErrors: () => dispatch(clearErrors()),
+  receiveErrors: (errors) => dispatch(receiveErrors(errors)),
 });
 
 const mapStateToProps = (state) => ({
