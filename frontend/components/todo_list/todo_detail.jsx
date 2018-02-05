@@ -85,7 +85,8 @@ class TodoDetail extends React.Component {
       e.preventDefault();
       switch(e.target.title) {
         case('add user'):
-          const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+          // const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+          const re = /.*/ //for testing allow all
           if(re.test(e.target.value.toLowerCase())) {
             this.handleCreateUser(e.target);
           }else {
@@ -116,7 +117,7 @@ class TodoDetail extends React.Component {
 
   handleRemoveUser(e) {
     e.preventDefault();
-    this.props.deleteUserTodo({id: e.target.id, todo_id:this.props.match.params.id});
+    this.props.deleteUserTodo({id: e.target.id});
     // if(this.props.user.current_user.id != e.target.id) {
     //   const nextTodo = Object.keys(this.props.todos).indexOf(this.props.match.params.id) - 1
     //   this.props.history.push(`/${(Object.values(this.props.todos)[nextTodo]).id}`);
@@ -182,12 +183,20 @@ class TodoDetail extends React.Component {
     )
 
     if(!!this.todo) {
+      const isOwner = this.props.user.current_user.id === this.todo.owner_id;
       return (
         <div className="sub-tasks">
           <h1 className="task-title" disabled={this.todo.done} style={this.todo.done ? {textDecoration: "line-through"} : {}}>{this.todo.title}</h1>
           <div className="shared-users-list">
             <div className="owner">Owner: <span className="user-name">{this.owner.username}</span></div>
-            <div className="user-list">Shared: {this.users.map(user => <span key={user.id} className="user-name">{user.username}</span>)}<i className="material-icons add-icon" title="add user" onClick={this.newUserInput}>add_circle_outline</i></div>
+            <div className="user-list">Shared: {
+                this.users.map(user => {
+                  const isMe = user.id === this.props.user.current_user.id;
+                  return (<span key={user.id} className="user-name">{user.username}{isOwner || isMe ? <i id={user.user_todo_id} className="material-icons remove-user" onClick={this.handleRemoveUser}>cancel</i> : null}</span>);
+                })
+              }
+              {isOwner ? <i className="material-icons add-icon" title="add user" onClick={this.newUserInput}>add_circle_outline</i> : null}
+            </div>
           </div>
           <ErrorList errors={this.props.errors} clearErrors={this.props.clearErrors}/>
           <div className="subtask-add">

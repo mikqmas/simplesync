@@ -22,6 +22,7 @@
   }
 
   .user-name {
+    display: inline-flex;
     border: solid 1px #ccc;
     border-radius: 3px;
     padding: 1px 4px;
@@ -38,6 +39,13 @@
   .user-list {
     display: inline-flex;
     margin-right: .1em;
+  }
+
+  .remove-user {
+    display: flex;
+    align-items: center;
+    font-size: 1em;
+    margin-left: 3px;
   }
 
   .add-icon {
