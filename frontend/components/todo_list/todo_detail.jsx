@@ -53,6 +53,11 @@ class TodoDetail extends React.Component {
           this.users.push(this.todo.users[i]);
         }
       }
+
+      if(this.props.user.current_user.id !== this.todo.owner_id && !!document.getElementsByClassName('newUser')[0]) {
+        debugger;
+        document.getElementsByClassName('user-list')[0].removeChild(document.getElementsByClassName('newUser')[0]);
+      }
     }
   }
 
