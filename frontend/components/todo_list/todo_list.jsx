@@ -25,9 +25,9 @@ class TodoList extends React.Component {
       </ul>
     )
 
-    const todoForm = (
-      <TodoListForm createTodo={createTodo} errors={errors} user={user} />
-    )
+    // const todoForm = (
+    //   <TodoListForm createTodo={createTodo} errors={errors} user={user} />
+    // )
 
     return (
       <div className="list_todos">

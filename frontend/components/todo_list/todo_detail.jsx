@@ -45,19 +45,23 @@ class TodoDetail extends React.Component {
   componentWillUpdate(nextProps, nextState) {
     if(!!Object.keys(this.props.todos).length && nextProps != this.props){
       this.users = [];
-      this.todo = this.props.todos[this.props.match.params.id]
-      for(let i = 0; i < this.todo.users.length; i++) {
-        if(this.todo.users[i].id == this.todo.owner_id) {
-          this.owner = this.todo.users[i];
-        }else {
-          this.users.push(this.todo.users[i]);
+      this.todo = this.props.todos[this.props.match.params.id];
+      //TODO:: redirect to different page if nonexistant todo id is url param
+      if(!!this.todo) {
+        for(let i = 0; i < this.todo.users.length; i++) {
+          if(this.todo.users[i].id == this.todo.owner_id) {
+            this.owner = this.todo.users[i];
+          }else {
+            this.users.push(this.todo.users[i]);
+          }
+        }
+
+        if(this.props.user.current_user.id !== this.todo.owner_id && !!document.getElementsByClassName('newUser')[0]) {
+          document.getElementsByClassName('user-list')[0].removeChild(document.getElementsByClassName('newUser')[0]);
         }
       }
 
-      if(this.props.user.current_user.id !== this.todo.owner_id && !!document.getElementsByClassName('newUser')[0]) {
-        debugger;
-        document.getElementsByClassName('user-list')[0].removeChild(document.getElementsByClassName('newUser')[0]);
-      }
+
     }
   }
 

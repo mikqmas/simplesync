@@ -4,6 +4,7 @@ import {withRouter, history} from 'react-router';
 import { Link } from 'react-router-dom';
 import {updateTodo, deleteTodo} from '../../actions/todo_actions';
 import {fetchSubTasks} from '../../actions/sub_task_actions';
+import {clearErrors} from '../../actions/error_actions';
 
 class Todo extends React.Component {
   constructor(props){
@@ -44,10 +45,9 @@ class Todo extends React.Component {
     }
   }
   handleCompleted(e) {
+    debugger;
     e.preventDefault();
-    this.setState({
-      done: !this.state.done
-    });
+    this.state.done = !this.state.done;
     this.props.updateTodo(this.state);
   }
   handleUpdate(e) {
@@ -62,6 +62,7 @@ class Todo extends React.Component {
     });
   }
   handleClick(e) {
+    this.props.clearErrors();
     this.props.fetchSubTasks(this.state.id);
   }
 
@@ -163,7 +164,8 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = dispatch => ({
   updateTodo: todo => dispatch(updateTodo(todo)),
   deleteTodo: todo => dispatch(deleteTodo(todo)),
-  fetchSubTasks: todoId => dispatch(fetchSubTasks(todoId))
+  fetchSubTasks: todoId => dispatch(fetchSubTasks(todoId)),
+  clearErrors: () => dispatch(clearErrors())
 });
 
 export default withRouter(connect(
