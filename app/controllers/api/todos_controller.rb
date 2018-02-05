@@ -1,6 +1,16 @@
 class Api::TodosController < ApplicationController
+  before_action -> {check_token_or_log(params['token'])}, only: [:show, :create, :update, :delete]
+
   def index
-    @todos = current_user.todos
+    # specify current user if not signed in. if signed in, use current user
+    # debugger
+    if current_user
+      @todos = current_user.todos
+    elsif params['user']
+      @todos = User.find_by_username(params['user']).todos
+    else
+      render json: nil, status: 422
+    end
     render :index
   end
 
@@ -16,7 +26,9 @@ class Api::TodosController < ApplicationController
   end
 
   def show
-    @todo = Todo.find_by(id: params[:id])
+    # for current_user
+    # do one for api users
+    @todo = Todo.find_by(id: params[:todo_id])
     if @todo
       # render json: @todo.to_json(include: :users)
       render :show
@@ -26,7 +38,7 @@ class Api::TodosController < ApplicationController
   end
 
   def update
-    @todo = Todo.find_by(id: params[:id])
+    @todo = Todo.find_by(id: params[:todo_id])
     if @todo.update_attributes(todo_params)
       render json: @todo.to_json(include: :users)
     else
@@ -35,7 +47,7 @@ class Api::TodosController < ApplicationController
   end
 
   def destroy
-    @todo = Todo.find_by(id: params[:id])
+    @todo = Todo.find_by(id: params[:todo_id])
     if @todo && @todo.destroy
       render json: @todo
     else
@@ -45,6 +57,7 @@ class Api::TodosController < ApplicationController
 
   private
   def todo_params
-    params.require(:todo).permit(:id, :title, :body, :done, :owner_id)
+    # require api and user in order to check if valid query
+    params.require(:todo).permit(:todo_id, :title, :body, :done, :owner_id, :token)
   end
 end

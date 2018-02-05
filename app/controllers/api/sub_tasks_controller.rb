@@ -1,4 +1,6 @@
 class Api::SubTasksController < ApplicationController
+  before_action -> {check_token_or_log(params['token'])}
+  
   def index
     render json: SubTask.where(todo_id: params['todo_id'])
   end

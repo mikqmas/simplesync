@@ -1,6 +1,15 @@
 class ApplicationController < ActionController::Base
   # protect_from_forgery with: :exception
-  helper_method :current_user, :logged_in?
+  helper_method :current_user, :logged_in?, :check_token
+
+  def check_token_or_log(token)
+    # check token w/ DB
+    # true if current_user || token
+    todo = Todo.find_by_id(params['todo_id'])
+    unless todo && todo.users.include?(current_user)
+      head(401)
+    end
+  end
 
   def require_no_user!
     redirect_to "/" if current_user

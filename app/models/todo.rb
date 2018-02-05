@@ -8,4 +8,5 @@ class Todo < ApplicationRecord
     owner = self.user_todos.to_a.select do |el| el.is_owner end
     owner.first
   end
+
 end
