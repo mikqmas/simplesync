@@ -11,8 +11,8 @@ class UserMailer < ApplicationMailer
     debugger
     @email = params[1]
     @inviter = params[0]
-
     @url = `https://simplesync.com/signup?invite=#{@email}`
+    
     mail(to: @email, subject: `Your friend, #{@inviter}, wants to share a task with you on SimpleSync.`)
   end
 end

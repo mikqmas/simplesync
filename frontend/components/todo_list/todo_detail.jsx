@@ -127,11 +127,6 @@ class TodoDetail extends React.Component {
   handleRemoveUser(e) {
     e.preventDefault();
     this.props.deleteUserTodo({id: e.target.id});
-    // if(this.props.user.current_user.id != e.target.id) {
-    //   const nextTodo = Object.keys(this.props.todos).indexOf(this.props.match.params.id) - 1
-    //   this.props.history.push(`/${(Object.values(this.props.todos)[nextTodo]).id}`);
-    // }
-
       // TODO implement this here;
       const todosArray = Object.keys(this.props.todos);
       if(todosArray.length <= 1) {
@@ -191,27 +186,46 @@ class TodoDetail extends React.Component {
       </ul>
     )
 
-    if(!!this.todo) {
+    const todoUsers = () => {
       const isOwner = this.props.user.current_user.id === this.todo.owner_id;
+      if(isOwner) {
+        return (
+          <div className="user-list">Shared: {
+              this.users.map(user => {
+                return (<span key={user.id} className="user-name">{user.username}<i id={user.user_todo_id} className="material-icons remove-user" onClick={this.handleRemoveUserAsOwner}>cancel</i></span>);
+              })
+            }
+            <i className="material-icons add-icon" title="add user" onClick={this.newUserInput}>add_circle_outline</i>
+          </div>
+        )
+      } else {
+        return(
+          <div className="user-list">Shared: {
+              this.users.map(user => {
+                const isMe = user.id === this.props.user.current_user.id;
+                return (<span key={user.id} className="user-name">{user.username}{isMe ? <i id={user.user_todo_id} className="material-icons remove-user" onClick={this.handleRemoveUser}>cancel</i> : null}</span>);
+              })
+            }
+          </div>
+        )
+      }
+    }
+
+    if(!!this.todo) {
       return (
         <div className="sub-tasks">
           <h1 className="task-title" disabled={this.todo.done} style={this.todo.done ? {textDecoration: "line-through"} : {}}>{this.todo.title}</h1>
           <div className="shared-users-list">
             <div className="owner">Owner: <span className="user-name">{this.owner.username}</span></div>
-            <div className="user-list">Shared: {
-                this.users.map(user => {
-                  const isMe = user.id === this.props.user.current_user.id;
-                  return (<span key={user.id} className="user-name">{user.username}{isOwner || isMe ? <i id={user.user_todo_id} className="material-icons remove-user" onClick={this.handleRemoveUser}>cancel</i> : null}</span>);
-                })
-              }
-              {isOwner ? <i className="material-icons add-icon" title="add user" onClick={this.newUserInput}>add_circle_outline</i> : null}
-            </div>
+            {todoUsers()}
           </div>
           <ErrorList errors={this.props.errors} clearErrors={this.props.clearErrors}/>
           <div className="subtask-add">
             <textarea className="subtask-input" onKeyUp={auto_grow} rows="1" onChange={this.handleInput} onKeyDown={this.handleEnter} onBlur={this.handleEnter} title="add subtask" name="newSubTask" type="text" placeholder="eg. Talk to Carol from HR..." value={this.state.newSubTask}/>
           </div>
-          <div>{subTaskItems()}</div>
+          <div>
+            {subTaskItems()}
+          </div>
         </div>
       )
     }else {

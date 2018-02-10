@@ -75,7 +75,7 @@ export const createUserTodo = userTodo => dispatch => (
 
 export const deleteUserTodo = userTodo => dispatch => {
   return (UserTodoAPIUtil.deleteUserTodo(userTodo)
-  .then(todo => { dispatch(removeTodo(todo)); dispatch(clearErrors());},
+  .then(todo => { dispatch(removeFromTodo(todo)); dispatch(clearErrors());},
   err => dispatch(receiveErrors(err))))
 };
 
