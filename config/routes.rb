@@ -8,8 +8,10 @@ Rails.application.routes.draw do
       end
     end
     resource :user, only: [:create, :show, :update, :destroy]
+    post 'user/invite', :to => 'users#invite'
     resource :session, only: [:create, :destroy]
   end
+
   root "static_pages#root"
   get '*path', to: 'static_pages#root'
 end

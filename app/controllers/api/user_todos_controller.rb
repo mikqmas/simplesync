@@ -12,7 +12,7 @@ class Api::UserTodosController < ApplicationController
     else
       render(
         json: {
-          messages: ["User #{userTodo_params['user_email']} is not a teammate yet. Send this task and invite?"]
+          messages: [userTodo_params['user_email'], "#{userTodo_params['user_email']} is not a teammate yet. Send this task and invite?"]
         },
         status: 422
       )

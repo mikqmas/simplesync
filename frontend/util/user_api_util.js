@@ -6,6 +6,8 @@ export const createUser = user => (
   }).done((response)=> {
     debugger;
     // console.log(response);
+  }).error(() => {
+    debugger;
   })
 );
 

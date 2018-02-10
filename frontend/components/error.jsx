@@ -1,18 +1,19 @@
 import React from 'react';
 import {createTodo} from '../actions/todo_actions';
+import {createUser} from '../actions/user_actions';
 
 export const ErrorList = ({errors, clearErrors}) => {
   if(errors.length === 0) return null;
-  const errorItems = Object.values(errors).map(error => <li key={ error }>{ error }</li>);
+  const errorItems = Object.values(errors).map(error => <li key={ error[0] }>{ error[1] }</li>);
+  const newUser = Object.values(errors)[0][0];
 
   function handleInviteUser() {
-    const todo = {
-      owner_id: this.props.user.current_user.id,
-      title: "",
-      body: "",
-      done: false
-    };
-    createTodo({todo});
+    debugger
+    const user = {
+      username:newUser,
+      password:""
+    }
+    createUser(user);
   }
 
   return(
