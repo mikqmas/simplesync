@@ -7,6 +7,7 @@ import {Link, Switch, Route} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {logout} from '../actions/user_actions';
 
+// <li><Link to='/contact'>Contact Us</Link></li>
 const Header = () => (
   <header className="site-header">
     <h1 className="logo">
@@ -14,7 +15,6 @@ const Header = () => (
     </h1>
     <nav>
       <ul className="nav">
-        <li><Link to='/contact'>Contact Us</Link></li>
         <li><Link to='/login'>Log In</Link></li>
         <li><Link to='/signup'>Create an Account</Link></li>
       </ul>
@@ -33,16 +33,15 @@ const Main = () => (
   </main>
 )
 
+// <div className="welcome-text">
+//   <div className="row1">
+//     <h1>The Simplest way to keep tasks synced.</h1>
+//     <p>Light, clean, and free. Simplenote is now available for iOS, Android, Mac, Windows, Linux, and the web.</p>
+//   </div>
+// </div>
+
 const Home = () => (
   <div>
-    <div id="homepage-banner">
-      <div className="welcome-text">
-        <div className="row1">
-          <h1>The Simplest way to keep tasks synced.</h1>
-          <p>Light, clean, and free. Simplenote is now available for iOS, Android, Mac, Windows, Linux, and the web.</p>
-        </div>
-      </div>
-    </div>
   </div>
 )
 

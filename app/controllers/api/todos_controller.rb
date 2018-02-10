@@ -3,7 +3,7 @@ class Api::TodosController < ApplicationController
 
   def index
     # specify current user if not signed in. if signed in, use current user
-    # debugger
+    debugger
     if current_user
       @todos = current_user.todos
     elsif params['user']

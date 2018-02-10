@@ -5,8 +5,13 @@ class ApplicationController < ActionController::Base
   def check_token_or_log(token)
     # check token w/ DB
     # true if current_user || token
+
+    # true if POST todo, has user or token
+    return true if (current_user || token) && request.method === "POST"
+
+    # if not POST, find todo, and includes user or token
     todo = Todo.find_by_id(params['todo_id'])
-    unless todo && todo.users.include?(current_user)
+    unless todo && (token || todo.users.include?(current_user))
       head(401)
     end
   end
