@@ -29,6 +29,7 @@
     background-color: #eee;
     margin: 0 3px;
     line-height: 100%;
+    margin-bottom: .2em;
   }
 
   .shared-users-list {
@@ -40,6 +41,7 @@
   .user-list {
     display: inline-flex;
     margin-right: .1em;
+    flex-wrap: wrap;
   }
 
   .remove-user {

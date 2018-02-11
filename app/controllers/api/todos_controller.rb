@@ -6,9 +6,11 @@ class Api::TodosController < ApplicationController
     if current_user
       @todos = current_user.todos
     elsif params['user']
+      debugger
       @todos = User.find_by_username(params['user']).todos
     else
       render json: nil, status: 422
+      return
     end
     render :index
   end
@@ -46,7 +48,8 @@ class Api::TodosController < ApplicationController
   end
 
   def destroy
-    @todo = Todo.find_by(id: params[:todo_id])
+    debugger
+    @todo = Todo.find_by_id(params[:todo_id])
     if @todo && @todo.destroy
       render json: @todo
     else

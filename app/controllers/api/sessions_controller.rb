@@ -1,18 +1,21 @@
 class Api::SessionsController < ApplicationController
   def create
-    @user = User.find_by_credentials(session_params[:username], session_params[:password])
+    # when new user create, already logged in, thus unless check.
+    unless(logged_in?)
+      @user = User.find_by_credentials(session_params[:username], session_params[:password])
 
-    if @user.nil?
-      render(
-        json: {
-          messages: ["Invalid username / password"]
-        },
-        status: 401
-      )
-    else
-      login_user!(@user)
-      redirect_to '/'
-      # + @user.todos.last.id.to_s
+      if @user.nil?
+        render(
+          json: {
+            messages: ["Invalid username / password"]
+          },
+          status: 401
+        )
+      else
+        login_user!(@user)
+        redirect_to '/'
+        # + @user.todos.last.id.to_s
+      end
     end
   end
 

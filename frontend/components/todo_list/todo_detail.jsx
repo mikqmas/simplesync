@@ -8,6 +8,7 @@ import {createUserTodo, getTodo, deleteUserTodo, deleteUserTodoAsOwner} from '..
 import {allSubTasks} from '../../reducers/selectors';
 import SubTask from './subtask';
 import {ErrorList} from '../error';
+import EmptyTodo from './empty_todo';
 
 class TodoDetail extends React.Component {
   constructor(props) {
@@ -228,10 +229,8 @@ class TodoDetail extends React.Component {
           </div>
         </div>
       )
-    }else {
-      return(
-        <div>rendering....</div>
-      )
+    } else {
+      return <EmptyTodo/>
     }
   }
 }

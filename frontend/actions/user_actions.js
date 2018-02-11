@@ -22,7 +22,7 @@ export const createUser = user => dispatch => (
 );
 
 export const deleteUser = user => dispatch => (
-  UserAPIUtil.deleteUser(user)
+  UserAPIUtil.deleteUser()
   .then(user => {dispatch(receiveUser(user)); dispatch(clearErrors())},
   err => dispatch(receiveErrors(err.responseJSON)))
 );

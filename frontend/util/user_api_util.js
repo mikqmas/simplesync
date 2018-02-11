@@ -4,10 +4,8 @@ export const createUser = user => (
     url: '/api/user',
     data: user
   }).done((response)=> {
-    debugger;
     // console.log(response);
   }).error(() => {
-    debugger;
   })
 );
 
@@ -33,5 +31,12 @@ export const logout = () => (
   $.ajax({
     method: 'DELETE',
     url: '/api/session'
+  })
+);
+
+export const deleteUser = () => (
+  $.ajax({
+    method: 'DELETE',
+    url: '/api/user'
   })
 );

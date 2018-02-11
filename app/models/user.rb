@@ -1,7 +1,7 @@
 class User < ApplicationRecord
   attr_reader :password
 
-  has_many :user_todos
+  has_many :user_todos, dependent: :destroy
   has_many :todos, through: :user_todos
 
   after_initialize :ensure_session_token

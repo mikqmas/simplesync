@@ -1,14 +1,14 @@
 import React from 'react';
 import {withRouter} from 'react-router';
 import {connect} from 'react-redux';
-import deleteUser from '../actions/user_actions';
+import {deleteUser} from '../actions/user_actions';
+
 
 class Settings extends React.Component {
   constructor(props) {
     super(props);
     this.toggleEdit = this.toggleEdit.bind(this);
     this.showEditPassword = this.showEditPassword.bind(this);
-    this.showDeleteAccount = this.showDeleteAccount.bind(this);
     this.handleEditEmail = this.handleEditEmail.bind(this);
     this.handleEditPassword = this.handleEditPassword.bind(this);
     this.handleDeleteAccount = this.handleDeleteAccount.bind(this);
@@ -28,11 +28,6 @@ class Settings extends React.Component {
     e.preventDefault();
   }
 
-  showDeleteAccount(e) {
-    e.preventDefault();
-    this.props.deleteUser();
-  }
-
   handleEditEmail(e) {
     e.preventDefault();
   }
@@ -43,6 +38,8 @@ class Settings extends React.Component {
 
   handleDeleteAccount(e) {
     e.preventDefault();
+    debugger;
+    this.props.deleteUser(this.props.user.current_user);
   }
 
   render() {
@@ -89,12 +86,6 @@ class Settings extends React.Component {
   }
 }
 
-export default withRouter(connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Settings));
-
-
 const mapStateToProps = (state) => ({
   user: state.user
 })
@@ -102,3 +93,8 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = dispatch => ({
   deleteUser: () => dispatch(deleteUser())
 })
+
+export default withRouter(connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Settings));
