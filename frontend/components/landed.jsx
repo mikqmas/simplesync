@@ -23,8 +23,10 @@ class Landed extends React.Component {
   componentWillMount() {
     this.props.fetchTodos().then(() => {
       const todoList = Object.keys(this.props.todos);
-      const firstTodo = '/' + todoList[todoList.length - 1];
-      this.props.history.push(firstTodo);
+      const firstTodo = todoList[todoList.length - 1];
+      if(firstTodo != undefined) {
+        this.props.history.push('/' + firstTodo);
+      }
     });
   }
 
