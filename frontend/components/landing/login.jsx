@@ -1,6 +1,6 @@
 import {connect} from 'react-redux';
 import React from 'react';
-import {createUser, updateUser, login, logout} from '../../actions/user_actions';
+import {updateUser, login} from '../../actions/user_actions';
 import {ErrorList} from '../error';
 
 class Login extends React.Component {
@@ -12,8 +12,6 @@ class Login extends React.Component {
     }
 
     this.handleLogin = this.handleLogin.bind(this);
-    this.handleSignup = this.handleSignup.bind(this);
-    this.handleLogout = this.handleLogout.bind(this);
   }
 
   update(property) {
@@ -77,8 +75,6 @@ class Login extends React.Component {
               onChange={this.update('password')}
               required/>
             <button className="login-button" id='login' onClick={this.handleLogin}>LogIn</button>
-            <button className="create-button" id='signup' onClick={this.handleSignup}>SignUp</button>
-            <button className="logout-button" id='logout' onClick={this.handleLogout}>LogOut</button>
           </form>
         </div>
     );
@@ -91,9 +87,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  createUser: user => dispatch(createUser(user)),
-  login: user => dispatch(login(user)),
-  logout: () => dispatch(logout())
+  login: user => dispatch(login(user))
 });
 
 export default connect(

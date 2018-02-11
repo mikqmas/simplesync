@@ -38,8 +38,11 @@ class Settings extends React.Component {
 
   handleDeleteAccount(e) {
     e.preventDefault();
-    debugger;
-    this.props.deleteUser(this.props.user.current_user);
+    if(document.getElementById("perm_delete").checked) {
+      this.props.deleteUser(this.props.user.current_user);
+    }else {
+      alert("Please check 'Permanently delete my account'");
+    }
   }
 
   render() {
@@ -76,8 +79,7 @@ class Settings extends React.Component {
           <a href="javascript:$(this).click();" style={{cursor:'pointer'}} onClick={this.toggleEdit}>DELETE</a>
             <div className="editSettings" style={{display: "none"}}>
               <h2>Confirmation</h2>
-              <span><input type="checkbox"/>Permanently delete my account</span>
-              <span>Password <input type="password"></input></span>
+              <label><input id="perm_delete" type="checkbox" required/>Permanently delete my account</label>
               <button onClick={this.handleDeleteAccount}>Delete Account</button>
             </div>
         </div>

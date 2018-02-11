@@ -6,15 +6,14 @@ import {ErrorList} from '../error';
 class Signup extends React.Component {
   constructor(props) {
     super(props);
-    const idx = props.location.search.match(/\?invite=/)[0].length;
+    const idx = props.location.search.match(/\?invite=/);
     this.state = {
-      username: idx ? props.location.search.substring(idx) : "",
+      username: idx ? props.location.search.substring(idx[0].length) : "",
       password:""
     }
-    //
-    // this.handleLogin = this.handleLogin.bind(this);
+
     this.handleSignup = this.handleSignup.bind(this);
-    // this.handleLogout = this.handleLogout.bind(this);
+    this.handleLogin = this.handleLogin.bind(this);
   }
 
   update(property) {
@@ -34,51 +33,44 @@ class Signup extends React.Component {
   }
 
   handleLogin(user) {
-    this.props.login({user}).then(() => {
+    this.props.login(user).then(() => {
       if(this.props.user.current_user) {
         window.location.replace("/");
-      };
+      }
       this.setState({
         username: "",
         password: ""
-      })
-    });
+      });
+    }
+    );
   }
 
   greeting() {
-    if(this.props.user.current_user) {
-      return(<div>Hello, {this.props.user.current_user.username}</div>);
-    }else {
+
       return(
         <div>
         <div>{this.props.user.current_user ? this.props.user.current_user.username : ""}</div>
         <ErrorList errors={this.props.errors}/>
           <form className="log-form">
-            <label>Username:
-              <input
-                className="input"
-                ref="username"
-                value={this.state.username}
-                placeholder="username"
-                onChange={this.update('username')}
-                required/>
-            </label>
-            <label>Password:
-              <input
-                className="input"
-                ref="password"
-                value={this.state.password}
-                placeholder="password"
-                onChange={this.update('password')}
-                required/>
-            </label>
-            <button className="login-button" id='login' onClick={this.handleLogin}>LogIn</button>
+            <input
+              className="login_input"
+              ref="username"
+              value={this.state.username}
+              placeholder="email"
+              onChange={this.update('username')}
+              required/>
+            <input
+              type="password"
+              className="login_input"
+              ref="password"
+              value={this.state.password}
+              placeholder="password"
+              onChange={this.update('password')}
+              required/>
             <button className="create-button" id='signup' onClick={this.handleSignup}>SignUp</button>
-            <button className="logout-button" id='logout' onClick={this.handleLogout}>LogOut</button>
           </form>
           </div>
         )
-    }
   }
 
   render() {
@@ -95,8 +87,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = dispatch => ({
   createUser: user => dispatch(createUser(user)),
-  login: user => dispatch(login(user)),
-  logout: () => dispatch(logout())
+  login: user => dispatch(login(user))
 });
 
 export default connect(

@@ -11,7 +11,7 @@ import {logout} from '../actions/user_actions';
 const Header = () => (
   <header className="site-header">
     <h1 className="logo">
-      <Link to='/'>SimpleSync</Link>
+      <Link to='/'>uddoit</Link>
     </h1>
     <nav>
       <ul className="nav">
