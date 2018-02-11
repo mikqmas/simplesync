@@ -80,6 +80,6 @@ test:
 #
 production:
   <<: *default
-  database: SimpleSync_production
-  username: SimpleSync
+  database: Uddoit_production
+  username: uddoit
   password: <%= ENV['SIMPLESYNC_DATABASE_PASSWORD'] %>

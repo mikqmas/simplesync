@@ -3,7 +3,7 @@ var path = require('path');
 module.exports = {
   context: __dirname,
   entry: {
-    path: path.resolve(__dirname, 'frontend', 'simplesync.jsx')
+    path: path.resolve(__dirname, 'frontend', 'entry.jsx')
   },
   output: {
     path: path.resolve(__dirname, 'app', 'assets', 'javascripts'),
