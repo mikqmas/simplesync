@@ -7,13 +7,17 @@ export const ErrorList = ({errors, clearErrors}) => {
   const errorItems = Object.values(errors).map(error => <li key={ error[0] }>{ error[1] }</li>);
   const newUser = Object.values(errors)[0][0];
 
-  function handleInviteUser() {
+  function handleInviteUser(e) {
+    e.preventDefault();
     debugger
-    const user = {
-      username:newUser,
-      password:""
-    }
-    createUser(user);
+    $.ajax({
+      method: 'POST',
+      url: '/api/user/invite',
+      data: {inviter: window.store.getState().user.current_user.username, email: newUser}
+    }).done((response)=> {
+      // console.log(response);
+    }).error(() => {
+    })
   }
 
   return(

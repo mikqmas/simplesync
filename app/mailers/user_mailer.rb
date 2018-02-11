@@ -3,16 +3,15 @@ class UserMailer < ApplicationMailer
 
   def welcome_email(user)
     @user = user
-    @url = 'http://example.com/login'
+    @url = 'https://simplesync.com/'
     mail(to: @user.username, subject: 'Welcome to SimpleSync')
   end
 
   def invite_email(params)
-    debugger
-    @email = params[1]
-    @inviter = params[0]
-    @url = `https://simplesync.com/signup?invite=#{@email}`
-    
+    @email = params['email']
+    @inviter = params['inviter']
+    @url = "http://localhost:3000/signup?invite=" + @email
+
     mail(to: @email, subject: `Your friend, #{@inviter}, wants to share a task with you on SimpleSync.`)
   end
 end

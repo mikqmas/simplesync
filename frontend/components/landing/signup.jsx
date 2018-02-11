@@ -6,8 +6,9 @@ import {ErrorList} from '../error';
 class Signup extends React.Component {
   constructor(props) {
     super(props);
+    const idx = props.location.search.match(/\?invite=/)[0].length;
     this.state = {
-      username:"",
+      username: idx ? props.location.search.substring(idx) : "",
       password:""
     }
     //

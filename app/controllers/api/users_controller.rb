@@ -41,6 +41,6 @@ class Api::UsersController < ApplicationController
   end
 
   def invite_params
-    params.require([:inviter, :email])
+    params.permit(:inviter, :email)
   end
 end
