@@ -48,6 +48,6 @@ plugin :tmp_restart
 
 
 
-# added for AWS support
-bind "unix:///var/run/puma/my_app.sock"
-pidfile "/var/run/puma/my_app.sock"
+# # added for AWS support
+# bind "unix:///var/run/puma/my_app.sock"
+# pidfile "/var/run/puma/my_app.sock"
