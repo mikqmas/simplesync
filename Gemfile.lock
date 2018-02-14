@@ -183,6 +183,7 @@ DEPENDENCIES
   binding_of_caller
   byebug
   coffee-rails (~> 4.2)
+  ffi (= 1.9.18)
   jbuilder (~> 2.5)
   jquery-rails
   listen (~> 3.0.5)
@@ -200,4 +201,4 @@ DEPENDENCIES
   web-console (>= 3.3.0)
 
 BUNDLED WITH
-   1.14.6
+   1.16.1
